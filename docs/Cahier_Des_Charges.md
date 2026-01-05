@@ -57,7 +57,7 @@ Ces contraintes définissent comment le système doit être construit et ses cri
 | **QUAL-01** | Qualité Code | Respect des conventions de codage standard du langage choisi (ex: PEP8, Google Java Style). | Haute | #TODO: Add the chosen language
 | **QUAL-02** | Qualité Code | Documentation obligatoire (Docstrings/Javadoc) pour toutes les classes et méthodes publiques. | Haute | #TODO: Add the chosen language
 | **TEST-01** | Testabilité | Tests unitaires couvrant le moteur (Déplacement, Dégâts, États). | Haute |
-| **TEST-02** | Testabilité | Scénarios de validation spécifiques pour les algorithme de Pathfinding (chemin impossible, chemin simple, labyrinthe). | Haute |
+| **TEST-02** | Testabilité | Scénarios de validation spécifiques pour les algorithmes de Pathfinding (chemin impossible, chemin simple, labyrinthe). | Haute |
 | **PERF-01** | Performance | Simulation fluide: Temps de calcul d'un tour $< 200ms$ pour une grille de taille résonnable avec 3 héros. | Moyenne |
 | **UX-01** | Ergonomie | Web: Distinction visuelle claire des types de murs et pièges (Icônes ou code couleur). | Haute |
 | **UX-02** | Ergonomie | TUI: Présence d'une légende affichée pour comprendre les symboles ASCII. | Moyenne |
