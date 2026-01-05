@@ -1,18 +1,39 @@
 var stompClient = null;
+var socket = new SockJS("http://localhost:8080/stomp-endpoint");
+stompClient = Stomp.over(socket);
 
 function connect() {
-    var socket = new SockJS('http://localhost:8080/stomp-endpoint');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
-        // On successful connection
-        document.getElementById("status").innerHTML = "Connected !";
-        document.getElementById("status").style.color = "green";
-        console.log('Connected: ' + frame);
+  updateStatus("Opening Web Socket...", "orange");
+  stompClient.connect({}, onConnect, onError);
+}
 
-        stompClient.subscribe('/topic/messages', function(message) {
-            showGameUpdate(JSON.parse(message.body));
-        });
+function onConnect(frame) {
+  updateStatus("Connected !", "green");
 
-        stompClient.send("/src/test", {}, JSON.stringify({ message: 'Hello Server!' }));
-    });
+  stompClient.subscribe("/topic/messages", function (message) {
+    var payload = JSON.parse(message.body);
+    document.querySelector("#commandInput").value = payload.message;
+  });
+}
+
+connect();
+
+function buttonOnClick() {
+  stompClient.send(
+    "/app/test",
+    {},
+    JSON.stringify({ message: document.querySelector("#commandInput").value })
+  );
+}
+
+function onError(error) {
+  updateStatus("Connection failed", "red");
+  console.error("STOMP error", error);
+}
+
+function updateStatus(text, color) {
+  var el = document.getElementById("status");
+  if (!el) return;
+  el.textContent = text;
+  if (color) el.style.color = color;
 }
