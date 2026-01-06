@@ -43,4 +43,9 @@ public class Tank extends Hero {
             }
         }
     }
+
+    @Override
+    public void resetAction() {
+        actionAvailable = true;
+    }
 }

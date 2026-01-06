@@ -40,4 +40,9 @@ public class Dwarf extends Hero {
         }
         actionAvailable = false;
     }
+
+    @Override
+    public void resetAction() {
+        actionAvailable = true;
+    }
 }

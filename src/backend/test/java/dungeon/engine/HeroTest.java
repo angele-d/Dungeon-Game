@@ -44,4 +44,14 @@ public class HeroTest {
         tank.doAction();
         assertEquals(false, tank.isActionAvailable());
     }
+
+    @Test
+    public void testResetAction(){
+        Healer healer = new Healer();
+        assertEquals(true, healer.isActionAvailable());
+        healer.doAction();
+        assertEquals(false, healer.isActionAvailable());
+        healer.resetAction();
+        assertEquals(true, healer.isActionAvailable());
+    }   
 }

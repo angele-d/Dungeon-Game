@@ -1,9 +1,10 @@
-package dungeon.engine.tiles.traps;
+package dungeon.engine;
 
-import dungeon.engine.Coords;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import dungeon.engine.tiles.wall.WoodWall;
 
 class WoodWallTest {
 
