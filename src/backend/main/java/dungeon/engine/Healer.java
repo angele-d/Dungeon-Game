@@ -43,9 +43,15 @@ public class Healer extends Hero {
     }
 
     @Override
-    public void move() {
+    public void move(Game game) {
         // Healer-specific movement logic
-        // TODO: Copy Paste from Hero
+        // FIXME: CCheck: Copy Paste from Hero
+        strategy.move(game.getGrid(), this);
         health = Math.min(150, health + (health * HEAL_PERCENTAGE) / 100);
+    }
+
+    @Override
+    public void resetAction() {
+        actionAvailable = true;
     }
 }

@@ -1,0 +1,77 @@
+package dungeon.engine;
+
+public class Game {
+
+    private int id; 
+    private Grid grid;
+    private HeroSquad heroSquad;
+    private int score;
+    private int money;
+    private int turn;
+
+    public Game() {
+        this.grid = new Grid();
+        this.id = 0;
+        this.heroSquad = new HeroSquad();
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+    }
+
+    /* --- Getters and Setters --- */
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public HeroSquad getHeroSquad() {
+        return heroSquad;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    /* --- Game Methods --- */
+    public void startNewGame() {
+        this.grid = new Grid();
+        this.heroSquad = new HeroSquad();
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+    }
+
+    public void placementOnGrid(Tile tile) {
+        this.grid.setTile(tile);
+    }
+
+    public void doMovement(Hero hero, Coords newCoords) {
+        
+    }
+
+    public void nextTurn() {
+        this.turn += 1;
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.move(this);
+            
+        }
+    }
+
+    /*
+    placementgrille
+    jouepartie
+    stepaction(faire un tour)
+    */
+}
