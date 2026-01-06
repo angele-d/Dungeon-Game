@@ -37,4 +37,10 @@ public class GridTest {
         assertEquals(true, neighbors.contains(new Coords(1, 0)));
         assertEquals(true, neighbors.contains(new Coords(0, 1)));
     }
+
+    @Test
+    void testGetGridSize() {
+        Grid grid = new Grid();
+        assertEquals(64, grid.getGrid().size()); // 8x8 grid
+    }
 }

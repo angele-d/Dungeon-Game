@@ -20,4 +20,12 @@ class BFSTest {
         coords = bfs.search(new Coords(0, 2));
         assertEquals(coords, new Coords(0, 3));
     }
+
+    @Test
+    void searchNoTreasure() {
+        Grid grid = new Grid();
+        BFS bfs = new BFS(grid);
+        Coords coords = bfs.search(new Coords(0, 0));
+        assertNull(coords);
+    }
 }

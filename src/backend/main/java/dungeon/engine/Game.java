@@ -58,20 +58,25 @@ public class Game {
     }
 
     public void doMovement(Hero hero, Coords newCoords) {
-        
+        hero.setCoords(newCoords);
     }
 
     public void nextTurn() {
         this.turn += 1;
         for (Hero hero : heroSquad.getHeroes()) {
-            hero.move(this);
-            
+            // Movement
+            Coords newCoords = hero.move(this);
+            doMovement(hero, newCoords);
+            // Trap checking
+            // TODO: Implement trap checking
         }
     }
 
-    /*
-    placementgrille
-    jouepartie
-    stepaction(faire un tour)
-    */
+    public void addScore(int points) {
+        this.score += points;
+    }
+
+    public void subMoney(int amount) {
+        this.money -= amount;
+    }
 }

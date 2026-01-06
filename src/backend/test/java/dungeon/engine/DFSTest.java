@@ -20,4 +20,12 @@ class DFSTest {
         coords = dfs.search(new Coords(0, 2));
         assertEquals(coords, new Coords(0, 3));
     }
+
+    @Test
+    void searchNoTreasure() {
+        Grid grid = new Grid();
+        DFS dfs = new DFS(grid);
+        Coords coords = dfs.search(new Coords(0, 0));
+        assertEquals(null, coords);
+    }
 }

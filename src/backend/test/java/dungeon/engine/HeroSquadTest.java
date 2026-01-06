@@ -36,4 +36,13 @@ public class HeroSquadTest {
         squad.addHero(tank);
         assertEquals(1, squad.getHeroes().size());
     }
+
+    @Test
+    void testSquadSizeAfterMultipleAdds() {
+        HeroSquad squad = new HeroSquad();
+        squad.addHero(new Healer());
+        squad.addHero(new Dwarf());
+        squad.addHero(new Tank());
+        assertEquals(3, squad.getSquadSize());
+    }
 }
