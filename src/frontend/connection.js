@@ -16,15 +16,15 @@ function onConnect(stompClient, frame) {
   stompClient.subscribe("/topic/tile_placed", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let message = payload["message"];
-    updateGrid(message["grid"]);
+    let msg = payload["message"];
+    updateGrid(msg["grid"]);
   });
 
   stompClient.subscribe("/topic/ai_changed", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let message = payload["message"];
-    if (message["result"] === false) {
+    let msg = payload["message"];
+    if (msg["result"] === false) {
       alert("AI change failed on server.");
     }
   });
@@ -32,17 +32,17 @@ function onConnect(stompClient, frame) {
   stompClient.subscribe("/topic/game_launched", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let message = payload["message"];
-    updateGrid(message["grid"]);
-    updateHeroes(message["heroes"]);
+    let msg = payload["message"];
+    updateGrid(msg["grid"]);
+    updateHeroes(msg["heroes"]);
   });
 
   stompClient.subscribe("/topic/step_result", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let message = payload["message"];
-    updateGrid(message["grid"]);
-    updateHeroes(message["heroes"]);
+    let msg = payload["message"];
+    updateGrid(msg["grid"]);
+    updateHeroes(msg["heroes"]);
   });
 }
 
