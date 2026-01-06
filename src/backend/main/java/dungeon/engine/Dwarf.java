@@ -3,10 +3,12 @@ package dungeon.engine;
 public class Dwarf extends Hero {
     
     private int health;
+    private boolean actionAvailable;
 
     public Dwarf() {
         super();
         health = 150;
+        actionAvailable = true;
         // Dwarf-specific initialization
     }
 
@@ -24,5 +26,18 @@ public class Dwarf extends Hero {
         if (health < 0) {
             health = 0;
         }
+    }
+
+    @Override
+    public boolean isActionAvailable() {
+        return actionAvailable;
+    }
+
+    @Override
+    public void doAction() {
+        if(isActionAvailable()){
+            // TODO: Implement Wall breaking action
+        }
+        actionAvailable = false;
     }
 }

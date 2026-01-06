@@ -1,13 +1,13 @@
 package dungeon.engine;
 
-public class TheMemeMarker extends Hero {
+public class TheMemeMaker extends Hero {
     
     private int health;
 
-    public TheMemeMarker() {
+    public TheMemeMaker() {
         super();
         health = 150;
-        // TheMemeMarker-specific initialization
+        // TheMemeMaker-specific initialization
     }
 
     public int getHealth() {
@@ -24,5 +24,15 @@ public class TheMemeMarker extends Hero {
         if(health < 0){
             health = 0;
         }
+    }
+
+    @Override
+    public boolean isActionAvailable() {
+        return false;
+    }
+
+    @Override
+    public void doAction() {
+        // Do nothing
     }
 }

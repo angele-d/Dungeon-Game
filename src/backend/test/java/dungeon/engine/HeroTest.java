@@ -10,7 +10,7 @@ public class HeroTest {
         Dwarf dwarf = new Dwarf();
         Tank tank = new Tank();
         Healer healer = new Healer();
-        TheMemeMarker memeMarker = new TheMemeMarker();
+        TheMemeMaker memeMarker = new TheMemeMaker();
         assertEquals(150, dwarf.getHealth());
         assertEquals(200, tank.getHealth());
         assertEquals(150, healer.getHealth());
