@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dungeon Game Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "surface-dark": "#162630",
+                        "surface-border": "#233c48"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for modern feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111c22; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #233c48; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #325567; 
+        }
+        
+        .grid-cell {
+            background-color: #192b33;
+            transition: all 0.2s ease;
+        }
+        .grid-cell:hover {
+            border-color: #13a4ec;
+            background-color: #1e3640;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-surface-border bg-background-dark px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center bg-primary/20 rounded-lg text-primary">
+<span class="material-symbols-outlined">token</span>
+</div>
+<div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Dungeon Crawler</h2>
+<span class="text-xs text-slate-400 font-medium tracking-wide uppercase">v1.0.4 Alpha</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-dark border border-surface-border">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-medium text-slate-300">Server Connected</span>
+</div>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-surface-dark hover:bg-surface-border text-white transition-colors border border-surface-border">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Layout -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar: Map Assets & Stats -->
+<aside class="w-80 bg-background-dark border-r border-surface-border flex flex-col shrink-0 overflow-y-auto z-10 hidden lg:flex">
+<div class="p-5 border-b border-surface-border">
+<h3 class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+                    Grid Overview
+                </h3>
+<div class="space-y-3">
+<!-- Stat Card -->
+<div class="bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded bg-amber-900/30 flex items-center justify-center text-amber-500">
+<span class="material-symbols-outlined">door_front</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-white">Wood Wall</span>
+<span class="text-xs text-slate-400">Obstacle</span>
+</div>
+</div>
+<span class="bg-surface-border text-white text-xs font-bold px-2 py-1 rounded">x14</span>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded bg-slate-700/30 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">foundation</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-white">Stone Wall</span>
+<span class="text-xs text-slate-400">Indestructible</span>
+</div>
+</div>
+<span class="bg-surface-border text-white text-xs font-bold px-2 py-1 rounded">x24</span>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded bg-red-900/30 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-white">Spike Trap</span>
+<span class="text-xs text-slate-400">Damage: 15</span>
+</div>
+</div>
+<span class="bg-surface-border text-white text-xs font-bold px-2 py-1 rounded">x03</span>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded bg-yellow-500/20 flex items-center justify-center text-yellow-400">
+<span class="material-symbols-outlined">savings</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-white">Gold Chest</span>
+<span class="text-xs text-slate-400">Loot</span>
+</div>
+</div>
+<span class="bg-surface-border text-white text-xs font-bold px-2 py-1 rounded">x01</span>
+</div>
+</div>
+</div>
+<div class="p-5 flex-1">
+<h3 class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">group</span>
+                    Party Status
+                </h3>
+<div class="space-y-4">
+<!-- Party Member -->
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-12 rounded-full overflow-hidden border-2 border-green-500 bg-surface-dark">
+<img alt="Healer Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAAkqwEGSlT9FyPrvC-JtetAQKnVRGVpbT4uv0jeXJFcioU7jHVxWR3wOVxAq-Gc6To23Xbb7nEY38x0POiCInnyywW17QcvkjVIDHd0XDMSnNgDkphzFUt5UdScQUJs7RkP1K-QXrStZPkO9HMb7leB4bcPa_B9nRt-ldrtq5kGD1ZmY7-1bDAWD1Wa6qdYa41qr_wQ9t4h_3WuN1MvQA9gsZsEGSD89xVRFNPO95eVy4VE14oXhty8K44gXGQsHAmgowteqIn5W9"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border">
+<span class="material-symbols-outlined text-green-500 text-xs block">health_and_safety</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<p class="text-sm font-bold text-white truncate">Elara (Healer)</p>
+<span class="text-xs text-green-400 font-mono">100%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-border rounded-full overflow-hidden">
+<div class="h-full bg-green-500 w-full"></div>
+</div>
+</div>
+</div>
+<!-- Party Member -->
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-12 rounded-full overflow-hidden border-2 border-blue-500 bg-surface-dark">
+<img alt="Tank Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCBm5QtEzQsUQl_4i3yaY_c4Huwjh2Wx_p0R00vaApH8wCIrxRVwsE20NjxWnxH5N-WttQ70X-KLQaE9YcN7GihSQfVqh-pI2VbW-rKvRsBN5MyGDqkU47usOA690kYAbWNJMg1K6-viUH2ZALY7_EMXBKVvrftXDaobEH482V3S0hO0pkL92hlt3iksAqI2u_AbKiS_wXUIDfUUWwDtNODDI0YfS592ObmBs5JalOuHzgpTspOR8oKLgQ5odk4eCH7r1zObc6eJ-C"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border">
+<span class="material-symbols-outlined text-blue-500 text-xs block">shield</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<p class="text-sm font-bold text-white truncate">Grom (Tank)</p>
+<span class="text-xs text-blue-400 font-mono">85%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-border rounded-full overflow-hidden">
+<div class="h-full bg-blue-500 w-[85%]"></div>
+</div>
+</div>
+</div>
+<!-- Party Member -->
+<div class="flex items-center gap-3 opacity-60">
+<div class="relative">
+<div class="size-12 rounded-full overflow-hidden border-2 border-slate-500 bg-surface-dark">
+<img alt="Dwarf Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp46x5M97AIxEOEgtfXdUsMuwXz-Wmevfz-jOyeMwWLZVMsPLogUE6FwCH2SRW6Ldyk4QFCVZYO8pStlYjxQJ_0xfbR7mfn9I28q_17qSeNV9cZBpCQjF8Dtvo72W_57knmXWV8_Dpi-0Nzzhj9QvFiMF2VYMOXxvsOTBySy-xz2t6oC35hRPfzcEZLWIH10XAzx-zfku4Jsq908RA9yE5MQ0PtpE5wASJTK7o0eK3HRWr6aSQaInZU2fHcCEI4sCYgteG5WGT9SgT"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border">
+<span class="material-symbols-outlined text-slate-500 text-xs block">construction</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<p class="text-sm font-bold text-white truncate">Bori (Dwarf)</p>
+<span class="text-xs text-red-400 font-mono">CRITICAL</span>
+</div>
+<div class="w-full h-1.5 bg-surface-border rounded-full overflow-hidden">
+<div class="h-full bg-red-500 w-[15%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center: Game Grid -->
+<section class="flex-1 bg-[#0b1216] relative flex flex-col items-center justify-center p-8 overflow-hidden">
+<!-- Grid Background Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#233c48 1px, transparent 1px); background-size: 20px 20px;"></div>
+<!-- The Dungeon Map -->
+<div class="relative z-0 shadow-2xl rounded-lg overflow-hidden border border-surface-border bg-[#0f171c]">
+<!-- Grid Labels (Top) -->
+<div class="flex pl-8 bg-surface-dark border-b border-surface-border text-slate-500 font-mono text-xs">
+<div class="w-12 h-6 flex items-center justify-center">A</div>
+<div class="w-12 h-6 flex items-center justify-center">B</div>
+<div class="w-12 h-6 flex items-center justify-center">C</div>
+<div class="w-12 h-6 flex items-center justify-center">D</div>
+<div class="w-12 h-6 flex items-center justify-center">E</div>
+<div class="w-12 h-6 flex items-center justify-center">F</div>
+<div class="w-12 h-6 flex items-center justify-center">G</div>
+<div class="w-12 h-6 flex items-center justify-center">H</div>
+<div class="w-12 h-6 flex items-center justify-center">I</div>
+<div class="w-12 h-6 flex items-center justify-center">J</div>
+</div>
+<div class="flex">
+<!-- Grid Labels (Left) -->
+<div class="flex flex-col w-8 bg-surface-dark border-r border-surface-border text-slate-500 font-mono text-xs">
+<div class="h-12 flex items-center justify-center">1</div>
+<div class="h-12 flex items-center justify-center">2</div>
+<div class="h-12 flex items-center justify-center">3</div>
+<div class="h-12 flex items-center justify-center">4</div>
+<div class="h-12 flex items-center justify-center">5</div>
+<div class="h-12 flex items-center justify-center">6</div>
+<div class="h-12 flex items-center justify-center">7</div>
+<div class="h-12 flex items-center justify-center">8</div>
+<div class="h-12 flex items-center justify-center">9</div>
+<div class="h-12 flex items-center justify-center">10</div>
+</div>
+<!-- 10x10 Playable Grid -->
+<div class="grid grid-cols-10 grid-rows-10 bg-[#121c22]">
+<!-- Row 1 -->
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a] relative"> <!-- Stone Wall -->
+<div class="absolute inset-0 flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-slate-400">foundation</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell bg-red-900/20 border-red-900/50"> <!-- Trap -->
+<div class="flex items-center justify-center h-full">
+<span class="material-symbols-outlined text-red-500 text-lg">warning</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<!-- Row 2 -->
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a] relative"><!-- Stone Wall --></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell relative group">
+<!-- Hero: Tank -->
+<div class="absolute inset-1 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-900/50 ring-2 ring-white/20">
+<span class="material-symbols-outlined text-white text-lg">shield</span>
+</div>
+<!-- Tooltip -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                                Grom (Tank)
+                            </div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell relative group">
+<!-- Hero: Healer -->
+<div class="absolute inset-1 bg-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-900/50 ring-2 ring-white/20">
+<span class="material-symbols-outlined text-white text-lg">health_and_safety</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#3d2e24] relative border-amber-900/30"><!-- Wood Wall -->
+<div class="absolute inset-0 flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-amber-700">door_front</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#3d2e24] relative border-amber-900/30"></div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#3d2e24] relative border-amber-900/30"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<!-- Row 3 (Sparse for brevity in generation, normally full grid) -->
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a] relative"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell relative">
+<!-- Selected Highlight -->
+<div class="absolute inset-0 border-2 border-primary bg-primary/10 animate-pulse z-10 pointer-events-none"></div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell relative group">
+<!-- Hero: Dwarf -->
+<div class="absolute inset-1 bg-slate-500 rounded-full flex items-center justify-center shadow-lg shadow-slate-900/50 ring-2 ring-white/20">
+<span class="material-symbols-outlined text-white text-lg">construction</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell bg-yellow-900/20 border-yellow-500/30">
+<!-- Treasure -->
+<div class="flex items-center justify-center h-full animate-bounce">
+<span class="material-symbols-outlined text-yellow-400 text-lg">savings</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<!-- Filler Rows (representing empty space) -->
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a] relative"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell relative group">
+<!-- Hero: Madman -->
+<div class="absolute inset-1 bg-purple-600 rounded-full flex items-center justify-center shadow-lg shadow-purple-900/50 ring-2 ring-white/20">
+<span class="material-symbols-outlined text-white text-lg">psychology</span>
+</div>
+</div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<!-- Just filling the rest of the 100 cells with standard or patterned blocks for visual density -->
+<!-- 60 more divs would go here for a full 10x10. I will generate a block of generic cells to fill the space visually without cluttering code too much. -->
+<div class="contents">
+<!-- Loop-like structure simulation for remaining cells -->
+<script>
+                               // Purely illustrative inline script to fill the grid visual - normally static HTML
+                               // Since I can't use JS for logic, I will just paste a block of empty cells.
+                           </script>
+<!-- Row 5-10 filler -->
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+<div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] bg-[#2a3f4a]"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div><div class="w-12 h-12 border border-[#1e2d36] grid-cell"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Zoom Controls -->
+<div class="absolute bottom-8 right-8 flex gap-2">
+<button class="size-10 rounded-full bg-surface-dark border border-surface-border text-white flex items-center justify-center shadow-xl hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="size-10 rounded-full bg-surface-dark border border-surface-border text-white flex items-center justify-center shadow-xl hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="size-10 rounded-full bg-surface-dark border border-surface-border text-white flex items-center justify-center shadow-xl hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined">center_focus_strong</span>
+</button>
+</div>
+</section>
+<!-- Right Sidebar: Controls -->
+<aside class="w-96 bg-background-dark border-l border-surface-border flex flex-col shrink-0 z-10 shadow-xl">
+<!-- Header Section -->
+<div class="p-6 border-b border-surface-border bg-gradient-to-b from-surface-dark to-background-dark">
+<h3 class="text-white text-xl font-bold leading-tight mb-2">Command Center</h3>
+<p class="text-slate-400 text-sm">Manage resources and turn progression.</p>
+</div>
+<!-- Money Display -->
+<div class="p-6 border-b border-surface-border">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-surface-border bg-gradient-to-br from-[#192b33] to-[#121c22] shadow-inner">
+<div class="flex items-center justify-between">
+<p class="text-slate-400 text-sm font-medium uppercase tracking-wider">Remaining Funds</p>
+<span class="material-symbols-outlined text-primary/50">account_balance_wallet</span>
+</div>
+<p class="text-white tracking-tight text-4xl font-bold leading-tight flex items-baseline gap-1">
+<span class="text-primary">$</span>1,250
+                    </p>
+<div class="w-full bg-surface-border h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-3/4 shadow-[0_0_10px_rgba(19,164,236,0.5)]"></div>
+</div>
+</div>
+</div>
+<!-- AI Controls -->
+<div class="p-6 flex-1 flex flex-col gap-6">
+<div class="flex flex-col gap-3">
+<label class="text-white text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-purple-400 text-lg">psychology</span>
+                        AI Behavior Matrix
+                    </label>
+<div class="relative">
+<select class="appearance-none w-full bg-surface-dark border border-surface-border text-white rounded-lg px-4 py-4 pr-10 focus:outline-none focus:border-primary transition-colors cursor-pointer text-base font-medium">
+<option>Berserker (Aggressive)</option>
+<option>Guardian (Defensive)</option>
+<option>Rogue (Stealth/Loot)</option>
+<option>Chaos (Random)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<p class="text-xs text-slate-500">Determines how enemy units will react during the enemy phase.</p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-white text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-400 text-lg">history</span>
+                        Action Log
+                    </h4>
+<div class="bg-surface-dark border border-surface-border rounded-lg p-3 h-48 overflow-y-auto font-mono text-xs space-y-2">
+<div class="text-slate-400 border-l-2 border-slate-600 pl-2">
+<span class="text-slate-500">[10:04]</span> Game initialized.
+                        </div>
+<div class="text-slate-300 border-l-2 border-green-500 pl-2">
+<span class="text-slate-500">[10:05]</span> <span class="text-green-400">Healer</span> moved to C4.
+                        </div>
+<div class="text-slate-300 border-l-2 border-blue-500 pl-2">
+<span class="text-slate-500">[10:05]</span> <span class="text-blue-400">Tank</span> equipped Iron Shield.
+                        </div>
+<div class="text-slate-300 border-l-2 border-red-500 pl-2">
+<span class="text-slate-500">[10:06]</span> <span class="text-red-400">Dwarf</span> triggered a trap! (-15 HP)
+                        </div>
+<div class="text-slate-300 border-l-2 border-purple-500 pl-2">
+<span class="text-slate-500">[10:07]</span> <span class="text-purple-400">Madman</span> laughs maniacally.
+                        </div>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="p-6 border-t border-surface-border bg-surface-dark">
+<button class="w-full bg-primary hover:bg-primary/90 text-white text-lg font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3 group">
+                    Next Turn
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</aside>
+</main>
+</body></html>
