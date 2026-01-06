@@ -1,25 +1,28 @@
-package dungeon.engine;
+package dungeon.engine.AI;
 
+import dungeon.engine.Coords;
+import dungeon.engine.Grid;
+import dungeon.engine.Node;
 import dungeon.engine.tiles.Treasure;
 
 import java.util.*;
 
-public class BFS {
+public class DFS {
 
     private Grid grid;
 
-    public BFS(Grid grid) {
+    public DFS(Grid grid) {
         this.grid = grid;
 
     }
 
     public Coords search(Coords start) {
-        Queue<Node> queue = new LinkedList<Node>();
+        Deque<Node> stack = new ArrayDeque<>();
         Set<Coords> visited = new HashSet<Coords>();
-        queue.add(new Node(start, null));
+        stack.push(new Node(start, null));
         visited.add(start);
-        while (!queue.isEmpty()) {
-            Node curr = queue.poll();
+        while (!stack.isEmpty()) {
+            Node curr = stack.pop();
             if (grid.getTile(curr.getCoords()) instanceof Treasure) {
                 while (curr.getParent() != null && curr.getParent().getParent() != null) {
                     curr = curr.getParent();
@@ -30,7 +33,7 @@ public class BFS {
 
                 if (!visited.contains(neighboor)) {
                     visited.add(neighboor);
-                    queue.add(new Node(neighboor, curr));
+                    stack.push(new Node(neighboor, curr));
                 }
             }
         }
