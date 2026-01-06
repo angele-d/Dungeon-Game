@@ -218,6 +218,18 @@ function selectGridCell(cell) {
       treasurePlaced = true;
       break;
   }
+
+  if (selectedElement == "eraser") {
+    sendAddElement(stompClient, 1, "empty", cell.dataset.x, cell.dataset.y);
+  } else {
+    sendAddElement(
+      stompClient,
+      1,
+      selectedElement,
+      cell.dataset.x,
+      cell.dataset.y
+    );
+  }
 }
 
 const grid = document.querySelector(".grid");
@@ -234,14 +246,25 @@ document.addEventListener("pointerdown", (event) => {
 });
 
 /**
- * Initialize the grid and set up event listeners on DOM content loaded
+ * Initialize the grid, connect to server and set up event listeners on DOM content loaded
  */
 
-import { updateGrid, updateHeroes } from "./updateGame.js";
+import {
+  getClient,
+  connectClient,
+  sendAddElement,
+  sendChangeAI,
+  sendLaunchGame,
+  sendStepGame,
+} from "./connection.js";
+
+let stompClient;
 
 document.addEventListener("DOMContentLoaded", () => {
   generateGrid();
   updateMoneyDisplay();
+  stompClient = getClient();
+  connectClient(stompClient);
   document.querySelectorAll("div.cell").forEach((element) => {
     element.addEventListener("click", () => {
       addElement(element);
