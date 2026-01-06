@@ -15,12 +15,12 @@ public class TerminalLauncher {
         List<String> legend = List.of("S", "T", ".", "#", "@", "E", "W", "M");
         List<String> name_cases = List.of("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E");
         System.out.println("============== Welcome in the Dungeon ! ==============");
-        System.out.println("");
+        System.out.println("\n");
         System.out.println("Heroes' strategy :");
         System.out.println("   [1] DFS");
         System.out.println("   [2] BFS");
         System.out.println("   [3] A*");
-        System.out.println(" ");
+        System.out.println("\n");
         
         int strategy = 0;
         while (strategy == 0) {
@@ -31,14 +31,14 @@ public class TerminalLauncher {
             }
         }
 
-        System.out.println(" ");
+        System.out.println("\n");
         System.out.print("Thank you !");
-        System.out.println(" ");
+        System.out.println("\n");
 
         int end_action = 0;
         int action_player = 3;
 
-        begin(grid,SIZE_GRID);
+        make_action(grid,SIZE_GRID);
 
         while (end_action == 0){
 
@@ -51,9 +51,9 @@ public class TerminalLauncher {
                 }
             }
 
-            System.out.println(" ");
+            System.out.println("\n");
             System.out.print("Thank you !");
-            System.out.println(" ");
+            System.out.println("\n");
 
             switch (action_player) {
                 case 1:
@@ -91,10 +91,12 @@ public class TerminalLauncher {
                     print_grid(grid, SIZE_GRID);
                     break;
                 case 3:
-                    end_action = 1;
+                    // TODO : Save the game
+                    System.out.println("I save your game !");
                     break;
                 case 4:
-                    end_action = 1;
+                    // TODO : Check if the game exists and load the game
+                    System.out.println("Your game is ready ! ");
                     break;
                 case 5:
                     end_action = 1;
@@ -110,27 +112,23 @@ public class TerminalLauncher {
         }
 
         switch (action_player) {
-            case 3:
-                System.out.println("I save your game !");
-                break;
-            case 4:
-                System.out.println("Your game is ready ! ");
-                break;
             case 5:
                 System.out.println("================= Heroes are here ! =================");
+                execute_game(grid);
                 break;
             case 6:
+                // TODO : Print Score
                 System.out.println("This is the end !");
                 break;
             default:
                 break;
         }        
     }
-    public static void begin (Grid grid, int size){
+    public static void make_action (Grid grid, int size){
         System.out.println("Legend : S = Starting Point, T = Treasure, . = Empty tile, # = Stone Wall, @ = Wood Wall, E = Hero, W = Trap Wall, M = Mine");
-        System.out.println(" ");
+        System.out.println("\n");
         print_grid(grid, size);
-        System.out.println(" ");
+        System.out.println("\n");
         System.out.println("Actions :");
         System.out.println("   [1] Place an element");
         System.out.println("   [2] Delete an element");
@@ -138,8 +136,8 @@ public class TerminalLauncher {
         System.out.println("   [4] Load a game");
         System.out.println("   [5] Start the game");
         System.out.println("   [6] Leave");
-        System.out.println(" ");
-        System.out.println(" ");
+        System.out.println("\n");
+        System.out.println("\n");
     }
 
     public static void print_grid(Grid grid, int size) {
@@ -167,4 +165,14 @@ public class TerminalLauncher {
         return line_completed;
     }
 
+    public static void execute_game(Grid grid) {
+        // TODO : The game starts
+        int end = 0;
+        int round = 1;
+        while (end == 0){
+            System.out.println("===================== Round " + round + " ! =====================");
+            end = 1;
+            print_grid(grid, SIZE_GRID);
+        }
+    }
 }
