@@ -39,9 +39,9 @@ public abstract class Hero {
 
     /* --- Functions --- */
 
-    public void move(Game game) {
+    public Coords move(Game game) {
         // Common movement logic for all heroes (expect Healer -> see Healer.java)
         // FIXME: Check: Implement common movement logic
-        strategy.move(game.getGrid(), this);
+        return strategy.move(game, this);
     }
 }

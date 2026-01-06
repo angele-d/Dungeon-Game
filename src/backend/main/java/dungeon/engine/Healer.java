@@ -43,11 +43,12 @@ public class Healer extends Hero {
     }
 
     @Override
-    public void move(Game game) {
+    public Coords move(Game game) {
         // Healer-specific movement logic
         // FIXME: CCheck: Copy Paste from Hero
-        strategy.move(game.getGrid(), this);
+        Coords newCoords = strategy.move(game, this);
         health = Math.min(150, health + (health * HEAL_PERCENTAGE) / 100);
+        return newCoords;
     }
 
     @Override
