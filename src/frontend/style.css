@@ -1,0 +1,26 @@
+.selected-cell {
+  outline: 5px rgba(255, 165, 0, 0.5) solid !important;
+}
+
+.grid-cell:hover {
+  background-color: white;
+}
+
+.not-allowed-cell {
+  border-color: red !important;
+}
+
+.bank span {
+  color: rgb(19 164 236 / var(--tw-text-opacity, 1));
+}
+
+.cell span,
+.grid-cell span {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
