@@ -40,7 +40,7 @@ public abstract class Hero {
     /* --- Functions --- */
 
     public Coords move(Game game) {
-        // Common movement logic for all heroes (expect Healer -> see Healer.java)
+        // Common movement logic for all heroes (except Healer -> see Healer.java)
         // FIXME: Check: Implement common movement logic
         return strategy.move(game, this);
     }

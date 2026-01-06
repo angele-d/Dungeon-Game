@@ -1,9 +1,12 @@
 package dungeon.engine;
 
+import dungeon.engine.tiles.Trap;
+
 public class Game {
 
-    private int id; 
+    private int id; //TODO: implement unique ID generation
     private Grid grid;
+    private Grid blueprint;
     private HeroSquad heroSquad;
     private int score;
     private int money;
@@ -11,6 +14,7 @@ public class Game {
 
     public Game() {
         this.grid = new Grid();
+        this.blueprint = grid.clone();
         this.id = 0;
         this.heroSquad = new HeroSquad();
         this.score = 0;
@@ -47,10 +51,15 @@ public class Game {
     /* --- Game Methods --- */
     public void startNewGame() {
         this.grid = new Grid();
+        blueprint = grid.clone();
         this.heroSquad = new HeroSquad();
         this.score = 0;
         this.money = 500;
         this.turn = 0;
+    }
+
+    public void endGame(){
+        this.grid = blueprint.clone();
     }
 
     public void placementOnGrid(Tile tile) {
@@ -67,8 +76,12 @@ public class Game {
             // Movement
             Coords newCoords = hero.move(this);
             doMovement(hero, newCoords);
-            // Trap checking
-            // TODO: Implement trap checking
+            //Trap Checking
+            Tile currentTile = this.grid.getTile(hero.getCoords());
+            if (currentTile instanceof Trap) {
+                //FIXME: To check when Trap class is finished
+                ((Trap) currentTile).process());
+            }
         }
     }
 
