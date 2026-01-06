@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Node {
     private ArrayList<Node> children;
     private Coords coords;
+    private Node parent;
 
-    public Node(Coords coords) {
+    public Node(Coords coords, Node parent) {
         this.coords = coords;
         children = new ArrayList<>();
+        this.parent = parent;
     }
 
     public void addChild(Node child) {
@@ -21,5 +23,9 @@ public class Node {
 
     public Coords getCoords() {
         return coords;
+    }
+
+    public Node getParent() {
+        return parent;
     }
 }

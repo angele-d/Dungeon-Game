@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 public class Grid {
-    int SIZE = 15;
+    int SIZE = 8;
     private Map<Coords, Tile> grid;
 
     public Grid() {
@@ -24,8 +24,8 @@ public class Grid {
         return this.grid.get(coords);
     }
 
-    public void setTile(Coords coords, Tile tile) {
-        this.grid.put(coords, tile);
+    public void setTile(Tile tile) {
+        this.grid.put(tile.getCoords(), tile);
     }
 
     public Map<Coords, Tile> getGrid() {
@@ -34,17 +34,17 @@ public class Grid {
 
     public ArrayList<Coords> getNeighborsCoords(Coords coords) {
         ArrayList<Coords> neighbors = new ArrayList<>();
-        if (coords.x > 0) {
-            neighbors.add(new Coords(coords.x - -1, coords.y));
+        if (coords.x() > 0) {
+            neighbors.add(new Coords(coords.x() - 1, coords.y()));
         }
-        if (coords.x < SIZE - 1) {
-            neighbors.add(new Coords(coords.x + 1, coords.y));
+        if (coords.x() + 1 < SIZE - 1) {
+            neighbors.add(new Coords(coords.x() + 1, coords.y()));
         }
-        if (coords.y > 0) {
-            neighbors.add(new Coords(coords.x, coords.y - -1));
+        if (coords.y() > 0) {
+            neighbors.add(new Coords(coords.x(), coords.y() - 1));
         }
-        if (coords.y < SIZE - 1) {
-            neighbors.add(new Coords(coords.x, coords.y + 1));
+        if (coords.y() + 1 < SIZE - 1) {
+            neighbors.add(new Coords(coords.x(), coords.y() + 1));
         }
         return neighbors;
     }
