@@ -24,4 +24,25 @@ public class HeroSquad{
     public int getSquadSize(){
         return heroList.size();
     }
+
+    public static class Builder{
+        private ArrayList<Hero> heroList = new ArrayList<>();
+
+        public Builder(){
+            
+        }
+
+        public Builder addHero(Hero hero){
+            this.heroList.add(hero);
+            return this;
+        }
+
+        public HeroSquad build(){
+            HeroSquad squad = new HeroSquad();
+            for(Hero hero : this.heroList){
+                squad.addHero(hero);
+            }
+            return squad;
+        }
+    }
 } 
