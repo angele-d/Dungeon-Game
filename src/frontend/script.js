@@ -1,4 +1,5 @@
-let size = 10;
+import { game_config } from "./gameConfig.js";
+const size = game_config.size;
 
 function generateGrid() {
   /**
@@ -6,6 +7,8 @@ function generateGrid() {
    * Parameters: None
    * Returns: None
    */
+  const gridElement = document.querySelector(".grid");
+  gridElement.innerHTML = "";
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement("div");
@@ -19,7 +22,7 @@ function generateGrid() {
       cell.dataset.row = i;
       cell.dataset.col = j;
       cell.addEventListener("click", () => selectGridCell(cell));
-      document.querySelector(".grid").appendChild(cell);
+      gridElement.appendChild(cell);
     }
   }
 }
@@ -234,10 +237,11 @@ document.addEventListener("pointerdown", (event) => {
  * Initialize the grid and set up event listeners on DOM content loaded
  */
 
+import { updateGrid, updateHeroes } from "./updateGame.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   generateGrid();
   updateMoneyDisplay();
-
   document.querySelectorAll("div.cell").forEach((element) => {
     element.addEventListener("click", () => {
       addElement(element);
