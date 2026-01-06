@@ -4,7 +4,6 @@ import dungeon.engine.Coords;
 import dungeon.engine.Tile;
 
 public class Treasure extends Tile {
-    public static String type = "treasure";
     public Treasure(Coords coords) {
         super(coords);
     }
