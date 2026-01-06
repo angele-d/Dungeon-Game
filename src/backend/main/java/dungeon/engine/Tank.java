@@ -36,8 +36,11 @@ public class Tank extends Hero {
     @Override
     public void doAction() {
         if(isActionAvailable()){
-            // TODO: Implement Poison Healing action
+            // Poison Cure Action
+            if(getIsPoisoned()){
+                setIsPoisoned(false);
+                actionAvailable = false;
+            }
         }
-        actionAvailable = false;
     }
 }
