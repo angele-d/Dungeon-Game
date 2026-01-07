@@ -19,8 +19,8 @@ function generateGrid() {
         "border-[#1e2d36]",
         "grid-cell"
       );
-      cell.dataset.row = i;
-      cell.dataset.col = j;
+      cell.dataset.x = "" + i;
+      cell.dataset.y = "" + j;
       cell.addEventListener("click", () => selectGridCell(cell));
       gridElement.appendChild(cell);
     }
@@ -105,126 +105,128 @@ function selectGridCell(cell) {
       parseInt(folds.textContent.slice(1)) + 1
     )}`;
   }
-  switch (selectedElement) {
-    case "wood-wall":
-      cell.classList.add(
-        "wood-wall",
-        "bg-[#3d2e24]",
-        "relative",
-        "border-amber-900/30"
-      );
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-amber-700");
-      innerSpan.textContent = "door_front";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center",
-        "opacity-40"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      break;
-    case "stone-wall":
-      cell.classList.add("stone-wall", "bg-[#2a3f4a]", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-slate-400");
-      innerSpan.textContent = "fort";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center",
-        "opacity-40"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      break;
-    case "spike":
-      cell.classList.add("spike", "bg-[#4a1e1e]", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-red-700");
-      innerSpan.textContent = "dangerous";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center",
-        "opacity-40"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      break;
-    case "eraser":
-      let keys = Object.keys(config);
-      let erased = Array.from(cell.classList).filter(
-        (elt) => keys.indexOf(elt) != -1
-      );
-      deductMoney(-config[erased]);
-      let folds = document
-        .querySelector(".cell#" + erased)
-        .querySelector(".folds");
-      if (folds) {
-        folds.textContent = `x${make2digits(
-          Math.max(0, parseInt(folds.textContent.slice(1)) - 1)
-        )}`;
-      }
 
-      if (erased == "treasure") treasurePlaced = false;
-      if (erased == "spawn") spawnPlaced = false;
+  // switch (selectedElement) {
+  //   case "wood-wall":
+  //     cell.classList.add(
+  //       "wood-wall",
+  //       "bg-[#3d2e24]",
+  //       "relative",
+  //       "border-amber-900/30"
+  //     );
+  //     innerSpan = document.createElement("span");
+  //     innerSpan.classList.add("material-symbols-outlined", "text-amber-700");
+  //     innerSpan.textContent = "door_front";
+  //     innerDiv = document.createElement("div");
+  //     innerDiv.classList.add(
+  //       "absolute",
+  //       "inset-0",
+  //       "flex",
+  //       "items-center",
+  //       "justify-center",
+  //       "opacity-40"
+  //     );
+  //     innerDiv.appendChild(innerSpan);
+  //     cell.appendChild(innerDiv);
+  //     break;
+  //   case "stone-wall":
+  //     cell.classList.add("stone-wall", "bg-[#2a3f4a]", "relative");
+  //     innerSpan = document.createElement("span");
+  //     innerSpan.classList.add("material-symbols-outlined", "text-slate-400");
+  //     innerSpan.textContent = "fort";
+  //     innerDiv = document.createElement("div");
+  //     innerDiv.classList.add(
+  //       "absolute",
+  //       "inset-0",
+  //       "flex",
+  //       "items-center",
+  //       "justify-center",
+  //       "opacity-40"
+  //     );
+  //     innerDiv.appendChild(innerSpan);
+  //     cell.appendChild(innerDiv);
+  //     break;
+  //   case "spike":
+  //     cell.classList.add("spike", "bg-[#4a1e1e]", "relative");
+  //     innerSpan = document.createElement("span");
+  //     innerSpan.classList.add("material-symbols-outlined", "text-red-700");
+  //     innerSpan.textContent = "dangerous";
+  //     innerDiv = document.createElement("div");
+  //     innerDiv.classList.add(
+  //       "absolute",
+  //       "inset-0",
+  //       "flex",
+  //       "items-center",
+  //       "justify-center",
+  //       "opacity-40"
+  //     );
+  //     innerDiv.appendChild(innerSpan);
+  //     cell.appendChild(innerDiv);
+  //     break;
+  //   case "eraser":
+  //     let keys = Object.keys(config);
+  //     let erased = Array.from(cell.classList).filter(
+  //       (elt) => keys.indexOf(elt) != -1
+  //     );
+  //     deductMoney(-config[erased]);
+  //     let folds = document
+  //       .querySelector(".cell#" + erased)
+  //       .querySelector(".folds");
+  //     if (folds) {
+  //       folds.textContent = `x${make2digits(
+  //         Math.max(0, parseInt(folds.textContent.slice(1)) - 1)
+  //       )}`;
+  //     }
 
-      cell.innerHTML = "";
-      cell.className = "w-12 h-12 border border-[#1e2d36] grid-cell";
-      break;
-    case "spawn":
-      cell.classList.add("spawn", "bg-black", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-white");
-      innerSpan.textContent = "skull";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      spawnPlaced = true;
-      break;
-    case "treasure":
-      cell.classList.add("treasure", "bg-[#3a612c]", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-yellow-400");
-      innerSpan.textContent = "savings";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      treasurePlaced = true;
-      break;
-  }
+  //     if (erased == "treasure") treasurePlaced = false;
+  //     if (erased == "spawn") spawnPlaced = false;
 
+  //     cell.innerHTML = "";
+  //     cell.className = "w-12 h-12 border border-[#1e2d36] grid-cell";
+  //     break;
+  //   case "spawn":
+  //     cell.classList.add("spawn", "bg-black", "relative");
+  //     innerSpan = document.createElement("span");
+  //     innerSpan.classList.add("material-symbols-outlined", "text-white");
+  //     innerSpan.textContent = "skull";
+  //     innerDiv = document.createElement("div");
+  //     innerDiv.classList.add(
+  //       "absolute",
+  //       "inset-0",
+  //       "flex",
+  //       "items-center",
+  //       "justify-center"
+  //     );
+  //     innerDiv.appendChild(innerSpan);
+  //     cell.appendChild(innerDiv);
+  //     spawnPlaced = true;
+  //     break;
+  //   case "treasure":
+  //     cell.classList.add("treasure", "bg-[#3a612c]", "relative");
+  //     innerSpan = document.createElement("span");
+  //     innerSpan.classList.add("material-symbols-outlined", "text-yellow-400");
+  //     innerSpan.textContent = "savings";
+  //     innerDiv = document.createElement("div");
+  //     innerDiv.classList.add(
+  //       "absolute",
+  //       "inset-0",
+  //       "flex",
+  //       "items-center",
+  //       "justify-center"
+  //     );
+  //     innerDiv.appendChild(innerSpan);
+  //     cell.appendChild(innerDiv);
+  //     treasurePlaced = true;
+  //     break;
+  // }
+
+  console.log(cell.dataset);
   if (selectedElement == "eraser") {
-    sendAddElement(stompClient, 1, "empty", cell.dataset.x, cell.dataset.y);
+    sendAddElement(stompClient, "1", "empty", cell.dataset.x, cell.dataset.y);
   } else {
     sendAddElement(
       stompClient,
-      1,
+      "1",
       selectedElement,
       cell.dataset.x,
       cell.dataset.y
@@ -255,7 +257,7 @@ import {
   sendAddElement,
   sendChangeAI,
   sendLaunchGame,
-  sendStepGame,
+  sendNextStep,
 } from "./connection.js";
 
 let stompClient;

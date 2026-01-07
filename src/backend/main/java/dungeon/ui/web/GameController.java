@@ -28,6 +28,7 @@ public class GameController {
         String type = payload.get("tile_type");
         String col = payload.get("col");
         String row = payload.get("row");
+        System.out.println(col + " " + row +  " " + type);
         Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id), new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
         return result;
     }

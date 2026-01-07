@@ -1,13 +1,14 @@
-import { updateGrid, updateHeroes } from "./updateGame";
+import { updateGrid, updateHeroes } from "./updateGame.js";
 
 function getClient() {
-  let socket = new WebSocket("http://localhost:8080/stomp-endpoint");
+  //let socket = new WebSocket("http://localhost:8080/stomp-endpoint");
+  let socket = new SockJS("http://localhost:8080/stomp-endpoint");
   let stompClient = Stomp.over(socket);
   return stompClient;
 }
 
 function connectClient(stompClient, onConnectCallback) {
-  stompClient.connect({}, onConnect, onError);
+  stompClient.connect({}, (res) => onConnect(stompClient, res), onError);
 }
 
 function onConnect(stompClient, frame) {
@@ -51,17 +52,20 @@ function onError(error) {
   alert("Could not connect to server. Please try again later.");
 }
 
-function sendAddElement(stompClient, id = 1, elementType, x, y) {
+function sendAddElement(stompClient, id, elementType, x, y) {
   let message = {
     id: id,
-    type: elementType,
+    tile_type: elementType,
     col: x,
     row: y,
   };
+  console.log(
+    "Sending message: " + JSON.stringify(message) + " " + x + " " + y
+  );
   stompClient.send("/app/place_tile", {}, JSON.stringify(message));
 }
 
-function sendChangeAI(stompClient, id = 1, newAI) {
+function sendChangeAI(stompClient, id, newAI) {
   let message = {
     id: id,
     ai: newAI,
@@ -69,14 +73,14 @@ function sendChangeAI(stompClient, id = 1, newAI) {
   stompClient.send("/app/change_ai", {}, JSON.stringify(message));
 }
 
-function sendLaunchGame(stompClient, id = 1) {
+function sendLaunchGame(stompClient, id) {
   let message = {
     id: id,
   };
   stompClient.send("/app/launch_game", {}, JSON.stringify(message));
 }
 
-function sendNextStep(stompClient, id = 1) {
+function sendNextStep(stompClient, id) {
   let message = {
     id: id,
   };

@@ -130,23 +130,11 @@ function updateGrid(gridData) {
           treasurePlaced = true;
           break;
       }
-      cell.dataset.row = i;
-      cell.dataset.col = j;
+      cell.dataset.x = "" + i;
+      cell.dataset.y = "" + j;
       document.querySelector(".grid").appendChild(cell);
     }
   }
-}
-
-function createDOMElementFromHTML(htmlString) {
-  /**
-   * Creates a DOM element from an HTML string.
-   * Parameters:
-   * htmlString - The HTML string to convert into a DOM element.
-   * Returns: The created DOM element.
-   */
-  const template = document.createElement("template");
-  template.innerHTML = htmlString.trim();
-  return template.content.firstChild;
 }
 
 import { heroPawns } from "./heroPawns.js";
