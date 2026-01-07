@@ -194,7 +194,7 @@ public class TerminalLauncher {
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                execute_game(game,size_grid);
+                execute_game(game,size_grid, new Coords(S_x,S_y));
                 break;
             case 6:
                 // TODO : Print Score
@@ -260,16 +260,19 @@ public class TerminalLauncher {
         return line_completed;
     }
 
-    public static void execute_game(Game game, int size) {
+    public static void execute_game(Game game, int size, Coords dep_hero) {
         int end = 0;
         int round = 1;
+        GameEngine.getInstance().startSimulation(game.getId(),dep_hero);
+
         while (end == 0){
-            System.out.println("===================== Round " + round + " ! =====================");
             if(end == 0 && round == 3){ // TODO: Finish Game : Print score, print finish
                 end = 1;
                 System.out.println("This is the end !");
             } else {
+                System.out.println("===================== Round " + round + " ! =====================");
                 GameEngine.getInstance().nextTurn(game.getId());
+                game = GameEngine.getInstance().getGame(game.getId());
                 print_grid(game, size);
                 sleepHalfSecond();
             }

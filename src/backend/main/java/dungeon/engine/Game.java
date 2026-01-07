@@ -101,10 +101,25 @@ public class Game {
     }
 
     /* --- Game Methods --- */
+    public void startNewGame(Coords coord) { // TODO : Place heroes in the starting point
+        blueprint = grid.clone();
+        //this.grid = new Grid();
+        this.heroSquad = new HeroSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(coord);
+        }
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+    }
+
     public void startNewGame() {
         blueprint = grid.clone();
 //        this.grid = new Grid();
         this.heroSquad = new HeroSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(new Coords(0,0));
+        }
         this.score = 0;
         this.money = 500;
         this.turn = 0;

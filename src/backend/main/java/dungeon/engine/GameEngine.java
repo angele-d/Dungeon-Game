@@ -100,6 +100,17 @@ public class GameEngine {
         return game;
     }
 
+    public Map<String, String> startSimulation(Integer game_id, Coords coord) {
+        Game game = games.get(game_id);
+        if (game != null) {
+            game.startNewGame(coord);
+        }
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("grid", game.getGrid().serialized().toString());
+        result.put("heros", game.getHeroSquad().serialized().toString());
+        return result;
+    }
+
     public Map<String, String> startSimulation(Integer game_id) {
         Game game = games.get(game_id);
         if (game != null) {
