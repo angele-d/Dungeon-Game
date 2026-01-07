@@ -17,7 +17,7 @@ class WallTrapTest {
         WallTrap wallTrap = new WallTrap(coords, damage, area);
 
         assertEquals(damage, wallTrap.getDamage(), "Les dégâts du WallTrap sont incorrects");
-        assertEquals(area, wallTrap.getArea(), "La zone du WallTrap est incorrecte");
+        assertEquals(area, wallTrap.getAreaRadius(), "La zone du WallTrap est incorrecte");
     }
 
     @Test
@@ -27,6 +27,6 @@ class WallTrapTest {
         WallTrap wallTrap = new WallTrap(coords, 0, 0);
 
         assertEquals(0, wallTrap.getDamage());
-        assertEquals(0, wallTrap.getArea());
+        assertEquals(0, wallTrap.getAreaRadius());
     }
 }
