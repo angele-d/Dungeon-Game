@@ -9,4 +9,8 @@ public class Empty extends Tile {
         super(coords);
     }
 
+    public int getAstarValue(){
+        return 1;
+    }
+
 }

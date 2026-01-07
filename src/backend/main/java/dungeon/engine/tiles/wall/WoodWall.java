@@ -7,4 +7,7 @@ public class WoodWall extends Wall {
     public WoodWall(Coords coords) {
         super(coords);
     }
+    public int getAstarValue(){
+        return 50;
+    }
 }

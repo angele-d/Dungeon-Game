@@ -10,7 +10,11 @@ public class GridTest {
     void testSetAndGetTile() {
         Grid grid = new Grid();
         Coords coords = new Coords(2, 3);
-        Tile tile = new Tile(coords) {};
+        Tile tile = new Tile(coords) {
+            public int getAstarValue() {
+                return 0;
+            }
+        };
         grid.setTile(tile);
         Tile retrievedTile = grid.getTile(coords);
         assertEquals(tile, retrievedTile);

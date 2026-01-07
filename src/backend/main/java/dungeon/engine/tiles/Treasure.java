@@ -7,4 +7,8 @@ public class Treasure extends Tile {
     public Treasure(Coords coords) {
         super(coords);
     }
+
+    public int getAstarValue(){
+        return 0;
+    }
 }
