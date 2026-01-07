@@ -9,4 +9,9 @@ public class Empty extends Tile {
         super(coords);
     }
 
+    @Override
+    public String toString() {
+        return "empty";
+    }
+
 }
