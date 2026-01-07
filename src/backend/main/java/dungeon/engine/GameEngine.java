@@ -1,6 +1,8 @@
 package dungeon.engine;
 
-import dungeon.engine.strategies.*;
+import dungeon.engine.Strategies.BFSStrategy;
+import dungeon.engine.Strategies.DFSStrategy;
+import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
@@ -24,6 +26,14 @@ public class GameEngine {
             gameEngine = new GameEngine();
             return gameEngine;
         }
+    }
+
+    public boolean isGameTerminated(int gameId) {
+        Game game = games.get(gameId);
+        if (game == null) {
+            return game.isTerminated();
+        }
+        return false;
     }
 
     public Map<String, String> placeTile(int gameId, Coords coords, String type) {

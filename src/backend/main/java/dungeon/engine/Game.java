@@ -1,6 +1,7 @@
 package dungeon.engine;
 
 import dungeon.engine.tiles.Trap;
+import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,15 @@ public class Game {
         this.money = 500;
         this.turn = 0;
         this.turnListeners = new ArrayList<TurnListener>();
+    }
+
+    private Tile getTreasure() {
+        for (Coords coords: grid.getGrid().keySet()) {
+            if (grid.getTile(coords) instanceof Treasure) {
+                return grid.getTile(coords);
+            }
+        }
+        return null;
     }
 
     public void addTurnListener(TurnListener turnListener) {
@@ -130,5 +140,19 @@ public class Game {
 
     public void subMoney(int amount) {
         this.money -= amount;
+    }
+
+    public boolean isTerminated() {
+        boolean result = true;
+        Tile treasure = getTreasure();
+
+        for (Hero hero: heroSquad.getHeroes()) {
+            if (hero.getCoords() != treasure.getCoords() && hero.getHealth() != 0) {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
     }
 }
