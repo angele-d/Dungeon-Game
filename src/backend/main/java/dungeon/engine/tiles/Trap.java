@@ -45,4 +45,7 @@ public abstract class Trap extends Tile {
     
     public abstract void activateTrap(Game game);
 
+    public abstract int getPlacementCost();
+    public abstract void setPlacementCost(int cost);
+
 }

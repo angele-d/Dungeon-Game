@@ -3,6 +3,7 @@ package dungeon.engine;
 import dungeon.engine.tiles.Trap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
@@ -32,6 +33,10 @@ public class Game {
 
     public void removeTurnListener(TurnListener turnListener) {
         this.turnListeners.remove(turnListener);
+    }
+
+    public List<TurnListener> getTurnListeners() {
+        return new ArrayList<>(turnListeners);
     }
 
     /* --- Getters and Setters --- */
@@ -90,7 +95,11 @@ public class Game {
     }
 
     public void placementOnGrid(Tile tile) {
-        this.grid.setTile(tile);
+        int tileCost = tile.getPlacementCost();
+        if(this.money >= tileCost) {
+            this.subMoney(tileCost);
+            this.grid.setTile(tile);
+        }
     }
 
     public void doMovement(Hero hero, Coords newCoords) {
