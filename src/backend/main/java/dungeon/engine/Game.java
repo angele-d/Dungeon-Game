@@ -49,6 +49,16 @@ public class Game {
         return new ArrayList<>(turnListeners);
     }
 
+    public Game() {
+        this.grid = new Grid();
+        this.blueprint = grid.clone();
+        this.id = 1;
+        this.heroSquad = new HeroSquad();
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+    }
+
     /* --- Getters and Setters --- */
 
     public Grid getGrid() {
