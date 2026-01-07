@@ -14,11 +14,18 @@ function connectClient(stompClient, onConnectCallback) {
 function onConnect(stompClient, frame) {
   console.log("Connected: " + frame);
 
+  stompClient.subscribe("/topic/new_game", function (message) {
+    console.log("Received message: " + message.body);
+    let payload = JSON.parse(message.body);
+  });
+
+  sendCreateGame(stompClient);
+
   stompClient.subscribe("/topic/tile_placed", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let msg = payload["message"];
-    updateGrid(msg["grid"]);
+    let grid = payload["grid"];
+    updateGrid(grid);
   });
 
   stompClient.subscribe("/topic/ai_changed", function (message) {
@@ -33,23 +40,26 @@ function onConnect(stompClient, frame) {
   stompClient.subscribe("/topic/game_launched", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let msg = payload["message"];
-    updateGrid(msg["grid"]);
-    updateHeroes(msg["heroes"]);
+    updateGrid(payload["grid"]);
+    updateHeroes(payload["heroes"]);
   });
 
   stompClient.subscribe("/topic/step_result", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let msg = payload["message"];
-    updateGrid(msg["grid"]);
-    updateHeroes(msg["heroes"]);
+    updateGrid(payload["grid"]);
+    updateHeroes(payload["heroes"]);
   });
 }
 
 function onError(error) {
   console.error("Connection error: " + error);
   alert("Could not connect to server. Please try again later.");
+}
+
+function sendCreateGame(stompClient) {
+  let message = {};
+  stompClient.send("/app/new_game", {}, JSON.stringify(message));
 }
 
 function sendAddElement(stompClient, id, elementType, x, y) {
@@ -59,9 +69,6 @@ function sendAddElement(stompClient, id, elementType, x, y) {
     col: x,
     row: y,
   };
-  console.log(
-    "Sending message: " + JSON.stringify(message) + " " + x + " " + y
-  );
   stompClient.send("/app/place_tile", {}, JSON.stringify(message));
 }
 

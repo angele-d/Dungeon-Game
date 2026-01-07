@@ -94,7 +94,7 @@ public class GameEngine {
 
     public Game newGame() {
         Game game = new Game();
-        games.put(1, game);
+        games.put(0, game);
         return game;
     }
 

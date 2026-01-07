@@ -222,11 +222,11 @@ function selectGridCell(cell) {
 
   console.log(cell.dataset);
   if (selectedElement == "eraser") {
-    sendAddElement(stompClient, "1", "empty", cell.dataset.x, cell.dataset.y);
+    sendAddElement(stompClient, "0", "empty", cell.dataset.x, cell.dataset.y);
   } else {
     sendAddElement(
       stompClient,
-      "1",
+      "0",
       selectedElement,
       cell.dataset.x,
       cell.dataset.y
