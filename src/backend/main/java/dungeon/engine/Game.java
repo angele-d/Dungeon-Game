@@ -2,6 +2,8 @@ package dungeon.engine;
 
 import dungeon.engine.tiles.Trap;
 
+import java.util.ArrayList;
+
 public class Game {
 
     private int id; //TODO: implement unique ID generation
@@ -11,6 +13,7 @@ public class Game {
     private int score;
     private int money;
     private int turn;
+    private ArrayList<TurnListener> turnListeners;
 
     public Game() {
         this.grid = new Grid();
@@ -20,6 +23,15 @@ public class Game {
         this.score = 0;
         this.money = 500;
         this.turn = 0;
+        this.turnListeners = new ArrayList<TurnListener>();
+    }
+
+    public void addTurnListener(TurnListener turnListener) {
+        this.turnListeners.add(turnListener);
+    }
+
+    public void removeTurnListener(TurnListener turnListener) {
+        this.turnListeners.remove(turnListener);
     }
 
     /* --- Getters and Setters --- */
@@ -34,6 +46,9 @@ public class Game {
 
     public HeroSquad getHeroSquad() {
         return heroSquad;
+    }
+    public void setHeroSquad(HeroSquad heroSquad) {
+        this.heroSquad = heroSquad;
     }
 
     public int getScore() {
@@ -73,14 +88,17 @@ public class Game {
     public void nextTurn() {
         this.turn += 1;
         for (Hero hero : heroSquad.getHeroes()) {
+            for(TurnListener listener : turnListeners) {
+                listener.onNewTurn(this);
+            }
             // Movement
             Coords newCoords = hero.move(this);
             doMovement(hero, newCoords);
             //Trap Checking
             Tile currentTile = this.grid.getTile(hero.getCoords());
             if (currentTile instanceof Trap) {
-                //FIXME: To check when Trap class is finished
-                ((Trap) currentTile).process());
+                //TODO: Implement trap processing
+                //((Trap) currentTile).process(heroSquad));
             }
         }
     }

@@ -17,16 +17,116 @@ class MineTest {
         Mine mine = new Mine(coords, damage, area);
 
         assertEquals(damage, mine.getDamage(), "Les dégâts de la Mine sont incorrects");
-        assertEquals(area, mine.getArea(), "La zone de la Mine est incorrecte");
+        assertEquals(area, mine.getAreaRadius(), "La zone de la Mine est incorrecte");
     }
 
     @Test
-    void testMineNegativeValues() {
-        Coords coords = new Coords(2, 2);
+    void testMineZeroValues() {
+        Coords coords = new Coords(0, 0);
+        Mine mine = new Mine(coords, 0, 0);
+        assertEquals(0, mine.getDamage());
+        assertEquals(0, mine.getAreaRadius());
+    }
 
-        Mine mine = new Mine(coords, -10, -2);
+    @Test
+    void testMineCoordinates() {
+        Coords coords = new Coords(10, 15);
+        Mine mine = new Mine(coords, 30, 2);
 
-        assertEquals(-10, mine.getDamage());
-        assertEquals(-2, mine.getArea());
+        assertEquals(coords, mine.getCoords());
+        assertEquals(10, mine.getCoords().x());
+        assertEquals(15, mine.getCoords().y());
+    }
+
+    @Test
+    void testMineSetDamage() {
+        Mine mine = new Mine(new Coords(0, 0), 20, 1);
+        mine.setDamage(50);
+
+        assertEquals(50, mine.getDamage());
+    }
+
+    @Test
+    void testMineSetAreaRadius() {
+        Mine mine = new Mine(new Coords(0, 0), 20, 1);
+        mine.setAreaRadius(5);
+
+        assertEquals(5, mine.getAreaRadius());
+    }
+
+    @Test
+    void testMineGetAstarValue() {
+        Mine mine = new Mine(new Coords(0, 0), 25, 2);
+
+        assertEquals(5, mine.getAstarValue());
+    }
+
+    @Test
+    void testMineActivateTrapOnDirectHit() {
+        Dwarf dwarf = new Dwarf();
+        dwarf.setCoords(new Coords(5, 5));
+
+        HeroSquad squad = new HeroSquad.Builder()
+            .addHero(dwarf)
+            .build();
+
+        Game game = new Game();
+        game.setHeroSquad(squad);
+
+        Mine mine = new Mine(new Coords(5, 5), 40, 1);
+        int initialHealth = dwarf.getHealth();
+        
+        mine.activateTrap(game);
+
+        assertEquals(initialHealth - 40, dwarf.getHealth());
+    }
+
+    @Test
+    void testMineActivateTrapWithAreaDamage() {
+        Dwarf dwarf = new Dwarf();
+        dwarf.setCoords(new Coords(1, 0)); // distance 1 from mine
+
+        HeroSquad squad = new HeroSquad.Builder()
+            .addHero(dwarf)
+            .build();
+
+        Game game = new Game();
+        game.setHeroSquad(squad);
+
+        Mine mine = new Mine(new Coords(0, 0), 100, 2);
+        int initialHealth = dwarf.getHealth();
+        
+        mine.activateTrap(game);
+
+        assertEquals(initialHealth - 80, dwarf.getHealth());
+    }
+
+    @Test
+    void testMineActivateTrapMultipleHeroes() {
+        Dwarf dwarf = new Dwarf();
+        dwarf.setCoords(new Coords(5, 5)); // direct hit
+
+        Tank tank = new Tank();
+        tank.setCoords(new Coords(6, 5)); // distance 1, within radius 2
+
+        HeroSquad squad = new HeroSquad.Builder()
+            .addHero(dwarf)
+            .addHero(tank)
+            .build();
+
+        Game game = new Game();
+        game.setHeroSquad(squad);
+
+        Mine mine = new Mine(new Coords(5, 5), 50, 2);
+        int dwarfInitialHealth = dwarf.getHealth();
+        int tankInitialHealth = tank.getHealth();
+        
+        mine.activateTrap(game);
+
+        // Dwarf takes direct hit: 150 - 50 = 100
+        assertEquals(dwarfInitialHealth - 50, dwarf.getHealth());
+        
+        // Tank takes reduced damage: 200 - 40 (50 * 80%)
+        assertEquals(tankInitialHealth - 40, tank.getHealth());
     }
 }

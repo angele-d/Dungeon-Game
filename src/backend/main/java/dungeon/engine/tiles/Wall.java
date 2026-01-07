@@ -9,4 +9,6 @@ public abstract class Wall extends Tile {
         super(coords);
     }
 
+    public abstract int getAstarValue();
+
 }

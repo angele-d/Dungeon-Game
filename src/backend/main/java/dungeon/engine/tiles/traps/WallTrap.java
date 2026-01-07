@@ -1,10 +1,40 @@
 package dungeon.engine.tiles.traps;
 
-import dungeon.engine.Coords;
+import dungeon.engine.*;
 import dungeon.engine.tiles.Trap;
+import dungeon.engine.tiles.wall.StoneWall;
 
-public class WallTrap extends Trap {
+public class WallTrap extends Trap implements TurnListener {
+    private TurnListener listener;
+
     public WallTrap(Coords coords,int damage,int area) {
         super(coords,damage, area);
+    }
+
+
+    @Override
+    public void activateTrap(Game game){
+        game.addTurnListener(this);
+    }
+
+    @Override
+    public void onNewTurn(Game game) {
+        boolean available = true;
+        for (Hero hero: game.getHeroSquad().getHeroes()) {
+            if (hero.getCoords().equals(getCoords())) {
+                available = false;
+                break;
+            }
+        }
+        if (available) {
+            Tile tile = new StoneWall(this.getCoords());
+            game.getGrid().setTile(tile);
+            game.removeTurnListener(this);
+        }
+    }
+
+    
+    public int getAstarValue(){
+        return 3;
     }
 }

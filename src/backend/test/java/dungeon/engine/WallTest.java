@@ -13,6 +13,9 @@ class WallTest {
         public TestWall(Coords coords) {
             super(coords);
         }
+        public int getAstarValue() {
+        return 0; // valeur factice pour le test
+    }
     }
 
     @Test

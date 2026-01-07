@@ -122,7 +122,9 @@ public class TerminalLauncher {
                 break;
             default:
                 break;
-        }        
+        }
+        
+        scanner.close();
     }
     public static void make_action (Grid grid, int size){
         System.out.println("Legend : S = Starting Point, T = Treasure, . = Empty tile, # = Stone Wall, @ = Wood Wall, E = Hero, W = Trap Wall, M = Mine");

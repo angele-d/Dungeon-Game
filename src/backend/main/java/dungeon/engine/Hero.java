@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HeroVisitor;
+
 public abstract class Hero {
 
     public static final int MOVE_DISTANCE = 1;
@@ -13,6 +15,11 @@ public abstract class Hero {
 
     /* --- Abstract Functions --- */
 
+    public abstract int getHealth();
+    public abstract void setHealth(int health);
+
+    public abstract int getMaxHealth();
+
     public abstract void applyDamage(int damage);
 
     public abstract void doAction();
@@ -20,6 +27,8 @@ public abstract class Hero {
     public abstract boolean isActionAvailable();
 
     public abstract void resetAction();
+
+    public abstract void accept(HeroVisitor visitor);
 
     /* --- Getters and Setters --- */
 
@@ -41,7 +50,6 @@ public abstract class Hero {
 
     public Coords move(Game game) {
         // Common movement logic for all heroes (except Healer -> see Healer.java)
-        // FIXME: Check: Implement common movement logic
         return strategy.move(game, this);
     }
 }
