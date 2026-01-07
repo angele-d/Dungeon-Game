@@ -37,21 +37,12 @@ public class HeroTest {
     }
 
     @Test
-    public void testTankActionAvailability(){
-        Tank tank = new Tank();
-        assertEquals(true, tank.isActionAvailable());
-        tank.setIsPoisoned(true);
-        tank.doAction();
-        assertEquals(false, tank.isActionAvailable());
-    }
-
-    @Test
     public void testResetAction(){
-        Healer healer = new Healer();
-        assertEquals(true, healer.isActionAvailable());
-        healer.doAction();
-        assertEquals(false, healer.isActionAvailable());
-        healer.resetAction();
-        assertEquals(true, healer.isActionAvailable());
+        Dwarf dwarf = new Dwarf();
+        assertEquals(true, dwarf.getActionAvailable());
+        dwarf.doAction();
+        assertEquals(false, dwarf.getActionAvailable());
+        dwarf.resetAction();
+        assertEquals(true, dwarf.getActionAvailable());
     }   
 }

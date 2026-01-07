@@ -2,6 +2,8 @@ package dungeon.engine;
 
 import java.util.ArrayList;
 
+import dungeon.engine.Strategies.Strategy;
+
 public class HeroSquad{ 
     private ArrayList<Hero> heroList;
 

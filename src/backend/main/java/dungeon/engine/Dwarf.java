@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HeroVisitor;
+
 public class Dwarf extends Hero {
     
     private int health;
@@ -26,6 +28,13 @@ public class Dwarf extends Hero {
         return MAX_HEALTH;
     }
 
+    public boolean getActionAvailable() {
+        return actionAvailable;
+    }
+    public void setActionAvailable(boolean status) {
+        actionAvailable = status;
+    }
+
     /* --- Functions --- */
 
     @Override
@@ -37,21 +46,16 @@ public class Dwarf extends Hero {
     }
 
     @Override
-    public boolean isActionAvailable() {
-        return actionAvailable;
-    }
-
-    @Override
     public void doAction() {
-        if(isActionAvailable()){
+        if(getActionAvailable()){
             // TODO: Implement Wall breaking action
         }
-        actionAvailable = false;
+        setActionAvailable(false);
     }
 
     @Override
     public void resetAction() {
-        actionAvailable = true;
+        setActionAvailable(true);
     }
 
     public void accept(HeroVisitor visitor) {

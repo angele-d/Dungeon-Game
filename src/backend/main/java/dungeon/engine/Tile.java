@@ -7,8 +7,18 @@ public abstract class Tile {
         this.coords = coords;
     }
 
+    /* --- Getters and Setters --- */
+
     public Coords getCoords() {
         return coords;
     }
+    public void setCoords(Coords coords) {
+        this.coords = coords;
+    }
 
+    /* --- Abstract functions --- */
+
+    public abstract int getAstarValue();
+
+    public abstract int getPlacementCost();
 }

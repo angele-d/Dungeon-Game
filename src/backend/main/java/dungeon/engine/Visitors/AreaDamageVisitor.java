@@ -1,4 +1,7 @@
-package dungeon.engine;
+package dungeon.engine.Visitors;
+
+import dungeon.engine.Coords;
+import dungeon.engine.Hero;
 
 public class AreaDamageVisitor implements HeroVisitor {
     private Coords epicenter;

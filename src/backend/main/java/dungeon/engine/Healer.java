@@ -1,5 +1,8 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HealVisitor;
+import dungeon.engine.Visitors.HeroVisitor;
+
 public class Healer extends Hero {
     
     private int health;
@@ -25,6 +28,13 @@ public class Healer extends Hero {
         return MAX_HEALTH;
     }
 
+    public boolean getActionAvailable() {
+        return false;
+    }
+    public void setActionAvailable(boolean status) {
+        // Do nothing   
+    }
+
     /* --- Functions --- */
 
     @Override
@@ -33,11 +43,6 @@ public class Healer extends Hero {
         if(health < 0){
             health = 0;
         }
-    }
-
-    @Override
-    public boolean isActionAvailable() {
-        return false;
     }
 
     @Override
@@ -58,8 +63,8 @@ public class Healer extends Hero {
     public Coords move(Game game) {
         // Healer-specific movement logic
 
-        // Classic movement
-        Coords newCoords = strategy.move(game, this);
+        // Basic movement
+        Coords newCoords = basicMove(game);
 
         // Personal healing ability
         health = Math.min(MAX_HEALTH, health + (health * PERSONAL_HEAL_PERCENTAGE) / 100);

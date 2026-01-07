@@ -8,10 +8,19 @@ import dungeon.engine.tiles.Wall;
 
 class WallTest {
 
-    // Implémentation minimale pour tester Wall
+    // Minimal implementation of Wall for testing purposes
     private static class TestWall extends Wall {
         public TestWall(Coords coords) {
             super(coords);
+        }
+        public int getAstarValue() {
+            return 0; //fake value for testing
+        }
+        public int getPlacementCost() {
+            return 0; //fake value for testing
+        }
+        public void setPlacementCost(int cost) {
+            //fake implementation for testing
         }
     }
 
@@ -20,6 +29,6 @@ class WallTest {
         Coords coords = new Coords(3, 4);
         Wall wall = new TestWall(coords);
 
-        assertNotNull(wall, "Le mur ne doit pas être null");
+        assertNotNull(wall);
     }
 }

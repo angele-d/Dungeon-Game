@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HeroVisitor;
+
 public class Tank extends Hero {
     
     private int health;
@@ -26,6 +28,13 @@ public class Tank extends Hero {
         return MAX_HEALTH;
     }
 
+    public boolean getActionAvailable() {
+        return actionAvailable;
+    }
+    public void setActionAvailable(boolean status) {
+        actionAvailable = status;
+    }
+
     /* --- Functions --- */
 
     @Override
@@ -37,19 +46,8 @@ public class Tank extends Hero {
     }
 
     @Override
-    public boolean isActionAvailable() {
-        return actionAvailable;
-    }
-
-    @Override
     public void doAction() {
-        if(isActionAvailable()){
-            // Poison Cure Action
-            if(getIsPoisoned()){
-                setIsPoisoned(false);
-                actionAvailable = false;
-            }
-        }
+        // Do Nothing, already implemented in PoisonVisitor
     }
 
     @Override
