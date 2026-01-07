@@ -16,6 +16,8 @@ public class Game {
     private int turn;
     private ArrayList<TurnListener> turnListeners;
 
+    /* --- Constructor --- */
+
     public Game() {
         this.grid = new Grid();
         this.blueprint = grid.clone();
@@ -26,6 +28,8 @@ public class Game {
         this.turn = 0;
         this.turnListeners = new ArrayList<TurnListener>();
     }
+
+    /* --- Turn Observer Methods --- */
 
     public void addTurnListener(TurnListener turnListener) {
         this.turnListeners.add(turnListener);
@@ -44,7 +48,6 @@ public class Game {
     public Grid getGrid() {
         return grid;
     }
-
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
@@ -63,7 +66,6 @@ public class Game {
     public int getScore() {
         return score;
     }
-
     public void setScore(int score) {
         this.score = score;
     }
@@ -71,7 +73,6 @@ public class Game {
     public int getMoney() {
         return money;
     }
-
     public void setMoney(int money) {
         this.money = money;
     }
@@ -126,6 +127,9 @@ public class Game {
 
     public void addScore(int points) {
         this.score += points;
+    }
+    public void removeScore(int points) {
+        this.score -= points;
     }
 
     public void subMoney(int amount) {

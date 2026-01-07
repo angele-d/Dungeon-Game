@@ -1,5 +1,10 @@
 package dungeon.engine;
 
+import java.util.ArrayList;
+
+import dungeon.engine.Observers.GameEvent;
+import dungeon.engine.Observers.GameEventType;
+import dungeon.engine.Observers.GameObserver;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
 
@@ -10,6 +15,9 @@ public abstract class Hero {
     public boolean isPoisoned = false;
     public Coords coords;
     public Strategy strategy;
+    public ArrayList<GameObserver> gameObservers = new ArrayList<>();
+
+    /* --- Constructor --- */
 
     public Hero() {
         // Common initialization for all heroes
@@ -52,6 +60,11 @@ public abstract class Hero {
 
     /* --- Functions --- */
 
+    // FIXME: Not sure it's the right place
+    public void reachTreasure(){
+        notifyObservers(new GameEvent(GameEventType.TREASURE_REACHED, this, 0));
+    }
+
     public Coords basicMove(Game game) {
         // Basic movement logic for all heroes
         Coords newCoords = strategy.move(game, this);
@@ -68,5 +81,18 @@ public abstract class Hero {
 
     public Coords move(Game game) {
         return basicMove(game);
+    }
+
+    /* --- GameObserver methods --- */
+
+    public void addObserver(GameObserver observer) {
+        if(!gameObservers.contains(observer))
+            gameObservers.add(observer);
+    }
+
+    protected void notifyObservers(GameEvent event) {
+        for(GameObserver observer : gameObservers){
+            observer.update(event);
+        }
     }
 }

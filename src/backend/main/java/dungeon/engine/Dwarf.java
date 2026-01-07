@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Observers.GameEvent;
+import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
 public class Dwarf extends Hero {
@@ -40,8 +42,10 @@ public class Dwarf extends Hero {
     @Override
     public void applyDamage(int damage) {
         health -= damage;
+        notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
         if (health < 0) {
             health = 0;
+            notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
     }
 
