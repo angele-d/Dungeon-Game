@@ -22,6 +22,14 @@ public class GameController {
         return Map.of("message", "Hello World!");
     }
 
+    @MessageMapping("/new_game")
+    @SendTo("/topic/new_game")
+    public Map<String, String> newGame(Map<String, String> payload) {
+        Game new_game = GameEngine.getInstance().newGame();
+        Map<String, String> result = GameEngine.getInstance().getGameStats(new_game.getId());
+        return result;
+    }
+
     @MessageMapping("/place_tile")
     @SendTo("/topic/tile_placed")
     public Map<String, String> place_tile(Map<String, String> payload) {

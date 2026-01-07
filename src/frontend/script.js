@@ -1,4 +1,5 @@
-let size = 10;
+import { game_config } from "./game_config.js";
+let { size } = game_config;
 
 function generateGrid() {
   /**
@@ -6,20 +7,23 @@ function generateGrid() {
    * Parameters: None
    * Returns: None
    */
+  const gridElement = document.querySelector(".grid");
+  gridElement.innerHTML = "";
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement("div");
       cell.classList.add(
+        "empty",
         "w-12",
         "h-12",
         "border",
         "border-[#1e2d36]",
         "grid-cell"
       );
-      cell.dataset.row = i;
-      cell.dataset.col = j;
+      cell.dataset.x = "" + i;
+      cell.dataset.y = "" + j;
       cell.addEventListener("click", () => selectGridCell(cell));
-      document.querySelector(".grid").appendChild(cell);
+      gridElement.appendChild(cell);
     }
   }
 }
@@ -30,9 +34,6 @@ import config from "./money_config.js";
 /**
  * Element selection and placement logic
  */
-
-let treasurePlaced = false;
-let spawnPlaced = false;
 
 let selectedElement = null;
 let selectedDOM = null;
@@ -60,13 +61,13 @@ function selectionPossible(elt) {
   if (!elt) return;
 
   if (
-    (elt.classList != "w-12 h-12 border border-[#1e2d36] grid-cell" &&
+    (Array.from(elt.classList).indexOf("empty") == -1 &&
       selectedElement != "eraser") ||
-    (elt.classList == "w-12 h-12 border border-[#1e2d36] grid-cell" &&
+    (Array.from(elt.classList).indexOf("empty") != -1 &&
       selectedElement == "eraser") ||
     !canAfford(config[selectedElement]) ||
-    (selectedElement == "treasure" && treasurePlaced) ||
-    (selectedElement == "spawn" && spawnPlaced)
+    (selectedElement == "treasure" && window.treasurePlaced) ||
+    (selectedElement == "spawn" && window.spawnPlaced)
   ) {
     elt.classList.add("not-allowed-cell");
   }
@@ -102,118 +103,17 @@ function selectGridCell(cell) {
       parseInt(folds.textContent.slice(1)) + 1
     )}`;
   }
-  switch (selectedElement) {
-    case "wood-wall":
-      cell.classList.add(
-        "wood-wall",
-        "bg-[#3d2e24]",
-        "relative",
-        "border-amber-900/30"
-      );
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-amber-700");
-      innerSpan.textContent = "door_front";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center",
-        "opacity-40"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      break;
-    case "stone-wall":
-      cell.classList.add("stone-wall", "bg-[#2a3f4a]", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-slate-400");
-      innerSpan.textContent = "fort";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center",
-        "opacity-40"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      break;
-    case "spike":
-      cell.classList.add("spike", "bg-[#4a1e1e]", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-red-700");
-      innerSpan.textContent = "dangerous";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center",
-        "opacity-40"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      break;
-    case "eraser":
-      let keys = Object.keys(config);
-      let erased = Array.from(cell.classList).filter(
-        (elt) => keys.indexOf(elt) != -1
-      );
-      deductMoney(-config[erased]);
-      let folds = document
-        .querySelector(".cell#" + erased)
-        .querySelector(".folds");
-      if (folds) {
-        folds.textContent = `x${make2digits(
-          Math.max(0, parseInt(folds.textContent.slice(1)) - 1)
-        )}`;
-      }
 
-      if (erased == "treasure") treasurePlaced = false;
-      if (erased == "spawn") spawnPlaced = false;
-
-      cell.innerHTML = "";
-      cell.className = "w-12 h-12 border border-[#1e2d36] grid-cell";
-      break;
-    case "spawn":
-      cell.classList.add("spawn", "bg-black", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-white");
-      innerSpan.textContent = "skull";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      spawnPlaced = true;
-      break;
-    case "treasure":
-      cell.classList.add("treasure", "bg-[#3a612c]", "relative");
-      innerSpan = document.createElement("span");
-      innerSpan.classList.add("material-symbols-outlined", "text-yellow-400");
-      innerSpan.textContent = "savings";
-      innerDiv = document.createElement("div");
-      innerDiv.classList.add(
-        "absolute",
-        "inset-0",
-        "flex",
-        "items-center",
-        "justify-center"
-      );
-      innerDiv.appendChild(innerSpan);
-      cell.appendChild(innerDiv);
-      treasurePlaced = true;
-      break;
+  if (selectedElement == "eraser") {
+    sendAddElement(stompClient, "0", "empty", cell.dataset.x, cell.dataset.y);
+  } else {
+    sendAddElement(
+      stompClient,
+      "0",
+      selectedElement,
+      cell.dataset.x,
+      cell.dataset.y
+    );
   }
 }
 
@@ -231,13 +131,43 @@ document.addEventListener("pointerdown", (event) => {
 });
 
 /**
- * Initialize the grid and set up event listeners on DOM content loaded
+ * IA change
  */
+
+function onSelectAIChange(elt) {
+  /**
+   * Handles the change of AI from the dropdown menu
+   * Parameters:
+   * elt - The DOM element of the select dropdown
+   * Returns: None
+   */
+  sendChangeAI(stompClient, "0", elt.value);
+}
+
+function changeAI(ai) {
+  window.ai = ai;
+}
+
+/**
+ * Initialize the grid, connect to server and set up event listeners on DOM content loaded
+ */
+
+import {
+  getClient,
+  connectClient,
+  sendAddElement,
+  sendChangeAI,
+  sendLaunchGame,
+  sendNextStep,
+} from "./connection.js";
+
+let stompClient;
 
 document.addEventListener("DOMContentLoaded", () => {
   generateGrid();
   updateMoneyDisplay();
-
+  stompClient = getClient();
+  connectClient(stompClient);
   document.querySelectorAll("div.cell").forEach((element) => {
     element.addEventListener("click", () => {
       addElement(element);
@@ -252,4 +182,19 @@ document.addEventListener("DOMContentLoaded", () => {
       cell.classList.remove("not-allowed-cell");
     });
   });
+
+  document.querySelector("#ai-menu").value = "BFS";
+  document.querySelector("#ai-menu").addEventListener("change", (event) => {
+    onSelectAIChange(event.target);
+  });
+
+  document.querySelector("#next-button").addEventListener("click", () => {
+    if (window.gameLaunched) {
+      sendNextStep(stompClient, "0");
+    } else {
+      sendLaunchGame(stompClient, "0");
+    }
+  });
 });
+
+export { selectionPossible, selectGridCell };
