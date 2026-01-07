@@ -80,7 +80,7 @@ public class Game {
             Tile currentTile = this.grid.getTile(hero.getCoords());
             if (currentTile instanceof Trap) {
                 //FIXME: To check when Trap class is finished
-                ((Trap) currentTile).process());
+//                ((Trap) currentTile).process(heroSquad));
             }
         }
     }
