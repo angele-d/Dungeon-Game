@@ -45,6 +45,9 @@ public class GameEngine {
                 case "treasure":
                     tile = new Treasure(coords);
                     break;
+                case "startingpoint":
+                    tile = new StartingPoint(coords);
+                    break;
                 case "woodwall":
                     tile = new WoodWall(coords);
                     break;

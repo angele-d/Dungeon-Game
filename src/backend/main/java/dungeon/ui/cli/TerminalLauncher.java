@@ -2,12 +2,14 @@ package dungeon.ui.cli;
 
 import dungeon.engine.Coords;
 import dungeon.engine.HeroSquad;
+import dungeon.engine.SaveManager;
 import dungeon.engine.Hero;
 import dungeon.engine.GameEngine;
 import dungeon.engine.Game;
 import dungeon.engine.Grid;
 import dungeon.engine.Tile;
 import java.util.Scanner;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -16,8 +18,11 @@ public class TerminalLauncher {
         Scanner scanner = new Scanner(System.in);
         Game game = GameEngine.getInstance().newGame();
         int ID = game.getId();
+        int startingPointPassage = 0;
+        int treasurePointPassage = 0;
+
         int size_grid = game.getGrid().getSize();
-        List<String> legend = List.of("#", "@", "W", "M");
+        List<String> legend = List.of("S","T","#", "@", "W", "M");
         List<String> name_cases = List.of("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E");
         System.out.println("============== Welcome in the Dungeon ! ==============");
         System.out.println("\n");
@@ -31,7 +36,13 @@ public class TerminalLauncher {
         int strategy_AI = 0;
         while (strategy == 0) {
             System.out.print("Give the indicated AI strategy : ");
-            strategy_AI = scanner.nextInt();
+            String strat = scanner.next();
+            try {
+                strategy_AI = Integer.parseInt(strat); // Essaie de convertir en entier
+            } catch (NumberFormatException e) {
+                System.out.println("Veuillez entrer un nombre entre 1 et 3 !");
+                continue; // recommence la boucle
+            }
             if (strategy_AI > 0 && strategy_AI < 4){
                 strategy = 1;
             }
@@ -48,13 +59,24 @@ public class TerminalLauncher {
 
         make_action(game,size_grid);
 
+        int S_x = -1;
+        int S_y = -1;
+        int T_x = -1;
+        int T_y = -1;
+
         while (end_action == 0){
 
             game = GameEngine.getInstance().getGame(game.getId());
             int action = 0;
             while (action == 0) {
                 System.out.print("Do an action : ");
-                action_player = scanner.nextInt();
+                String input = scanner.next();  // Lis n'importe quoi
+                try {
+                    action_player = Integer.parseInt(input); // Essaie de convertir en entier
+                } catch (NumberFormatException e) {
+                    System.out.println("Veuillez entrer un nombre entre 1 et 6 !");
+                    continue; // recommence la boucle
+                }
                 if (action_player > 0 && action_player < 7){
                     action = 1;
                 }
@@ -69,11 +91,23 @@ public class TerminalLauncher {
                     int choice = 0;
                     int choice_coord = 0;
                     String action_object = "";
+    
                     while (choice == 0) {
                         System.out.print("What do you want to place ? ");
                         action_object = scanner.next();
                         if (legend.contains(action_object)){
-                            choice = 1;
+                            if (!(startingPointPassage == 1 && action_object.equals("S")) && !(treasurePointPassage == 1 && action_object.equals("T"))){
+                                if(action_object.equals("S")){
+                                    startingPointPassage = 1;
+                                }
+                                if(action_object.equals("T")){
+                                    treasurePointPassage = 1;
+                                }
+                                choice = 1;
+                            } else {
+                                System.out.print("You cannot place two treasures or two starting points...");
+                            }
+                            
                         }
                     }
                     String pos_object_x = "";
@@ -87,7 +121,23 @@ public class TerminalLauncher {
                             pos_object_x = convertButton(pos_object_x);
                             pos_object_y = convertButton(pos_object_y);
                         }
+                        
                     }
+                    if(action_object.equals("S")){
+                        S_x = Integer.parseInt(pos_object_x);
+                        S_y = Integer.parseInt(pos_object_y);
+                    }
+                    if(action_object.equals("T")){
+                        T_x = Integer.parseInt(pos_object_x);
+                        T_y = Integer.parseInt(pos_object_y);
+                    }
+                    if((new Coords(S_x,S_y)).equals(new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y))) && !(action_object.equals("S"))){
+                        startingPointPassage = 0;
+                    }
+                    if((new Coords(T_x,T_y)).equals(new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y))) && !(action_object.equals("T"))){
+                        treasurePointPassage = 0;
+                    }
+                    
                     // TODO: Money
                     GameEngine.getInstance().placeTile(ID, new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y)) , getTypeObject(action_object));
                     game = GameEngine.getInstance().getGame(game.getId());
@@ -113,15 +163,25 @@ public class TerminalLauncher {
                     print_grid(game, size_grid);
                     break;
                 case 3:
-                    // TODO : Save the game
+                    try {
+                        SaveManager.save(game);
+                    } catch (IOException e) {
+                        System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
+                    }
                     System.out.println("I save your game !");
                     break;
                 case 4:
                     // TODO : Check if the game exists and load the game
+                    // load(game, )
                     System.out.println("Your game is ready ! ");
                     break;
                 case 5:
-                    end_action = 1;
+                    if (startingPointPassage > 0 && treasurePointPassage > 0){
+                        end_action = 1;
+                    } else {
+                        System.out.print("You must have a starting point and a treasure...");
+                    }
+                    
                     break; 
                 case 6:
                     end_action = 1;
@@ -207,6 +267,7 @@ public class TerminalLauncher {
             System.out.println("===================== Round " + round + " ! =====================");
             if(end == 0 && round == 3){ // TODO: Finish Game : Print score, print finish
                 end = 1;
+                System.out.println("This is the end !");
             } else {
                 GameEngine.getInstance().nextTurn(game.getId());
                 print_grid(game, size);
@@ -236,6 +297,10 @@ public class TerminalLauncher {
 
     public static String getTypeObject(String action_object){
         switch (action_object) {
+            case "S":
+                return "startingpoint";
+            case "T":
+                return "treasure";
             case "#":
                 return "stonewall";
             case "@":
