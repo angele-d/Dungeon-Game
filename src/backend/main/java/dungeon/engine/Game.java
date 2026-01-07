@@ -35,6 +35,9 @@ public class Game {
     public HeroSquad getHeroSquad() {
         return heroSquad;
     }
+    public void setHeroSquad(HeroSquad heroSquad) {
+        this.heroSquad = heroSquad;
+    }
 
     public int getScore() {
         return score;
