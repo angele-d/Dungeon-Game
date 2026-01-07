@@ -57,7 +57,8 @@ public class Healer extends Hero {
     @Override
     public Coords move(Game game) {
         // Healer-specific movement logic
-        // FIXME: Check: Copy Paste from Hero
+
+        // Classic movement
         Coords newCoords = strategy.move(game, this);
 
         // Personal healing ability

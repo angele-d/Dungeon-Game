@@ -48,7 +48,6 @@ public abstract class Hero {
 
     public Coords move(Game game) {
         // Common movement logic for all heroes (except Healer -> see Healer.java)
-        // FIXME: Check: Implement common movement logic
         return strategy.move(game, this);
     }
 }
