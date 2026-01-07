@@ -12,11 +12,11 @@ import java.util.List;
 
 
 public class TerminalLauncher {
-    public static final int SIZE_GRID = 15;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Game game = GameEngine.getInstance().newGame();
         int ID = game.getId();
+        int size_grid = game.getGrid().getSize();
         List<String> legend = List.of("#", "@", "W", "M");
         List<String> name_cases = List.of("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E");
         System.out.println("============== Welcome in the Dungeon ! ==============");
@@ -46,7 +46,7 @@ public class TerminalLauncher {
         int end_action = 0;
         int action_player = 3;
 
-        make_action(game,SIZE_GRID);
+        make_action(game,size_grid);
 
         while (end_action == 0){
 
@@ -91,7 +91,7 @@ public class TerminalLauncher {
                     // TODO: Money
                     GameEngine.getInstance().placeTile(ID, new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y)) , getTypeObject(action_object));
                     game = GameEngine.getInstance().getGame(game.getId());
-                    print_grid(game, SIZE_GRID);
+                    print_grid(game, size_grid);
                     break;
                 case 2:
                     int choice_delete = 0;
@@ -110,7 +110,7 @@ public class TerminalLauncher {
                     // TODO: Money
                     GameEngine.getInstance().placeTile(ID, new Coords(Integer.parseInt(pos_object_delete_x),Integer.parseInt(pos_object_delete_y)) , "empty");
                     game = GameEngine.getInstance().getGame(game.getId());
-                    print_grid(game, SIZE_GRID);
+                    print_grid(game, size_grid);
                     break;
                 case 3:
                     // TODO : Save the game
@@ -134,7 +134,7 @@ public class TerminalLauncher {
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                execute_game(game);
+                execute_game(game,size_grid);
                 break;
             case 6:
                 // TODO : Print Score
@@ -200,7 +200,7 @@ public class TerminalLauncher {
         return line_completed;
     }
 
-    public static void execute_game(Game game) {
+    public static void execute_game(Game game, int size) {
         int end = 0;
         int round = 1;
         while (end == 0){
@@ -209,7 +209,7 @@ public class TerminalLauncher {
                 end = 1;
             } else {
                 GameEngine.getInstance().nextTurn(game.getId());
-                print_grid(game, SIZE_GRID);
+                print_grid(game, size);
                 sleepHalfSecond();
             }
             round ++;
@@ -228,7 +228,7 @@ public class TerminalLauncher {
                 return "13";
             case "E":
                 return "14";
-
+        
             default:
                 return thing;
         }
