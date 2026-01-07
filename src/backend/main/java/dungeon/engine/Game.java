@@ -92,8 +92,8 @@ public class Game {
 
     /* --- Game Methods --- */
     public void startNewGame() {
-        this.grid = new Grid();
         blueprint = grid.clone();
+//        this.grid = new Grid();
         this.heroSquad = new HeroSquad();
         this.score = 0;
         this.money = 500;
