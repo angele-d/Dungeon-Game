@@ -22,7 +22,6 @@ function onConnect(stompClient, frame) {
   sendCreateGame(stompClient);
 
   stompClient.subscribe("/topic/tile_placed", function (message) {
-    console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
     let grid = payload["grid"];
     let gridData = JSON.parse(grid);
@@ -30,16 +29,13 @@ function onConnect(stompClient, frame) {
   });
 
   stompClient.subscribe("/topic/ai_changed", function (message) {
-    console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    let msg = payload["message"];
-    if (msg["result"] === false) {
+    if (payload["result"] === false) {
       alert("AI change failed on server.");
     }
   });
 
   stompClient.subscribe("/topic/game_launched", function (message) {
-    console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
     let grid = payload["grid"];
     let gridData = JSON.parse(grid);
@@ -48,7 +44,6 @@ function onConnect(stompClient, frame) {
   });
 
   stompClient.subscribe("/topic/step_result", function (message) {
-    console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
     let grid = payload["grid"];
     let gridData = JSON.parse(grid);
