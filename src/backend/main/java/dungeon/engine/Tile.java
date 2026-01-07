@@ -19,4 +19,6 @@ public abstract class Tile {
     /* --- Abstract functions --- */
 
     public abstract int getAstarValue();
+
+    public abstract int getPlacementCost();
 }
