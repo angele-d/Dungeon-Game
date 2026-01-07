@@ -7,4 +7,9 @@ public class WoodWall extends Wall {
     public WoodWall(Coords coords) {
         super(coords);
     }
+
+    @Override
+    public String toString() {
+        return "woodwall";
+    }
 }

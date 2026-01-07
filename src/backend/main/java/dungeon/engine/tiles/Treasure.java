@@ -7,4 +7,9 @@ public class Treasure extends Tile {
     public Treasure(Coords coords) {
         super(coords);
     }
+
+    @Override
+    public String toString() {
+        return "treasure";
+    }
 }

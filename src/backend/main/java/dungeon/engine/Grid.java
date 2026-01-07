@@ -1,6 +1,7 @@
 package dungeon.engine;
 
 import dungeon.engine.tiles.Empty;
+import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,11 @@ public class Grid {
             }
         }
     }
+
+//    @Override
+//    public String toString() {
+//        return "";
+//    }
 
     public Tile getTile(Coords coords) {
         return this.grid.get(coords);
@@ -55,5 +61,18 @@ public class Grid {
             newGrid.setTile(entry.getValue());
         }
         return newGrid;
+    }
+
+    public ArrayList serialized() {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for (int col = 0; col < SIZE; col++) {
+            ArrayList<String> grid_row = new ArrayList<>();
+            for (int row = 0; row < SIZE; row++) {
+                Tile tile = this.grid.get(new Coords(col, row));
+                grid_row.add(tile.toString());
+            }
+            result.add(grid_row);
+        }
+        return result;
     }
 }
