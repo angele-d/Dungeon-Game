@@ -13,9 +13,23 @@ function updateGrid(gridData) {
   grid.innerHTML = "";
   let innerSpan, innerDiv;
 
+  let folds = new Map([
+    ["woodwall", 0],
+    ["stonewall", 0],
+    ["spike", 0],
+    ["spawn", 0],
+    ["treasure", 0],
+  ]);
+
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement("div");
+
+      // Count elements for sidebar display
+      if (folds.has(gridData[i][j])) {
+        folds.set(gridData[i][j], folds.get(gridData[i][j]) + 1);
+      }
+
       switch (gridData[i][j]) {
         case "empty":
           cell.classList.add(
@@ -153,6 +167,14 @@ function updateGrid(gridData) {
       });
     }
   }
+
+  // Update sidebar folds
+  folds.forEach((count, elementType) => {
+    const sidebarElement = document
+      .getElementById(elementType)
+      .querySelector(".folds");
+    sidebarElement.textContent = `x${count}`;
+  });
 }
 
 import { heroPawns } from "./heroPawns.js";

@@ -28,7 +28,7 @@ function generateGrid() {
   }
 }
 
-import { canAfford, deductMoney, updateMoneyDisplay } from "./moneyManager.js";
+import { canAfford } from "./moneyManager.js";
 import config from "./money_config.js";
 
 /**
@@ -96,13 +96,12 @@ function selectGridCell(cell) {
   )
     return;
   let innerSpan, innerDiv;
-  deductMoney(config[selectedElement]);
-  let folds = selectedDOM.querySelector(".folds");
-  if (folds) {
-    folds.textContent = `x${make2digits(
-      parseInt(folds.textContent.slice(1)) + 1
-    )}`;
-  }
+  // let folds = selectedDOM.querySelector(".folds");
+  // if (folds) {
+  //   folds.textContent = `x${make2digits(
+  //     parseInt(folds.textContent.slice(1)) + 1
+  //   )}`;
+  // }
 
   if (selectedElement == "eraser") {
     sendAddElement(stompClient, "0", "empty", cell.dataset.x, cell.dataset.y);
@@ -165,7 +164,6 @@ let stompClient;
 
 document.addEventListener("DOMContentLoaded", () => {
   generateGrid();
-  updateMoneyDisplay();
   stompClient = getClient();
   connectClient(stompClient);
   document.querySelectorAll("div.cell").forEach((element) => {

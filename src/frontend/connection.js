@@ -1,3 +1,4 @@
+import { updateMoneyDisplay } from "./moneyManager.js";
 import { updateGrid, updateHeroes } from "./updateGame.js";
 
 function getClient() {
@@ -15,8 +16,12 @@ function onConnect(stompClient, frame) {
   console.log("Connected: " + frame);
 
   stompClient.subscribe("/topic/new_game", function (message) {
-    console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
+    let grid = payload["grid"];
+    let gridData = JSON.parse(grid);
+    updateGrid(gridData);
+    window.money = parseInt(payload["money"]);
+    updateMoneyDisplay(payload["money"]);
   });
 
   sendCreateGame(stompClient);
@@ -26,6 +31,8 @@ function onConnect(stompClient, frame) {
     let grid = payload["grid"];
     let gridData = JSON.parse(grid);
     updateGrid(gridData);
+    window.money = parseInt(payload["money"]);
+    updateMoneyDisplay(payload["money"]);
   });
 
   stompClient.subscribe("/topic/ai_changed", function (message) {
