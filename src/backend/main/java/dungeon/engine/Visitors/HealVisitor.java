@@ -1,4 +1,7 @@
-package dungeon.engine;
+package dungeon.engine.Visitors;
+
+import dungeon.engine.Healer;
+import dungeon.engine.Hero;
 
 public class HealVisitor implements HeroVisitor {
     private static final int ZONE_HEAL_PERCENTAGE = 10; // Percentage of health to heal for allies

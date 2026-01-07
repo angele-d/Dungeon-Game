@@ -1,5 +1,8 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HealVisitor;
+import dungeon.engine.Visitors.HeroVisitor;
+
 public class Healer extends Hero {
     
     private int health;

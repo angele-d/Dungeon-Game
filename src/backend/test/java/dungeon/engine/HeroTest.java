@@ -47,11 +47,11 @@ public class HeroTest {
 
     @Test
     public void testResetAction(){
-        Healer healer = new Healer();
-        assertEquals(true, healer.isActionAvailable());
-        healer.doAction();
-        assertEquals(false, healer.isActionAvailable());
-        healer.resetAction();
-        assertEquals(true, healer.isActionAvailable());
+        Dwarf dwarf = new Dwarf();
+        assertEquals(true, dwarf.isActionAvailable());
+        dwarf.doAction();
+        assertEquals(false, dwarf.isActionAvailable());
+        dwarf.resetAction();
+        assertEquals(true, dwarf.isActionAvailable());
     }   
 }

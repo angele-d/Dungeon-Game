@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HeroVisitor;
+
 public abstract class Hero {
 
     public static final int MOVE_DISTANCE = 1;

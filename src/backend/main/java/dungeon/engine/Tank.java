@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HeroVisitor;
+
 public class Tank extends Hero {
     
     private int health;
