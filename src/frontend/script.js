@@ -187,6 +187,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#ai-menu").addEventListener("change", (event) => {
     onSelectAIChange(event.target);
   });
+
+  document.querySelector("#next-button").addEventListener("click", () => {
+    if (window.gameLaunched) {
+      sendNextStep(stompClient, "0");
+    } else {
+      sendLaunchGame(stompClient, "0");
+    }
+  });
 });
 
 export { selectionPossible, selectGridCell };

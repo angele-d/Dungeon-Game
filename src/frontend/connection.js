@@ -40,7 +40,11 @@ function onConnect(stompClient, frame) {
     let grid = payload["grid"];
     let gridData = JSON.parse(grid);
     updateGrid(gridData);
-    updateHeroes(payload["heroes"]);
+    let heroes = payload["heroes"];
+    let heroesData = JSON.parse(heroes);
+    updateHeroes(heroesData);
+    document.querySelector("#next-button").textContent = "Next Turn";
+    window.gameLaunched = true;
   });
 
   stompClient.subscribe("/topic/step_result", function (message) {
@@ -48,7 +52,9 @@ function onConnect(stompClient, frame) {
     let grid = payload["grid"];
     let gridData = JSON.parse(grid);
     updateGrid(gridData);
-    updateHeroes(payload["heroes"]);
+    let heroes = payload["heroes"];
+    let heroesData = JSON.parse(heroes);
+    updateHeroes(heroesData);
   });
 }
 
