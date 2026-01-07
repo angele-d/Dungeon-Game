@@ -82,6 +82,9 @@ public class GameEngine {
             case "DFS":
                 strategy = new DFSStrategy();
                 break;
+            case "Astar":
+                strategy = new AstarStrategy();
+                break;
             default:
                 strategy = new BFSStrategy();
                 break;
