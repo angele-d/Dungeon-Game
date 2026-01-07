@@ -3,20 +3,28 @@ package dungeon.engine;
 public class TheMemeMaker extends Hero {
     
     private int health;
+    private static final int MAX_HEALTH = 150;
 
     public TheMemeMaker() {
         super();
-        health = 150;
+        health = MAX_HEALTH;
         // TheMemeMaker-specific initialization
     }
+
+    /* --- Getters and Setters --- */
 
     public int getHealth() {
         return health;
     }
-
     public void setHealth(int health) {
         this.health = health;
     }
+
+    public int getMaxHealth() {
+        return MAX_HEALTH;
+    }
+
+    /* --- Functions --- */
 
     @Override
     public void applyDamage(int damage) {
@@ -39,5 +47,9 @@ public class TheMemeMaker extends Hero {
     @Override
     public void resetAction() {
         // No action to reset
+    }
+
+    public void accept(HeroVisitor visitor) {
+        visitor.visit(this);
     }
 }
