@@ -1,6 +1,7 @@
 package dungeon.ui.web;
 
 import dungeon.engine.Coords;
+import dungeon.engine.Game;
 import dungeon.engine.GameEngine;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ public class GameController {
     @SendTo("/topic/game_launched")
     public Map<String, String> launch_game(Map<String, String> payload) {
         String id = payload.get("id");
-        Map<String, String> result = GameEngine.getInstance().launchGame(Integer.parseInt(id));
+        Map<String, String> result = GameEngine.getInstance().startSimulation(Integer.parseInt(id));
         return result;
     }
 

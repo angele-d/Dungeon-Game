@@ -5,7 +5,6 @@ import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +81,7 @@ public class GameEngine {
         return Map.of("result", "true");
     }
 
-    public Map<String, String> launchGame(Integer game_id) {
+    public Map<String, String> startSimulation(Integer game_id) {
         Game game = games.get(game_id);
         if (game != null) {
             game.startNewGame();
@@ -90,6 +89,21 @@ public class GameEngine {
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heros", game.getHeroSquad().serialized().toString());
+        return result;
+    }
+
+    public Game newGame() {
+        Game game = new Game();
+        games.put(1, game);
+        return game;
+    }
+
+    public Map<String, String> getGameStats(int gameId) {
+        Map<String, String> result = new HashMap<String, String>();
+        Game game = games.get(gameId);
+        result.put("grid", game.getGrid().serialized().toString());
+        result.put("heros", game.getHeroSquad().serialized().toString());
+        result.put("money", Integer.toString(game.getMoney()));
         return result;
     }
 
