@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Visitors.HeroVisitor;
+
 public class TheMemeMaker extends Hero {
     
     private int health;
