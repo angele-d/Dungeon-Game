@@ -7,12 +7,15 @@ import dungeon.engine.Game;
 import dungeon.engine.Hero;
 
 public class Mine extends Trap {
-    
+
     private int placementCost = 100; // FIXME: Change placementCost value
     private int aStarValue = 5;
 
     /* --- Constructor --- */
-    
+    public Mine(Coords coords) {
+        super(coords, 50, 2);
+    }
+
     public Mine(Coords coords,int damage,int areaRadius) {
         super(coords, damage, areaRadius);
     }
@@ -39,5 +42,10 @@ public class Mine extends Trap {
         for(Hero hero : game.getHeroSquad().getHeroes()){
             hero.accept(areaDamageVisitor);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "mine";
     }
 }

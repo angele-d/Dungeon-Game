@@ -10,9 +10,17 @@ public class WallTrap extends Trap implements TurnListener {
     private int aStarValue = 3;
 
     /* --- Constructor --- */
+    public WallTrap(Coords coords) {
+        super(coords,10, 1);
+    }
 
     public WallTrap(Coords coords,int damage,int area) {
         super(coords,damage, area);
+    }
+
+    @Override
+    public String toString() {
+        return "walltrap";
     }
 
     /* --- Getters and Setters --- */
