@@ -19,6 +19,7 @@
 
 ### Followup
 
+* Liaison entre le CLI et le GameEngine 
 * **Meme Maker** : Paul
 * Implémentation de l'action du Dwarf (casser mur en bois): Non assignée
 * Ajout des icônes supplémentaires sur l'interface: Kévin
