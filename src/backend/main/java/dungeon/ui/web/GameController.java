@@ -1,10 +1,8 @@
-package dungeon;
+package dungeon.ui.web;
 
 import dungeon.engine.Coords;
 import dungeon.engine.GameEngine;
-import dungeon.engine.Grid;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -25,36 +23,37 @@ public class GameController {
 
     @MessageMapping("/place_tile")
     @SendTo("/topic/tile_placed")
-    public Map<String, String> hello(Map<String, String> payload) {
+    public Map<String, String> place_tile(Map<String, String> payload) {
         String id = payload.get("id");
         String type = payload.get("tile_type");
         String col = payload.get("col");
         String row = payload.get("row");
-        Grid result = GameEngine.getInstance().placeTile(Integer.parseInt(id), new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
+        Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id), new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
         return result;
     }
 
     @MessageMapping("/launch_game")
     @SendTo("/topic/game_launched")
-    public Map<String, String> hello(Map<String, String> payload) {
+    public Map<String, String> launch_game(Map<String, String> payload) {
         String id = payload.get("id");
-        //TODO send {"grid":[[]], "heroes": list[tuple[type, col, row, hp]]}
-        return Map.of("message", "Hello World!");
+        Map<String, String> result = GameEngine.getInstance().launchGame(Integer.parseInt(id));
+        return result;
     }
 
     @MessageMapping("/next_step")
     @SendTo("/topic/step_result")
-    public Map<String, String> hello(Map<String, String> payload) {
+    public Map<String, String> next_step(Map<String, String> payload) {
         String id = payload.get("id");
-        //TODO send grid, list[tuple[type, col, row, health]]
-        return Map.of("message", "Hello World!");
+        Map<String, String> result = GameEngine.getInstance().nextTurn(Integer.parseInt(id));
+        return result;
     }
 
     @MessageMapping("/change_ai")
     @SendTo("/topic/ai_changed")
-    public Map<String, String> hello(Map<String, String> payload) {
+    public Map<String, String> change_ai(Map<String, String> payload) {
         String id = payload.get("id");
-        //TODO send "result" sucess
-        return Map.of("message", "Hello World!");
+        String type = payload.get("ai");
+        Map<String, String> result = GameEngine.getInstance().changeAI(Integer.parseInt(id), type);
+        return result;
     }
 }
