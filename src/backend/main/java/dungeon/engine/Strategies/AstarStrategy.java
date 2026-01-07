@@ -1,10 +1,9 @@
-package dungeon.engine.strategies;
+package dungeon.engine.Strategies;
 
 import dungeon.engine.AI.Astar;
 import dungeon.engine.Coords;
 import dungeon.engine.Game;
 import dungeon.engine.Hero;
-import dungeon.engine.Strategy;
 
 public class AstarStrategy extends Strategy {
 

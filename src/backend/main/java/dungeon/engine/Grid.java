@@ -35,6 +35,10 @@ public class Grid {
         this.grid.put(tile.getCoords(), tile);
     }
 
+    public int getSize() {
+        return SIZE;
+    }
+
     public Map<Coords, Tile> getGrid() {
         return this.grid;
     }

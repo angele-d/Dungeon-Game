@@ -1,8 +1,6 @@
 package dungeon.engine;
 
-import dungeon.engine.Strategies.BFSStrategy;
-import dungeon.engine.Strategies.DFSStrategy;
-import dungeon.engine.Strategies.Strategy;
+import dungeon.engine.Strategies.*;
 import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
