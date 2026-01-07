@@ -91,6 +91,11 @@ public class GameEngine {
         return Map.of("result", "true");
     }
 
+    public Game getGame(Integer gameId) {
+        Game game = games.get(gameId);
+        return game;
+    }
+
     public Map<String, String> startSimulation(Integer game_id) {
         Game game = games.get(game_id);
         if (game != null) {
@@ -103,8 +108,9 @@ public class GameEngine {
     }
 
     public Game newGame() {
-        Game game = new Game();
-        games.put(0, game);
+        int id = 1;
+        Game game = new Game(id);
+        games.put(id, game);
         return game;
     }
 
