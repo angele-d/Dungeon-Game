@@ -53,6 +53,9 @@ public class GameEngine {
                 case "stonewall":
                     tile = new StoneWall(coords);
                     break;
+                case "poisontrap":
+                    tile = new PoisonTrap(coords);
+                    break;
                 case "mine":
                     tile = new Mine(coords);
                     break;

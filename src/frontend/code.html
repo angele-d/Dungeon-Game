@@ -66,16 +66,17 @@
     <main class="flex-1 flex overflow-hidden">
       <!-- Left Sidebar: Map Assets & Stats -->
       <aside
-        class="w-80 bg-background-dark border-r border-surface-border flex flex-col shrink-0 overflow-y-auto z-10 hidden lg:flex"
+        id="left-panel"
+        class="w-80 bg-background-dark border-r border-surface-border z-10 hidden lg:flex"
       >
-        <div class="p-5 border-b border-surface-border">
+        <div id="editor-panel" class="p-5 border-b border-surface-border">
           <h3
             class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2"
           >
             <span class="material-symbols-outlined text-sm">inventory_2</span>
             Grid Overview
           </h3>
-          <div class="space-y-3">
+          <div class="space-y-3" id="editor-assets">
             <!-- Stat Card -->
              <div
               id="eraser"
@@ -136,7 +137,7 @@
                 >x00</span
               >
             </div>
-            <div
+            <!-- <div
               id="spike"
               class="cell bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default"
             >
@@ -150,6 +151,69 @@
                   <span class="text-sm font-bold text-white">Spike Trap</span>
                   <span class="text-xs text-slate-400">Damage: 15</span>
                   <span class = "text-xs text-slate-400">Price : $100</span>
+                </div>
+              </div>
+              <span
+                class="folds bg-surface-border text-white text-xs font-bold px-2 py-1 rounded"
+                >x00</span
+              >
+            </div> -->
+            <div
+              id="poisontrap"
+              class="cell bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  class="size-10 rounded bg-red-900/30 flex items-center justify-center text-red-500"
+                >
+                  <span class="material-symbols-outlined">coronavirus</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-bold text-white">Poison Trap</span>
+                  <span class="text-xs text-slate-400">Damage over time</span>
+                  <span class = "text-xs text-slate-400">Price : $100</span>
+                </div>
+              </div>
+              <span
+                class="folds bg-surface-border text-white text-xs font-bold px-2 py-1 rounded"
+                >x00</span
+              >
+            </div>
+            <div
+              id="mine"
+              class="cell bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  class="size-10 rounded bg-red-900/30 flex items-center justify-center text-red-500"
+                >
+                  <span class="material-symbols-outlined">bomb</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-bold text-white">Mine</span>
+                  <span class="text-xs text-slate-400">Area damage</span>
+                  <span class = "text-xs text-slate-400">Price : $100</span>
+                </div>
+              </div>
+              <span
+                class="folds bg-surface-border text-white text-xs font-bold px-2 py-1 rounded"
+                >x00</span
+              >
+            </div>
+            <div
+              id="walltrap"
+              class="cell bg-surface-dark border border-surface-border rounded-lg p-3 flex justify-between items-center group hover:border-primary/50 transition-colors cursor-default"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  class="size-10 rounded bg-red-900/30 flex items-center justify-center text-red-500"
+                >
+                  <span class="material-symbols-outlined">mist</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-bold text-white">Wall Trap</span>
+                  <span class="text-xs text-slate-400">Surprise wall</span>
+                  <span class = "text-xs text-slate-400">Price : $150</span>
                 </div>
               </div>
               <span
@@ -201,7 +265,7 @@
             </div>
           </div>
         </div>
-        <div class="p-5 flex-1">
+        <div id="party-status" class="p-5">
           <h3
             class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2"
           >

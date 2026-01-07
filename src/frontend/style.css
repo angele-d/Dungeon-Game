@@ -37,6 +37,25 @@ body {
   font-family: "Space Grotesk", sans-serif;
 }
 
+header {
+  min-height: 8vh;
+}
+
+#left-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 70%) 1fr; /* top row max 50%, bottom fills rest */
+  height: 92vh;
+}
+
+#party-status {
+  overflow-y: auto; /* scroll if content exceeds row */
+}
+
+#editor-panel {
+  min-height: 0; /* allows scrolling if content overflows */
+  overflow-y: auto;
+}
+
 body.dark {
   background-color: var(--background-dark);
   color: #fff;

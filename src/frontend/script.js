@@ -118,7 +118,7 @@ function selectGridCell(cell) {
 }
 
 const grid = document.querySelector(".grid");
-const cells = document.querySelector(".space-y-3");
+const cells = document.querySelector("#editor-assets");
 
 document.addEventListener("pointerdown", (event) => {
   if (!grid.contains(event.target) && !cells.contains(event.target)) {

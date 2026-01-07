@@ -86,11 +86,45 @@ function updateGrid(gridData) {
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
           break;
-        case "spike":
-          cell.classList.add("spike", "bg-[#4a1e1e]", "relative");
+        case "poisontrap":
+          cell.classList.add("poisontrap", "bg-[#4a1e1e]", "relative");
           innerSpan = document.createElement("span");
-          innerSpan.classList.add("material-symbols-outlined", "text-red-700");
-          innerSpan.textContent = "dangerous";
+          innerSpan.classList.add("material-symbols-outlined", "text-red-500");
+          innerSpan.textContent = "coronavirus";
+          innerDiv = document.createElement("div");
+          innerDiv.classList.add(
+            "absolute",
+            "inset-0",
+            "flex",
+            "items-center",
+            "justify-center",
+            "opacity-40"
+          );
+          innerDiv.appendChild(innerSpan);
+          cell.appendChild(innerDiv);
+          break;
+        case "mine":
+          cell.classList.add("mine", "bg-[#4a1e1e]", "relative");
+          innerSpan = document.createElement("span");
+          innerSpan.classList.add("material-symbols-outlined", "text-red-500");
+          innerSpan.textContent = "bomb";
+          innerDiv = document.createElement("div");
+          innerDiv.classList.add(
+            "absolute",
+            "inset-0",
+            "flex",
+            "items-center",
+            "justify-center",
+            "opacity-40"
+          );
+          innerDiv.appendChild(innerSpan);
+          cell.appendChild(innerDiv);
+          break;
+        case "walltrap":
+          cell.classList.add("walltrap", "bg-[#4a1e1e]", "relative");
+          innerSpan = document.createElement("span");
+          innerSpan.classList.add("material-symbols-outlined", "text-red-500");
+          innerSpan.textContent = "mist";
           innerDiv = document.createElement("div");
           innerDiv.classList.add(
             "absolute",
