@@ -26,6 +26,13 @@ public class TheMemeMaker extends Hero {
         return MAX_HEALTH;
     }
 
+    public boolean getActionAvailable() {
+        return false;
+    }
+    public void setActionAvailable(boolean status) {
+        // Do nothing
+    }
+
     /* --- Functions --- */
 
     @Override
@@ -34,11 +41,6 @@ public class TheMemeMaker extends Hero {
         if(health < 0){
             health = 0;
         }
-    }
-
-    @Override
-    public boolean isActionAvailable() {
-        return false;
     }
 
     @Override
