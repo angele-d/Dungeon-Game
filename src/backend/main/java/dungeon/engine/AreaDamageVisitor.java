@@ -14,8 +14,8 @@ public class AreaDamageVisitor implements HeroVisitor {
         this.areaRadius = areaRadius;
     }
 
-    public AreaDamageVisitor(){
-        this.epicenter = new Coords(0,0);
+    public AreaDamageVisitor(Coords coords){
+        this.epicenter = coords;
         this.damage = 10;
         this.areaRadius = 1;
     }
