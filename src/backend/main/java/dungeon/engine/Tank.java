@@ -1,0 +1,61 @@
+package dungeon.engine;
+
+import dungeon.engine.Visitors.HeroVisitor;
+
+public class Tank extends Hero {
+    
+    private int health;
+    private boolean actionAvailable;
+    private static final int MAX_HEALTH = 200;
+
+    public Tank() {
+        super();
+        health = MAX_HEALTH;
+        actionAvailable = true;
+        // Tank-specific initialization
+    }
+
+    /* --- Getters and Setters --- */
+
+    public int getHealth() {
+        return health;
+    }
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return MAX_HEALTH;
+    }
+
+    public boolean getActionAvailable() {
+        return actionAvailable;
+    }
+    public void setActionAvailable(boolean status) {
+        actionAvailable = status;
+    }
+
+    /* --- Functions --- */
+
+    @Override
+    public void applyDamage(int damage) {
+        health -= damage;
+        if(health < 0){
+            health = 0;
+        }
+    }
+
+    @Override
+    public void doAction() {
+        // Do Nothing, already implemented in PoisonVisitor
+    }
+
+    @Override
+    public void resetAction() {
+        actionAvailable = true;
+    }
+
+    public void accept(HeroVisitor visitor) {
+        visitor.visit(this);
+    }
+}

@@ -112,3 +112,125 @@ Le reste des besoins proposés initialement par l'IA a été conservé sans ou a
 L'IA n'avait pas compris que le rôle "Meme Maker" est une fonctionnalité MVP, et non une extension. J'ai corrigé cela.
 
 
+---
+## Interaction #2
+
+### Contexte
+
+Création d'une maquette d'interface Web pour le projet. 
+
+### Prompt
+
+```md
+Agis en tant que Développeur Web Senior et Designer UI/UX.
+Génère une interface web complète pour le jeu "Dungeon Manager" en utilisant uniquement HTML5, CSS3 (Flexbox/Grid) et JavaScript ES6 (Vanilla, sans framework).
+
+### 1. Objectif
+Créer une interface de prototype fonctionnelle permettant de :
+- Dessiner un donjon sur une grille.
+- Visualiser les contrôles de simulation.
+- Voir les statistiques et les logs de la partie.
+
+### 2. Design Visuel (Thème Dark Fantasy)
+- Fond général : Très sombre (#1a1a2e).
+- Police : Sans-serif, moderne, lisible (ex: 'Roboto' ou 'Inter').
+- Couleurs sémantiques :
+  - Mur Pierre (Indestructible) : Gris ardoise (#64748b).
+  - Mur Bois (Destructible) : Marron bois (#854d0e).
+  - Héros : Bleu cyan (#06b6d4).
+  - Trésor : Or brillant (#f59e0b).
+  - Piège Mine : Rouge alerte (#ef4444).
+  - Piège Déclenchement : Violet sombre (#6b21a8).
+  - Sol vide : Gris foncé (#334155).
+
+### 3. Structure de la page (Layout)
+L'interface doit être divisée en 3 colonnes ou zones principales :
+
+A. Sidebar Gauche : "La Boîte à Outils"
+- Un titre "Construction".
+- Une palette de boutons radio ou boutons cliquables pour sélectionner l'outil actuel :
+  - "Sélection" (Curseur)
+  - "Mur Pierre"
+  - "Mur Bois"
+  - "Mine" (Piège)
+  - "Mur à déclenchement" (Piège)
+  - "Gomme"
+- Une section "Légende" simple montrant le code couleur.
+
+B. Zone Centrale : "Le Donjon"
+- Un Header avec le Titre du jeu et le Score actuel (ex: "Score: 0").
+- Un conteneur pour la grille (Grille dynamique générée en JS, par exemple 20x20 cases).
+- La grille doit être réactive : au survol de la souris, la case s'éclaire légèrement.
+
+C. Sidebar Droite : "Contrôle & Infos"
+- Section "Simulation" : Boutons "Start Vague", "Pause", "Reset".
+- Section "Stats Héros" : Un tableau simple listant les héros vivants, leurs PV et leur statut.
+- Section "Journal de combat" : Une zone de texte défilante (log) pour afficher les événements (ex: "Héros 1 a pris 10 dégâts").
+
+### 4. Fonctionnalités JavaScript attendues
+- Générer la grille 20x20 dynamiquement au chargement via une boucle JS.
+- Gérer le clic sur une case : La case doit changer de couleur/classe CSS selon l'outil sélectionné dans la barre de gauche.
+- Empêcher de dessiner sur les cases "Départ" (0,0) et "Trésor" (19,19) qui sont fixes.
+- Simuler l'ajout d'une ligne dans le "Journal de combat" quand on clique sur le bouton "Start Vague".
+
+### 5. Contraintes Techniques
+- Tout le code doit être contenu dans un seul fichier index.html (avec <style> et <script>) OU séparé proprement si tu préfères.
+- Utilise des variables CSS pour les couleurs.
+- Code propre, commenté et indenté.
+```
+
+### Réponse IA
+
+Voir dans `Archives/mockups/proposition_1` pour:
+- Le code source HTML/CSS/JS généré en 1 fichier
+- Une capture d'écran de la maquette générée
+
+### Décision
+
+**Modifié:**  
+- Deuxième prompt envoyé à Stitch (voir [Interaction #3](#interaction-3))
+- Mix des 2 propositions et retraitement pour dynamiser la page
+
+### Remarques
+
+L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Un mix avec un deuxième prompt a permis d'avoir un résultat plus satisfaisant.
+
+---
+## Interaction #3
+
+### Contexte
+
+Création d'une maquette d'interface Web pour le projet. 
+
+### Prompt
+
+```txt
+Fais une interface de jeu de type donjon en grille, avec des murs en pierre, bois, des pièges en trappe (représentés par une icone), des joueurs (représentés par une icone (4 max, healer, tank, nain, fou).
+
+Le design doit être épuré et inclure un bouton pour passer au tour suivant, afficher le type d'IA choisi, ainsi que l'argent restant.
+
+Il faut inclure un aperçu de ce qui est placé sur la grille, chaque tuile avec son nombre de tuile placées sur la grille.
+
+Choisis un design plutôt épuré, style new, et essaie d'utiliser du contenu material design. 
+
+Le résultat doit être en html/css/js
+```
+
+### Réponse IA
+
+Voir dans `Archives/mockups/proposition_2` pour:
+- Le code source HTML/CSS/JS généré en 1 fichier
+- Une capture d'écran de la maquette générée
+
+### Décision
+
+**Modifié:**
+- Premier prompt envoyé à Stitch (voir [Interaction #2](#interaction-2))
+- Mix des 2 propositions et retraitement pour dynamiser la page
+
+### Remarques
+
+L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Un mix avec un premier prompt a permis d'avoir un résultat plus satisfaisant.
+
+
+---
