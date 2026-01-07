@@ -1,4 +1,5 @@
-let size = 10;
+import { game_config } from "./gameConfig.js";
+const size = game_config.size;
 
 function generateGrid() {
   /**
@@ -6,6 +7,8 @@ function generateGrid() {
    * Parameters: None
    * Returns: None
    */
+  const gridElement = document.querySelector(".grid");
+  gridElement.innerHTML = "";
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement("div");
@@ -19,7 +22,7 @@ function generateGrid() {
       cell.dataset.row = i;
       cell.dataset.col = j;
       cell.addEventListener("click", () => selectGridCell(cell));
-      document.querySelector(".grid").appendChild(cell);
+      gridElement.appendChild(cell);
     }
   }
 }
@@ -215,6 +218,18 @@ function selectGridCell(cell) {
       treasurePlaced = true;
       break;
   }
+
+  if (selectedElement == "eraser") {
+    sendAddElement(stompClient, 1, "empty", cell.dataset.x, cell.dataset.y);
+  } else {
+    sendAddElement(
+      stompClient,
+      1,
+      selectedElement,
+      cell.dataset.x,
+      cell.dataset.y
+    );
+  }
 }
 
 const grid = document.querySelector(".grid");
@@ -231,13 +246,25 @@ document.addEventListener("pointerdown", (event) => {
 });
 
 /**
- * Initialize the grid and set up event listeners on DOM content loaded
+ * Initialize the grid, connect to server and set up event listeners on DOM content loaded
  */
+
+import {
+  getClient,
+  connectClient,
+  sendAddElement,
+  sendChangeAI,
+  sendLaunchGame,
+  sendStepGame,
+} from "./connection.js";
+
+let stompClient;
 
 document.addEventListener("DOMContentLoaded", () => {
   generateGrid();
   updateMoneyDisplay();
-
+  stompClient = getClient();
+  connectClient(stompClient);
   document.querySelectorAll("div.cell").forEach((element) => {
     element.addEventListener("click", () => {
       addElement(element);
