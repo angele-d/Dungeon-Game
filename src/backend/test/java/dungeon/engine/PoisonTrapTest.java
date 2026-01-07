@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dungeon.engine.tiles.traps.PoisonTrap;
 import org.junit.jupiter.api.Test;
 
-import dungeon.engine.tiles.traps.PoisonTrap;
 
 public class PoisonTrapTest {
 
