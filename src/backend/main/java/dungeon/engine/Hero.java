@@ -1,10 +1,12 @@
 package dungeon.engine;
 
+import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
 
 public abstract class Hero {
 
     public static final int MOVE_DISTANCE = 1;
+    public static final int POISON_DAMAGE_PER_TURN = 5;
     public boolean isPoisoned = false;
     public Coords coords;
     public Strategy strategy;
@@ -22,9 +24,11 @@ public abstract class Hero {
 
     public abstract void applyDamage(int damage);
 
-    public abstract void doAction();
+    public abstract boolean getActionAvailable();
+    public abstract void setActionAvailable(boolean status);
 
-    public abstract boolean isActionAvailable();
+    // FIXME: Delete doAction (all in Visitors) (check Dwarf before deleting)
+    public abstract void doAction();
 
     public abstract void resetAction();
 
@@ -48,8 +52,21 @@ public abstract class Hero {
 
     /* --- Functions --- */
 
+    public Coords basicMove(Game game) {
+        // Basic movement logic for all heroes
+        Coords newCoords = strategy.move(game, this);
+
+        // Tick poison effect
+        for(Hero hero : game.getHeroSquad().getHeroes()){
+            if(hero.getIsPoisoned()){
+                hero.applyDamage(POISON_DAMAGE_PER_TURN);
+            }
+        }
+        
+        return newCoords;
+    }
+
     public Coords move(Game game) {
-        // Common movement logic for all heroes (except Healer -> see Healer.java)
-        return strategy.move(game, this);
+        return basicMove(game);
     }
 }
