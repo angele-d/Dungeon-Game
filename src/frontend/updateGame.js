@@ -1,5 +1,6 @@
-import { game_config } from "./gameConfig.js";
-const size = game_config.size;
+import { game_config } from "./game_config.js";
+let { size } = game_config;
+import { selectionPossible, selectGridCell } from "./script.js";
 
 function updateGrid(gridData) {
   /**
@@ -18,6 +19,7 @@ function updateGrid(gridData) {
       switch (gridData[i][j]) {
         case "empty":
           cell.classList.add(
+            "empty",
             "w-12",
             "h-12",
             "border",
@@ -25,14 +27,14 @@ function updateGrid(gridData) {
             "grid-cell"
           );
           break;
-        case "wood-wall":
+        case "woodwall":
           cell.classList.add(
             "w-12",
             "h-12",
             "border",
             "border-[#1e2d36]",
             "grid-cell",
-            "wood-wall",
+            "woodwall",
             "bg-[#3d2e24]",
             "relative",
             "border-amber-900/30"
@@ -55,8 +57,17 @@ function updateGrid(gridData) {
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
           break;
-        case "stone-wall":
-          cell.classList.add("stone-wall", "bg-[#2a3f4a]", "relative");
+        case "stonewall":
+          cell.classList.add(
+            "w-12",
+            "h-12",
+            "border",
+            "border-[#1e2d36]",
+            "grid-cell",
+            "stonewall",
+            "bg-[#2a3f4a]",
+            "relative"
+          );
           innerSpan = document.createElement("span");
           innerSpan.classList.add(
             "material-symbols-outlined",
@@ -107,7 +118,7 @@ function updateGrid(gridData) {
           );
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
-          spawnPlaced = true;
+          window.spawnPlaced = true;
           break;
         case "treasure":
           cell.classList.add("treasure", "bg-[#3a612c]", "relative");
@@ -127,12 +138,19 @@ function updateGrid(gridData) {
           );
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
-          treasurePlaced = true;
+          window.treasurePlaced = true;
           break;
       }
       cell.dataset.x = "" + i;
       cell.dataset.y = "" + j;
       document.querySelector(".grid").appendChild(cell);
+      cell.addEventListener("click", () => selectGridCell(cell));
+      cell.addEventListener("mouseover", () => {
+        selectionPossible(cell);
+      });
+      cell.addEventListener("mouseout", () => {
+        cell.classList.remove("not-allowed-cell");
+      });
     }
   }
 }

@@ -1,4 +1,4 @@
-const game_config = {
+let game_config = {
   size: 10,
 };
 

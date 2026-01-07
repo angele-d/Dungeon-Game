@@ -1,5 +1,5 @@
-import { game_config } from "./gameConfig.js";
-const size = game_config.size;
+import { game_config } from "./game_config.js";
+let { size } = game_config;
 
 function generateGrid() {
   /**
@@ -13,6 +13,7 @@ function generateGrid() {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement("div");
       cell.classList.add(
+        "empty",
         "w-12",
         "h-12",
         "border",
@@ -33,9 +34,6 @@ import config from "./money_config.js";
 /**
  * Element selection and placement logic
  */
-
-let treasurePlaced = false;
-let spawnPlaced = false;
 
 let selectedElement = null;
 let selectedDOM = null;
@@ -60,16 +58,18 @@ function selectionPossible(elt) {
    * elt - The DOM element that was hovered
    * Returns: None
    */
+  console.log(elt);
   if (!elt) return;
 
+  console.log(selectedElement, elt.classList);
   if (
-    (elt.classList != "w-12 h-12 border border-[#1e2d36] grid-cell" &&
+    (Array.from(elt.classList).indexOf("empty") == -1 &&
       selectedElement != "eraser") ||
-    (elt.classList == "w-12 h-12 border border-[#1e2d36] grid-cell" &&
+    (Array.from(elt.classList).indexOf("empty") != -1 &&
       selectedElement == "eraser") ||
     !canAfford(config[selectedElement]) ||
-    (selectedElement == "treasure" && treasurePlaced) ||
-    (selectedElement == "spawn" && spawnPlaced)
+    (selectedElement == "treasure" && window.treasurePlaced) ||
+    (selectedElement == "spawn" && window.spawnPlaced)
   ) {
     elt.classList.add("not-allowed-cell");
   }
@@ -107,9 +107,9 @@ function selectGridCell(cell) {
   }
 
   // switch (selectedElement) {
-  //   case "wood-wall":
+  //   case "woodwall":
   //     cell.classList.add(
-  //       "wood-wall",
+  //       "woodwall",
   //       "bg-[#3d2e24]",
   //       "relative",
   //       "border-amber-900/30"
@@ -129,8 +129,8 @@ function selectGridCell(cell) {
   //     innerDiv.appendChild(innerSpan);
   //     cell.appendChild(innerDiv);
   //     break;
-  //   case "stone-wall":
-  //     cell.classList.add("stone-wall", "bg-[#2a3f4a]", "relative");
+  //   case "stonewall":
+  //     cell.classList.add("stonewall", "bg-[#2a3f4a]", "relative");
   //     innerSpan = document.createElement("span");
   //     innerSpan.classList.add("material-symbols-outlined", "text-slate-400");
   //     innerSpan.textContent = "fort";
@@ -178,8 +178,8 @@ function selectGridCell(cell) {
   //       )}`;
   //     }
 
-  //     if (erased == "treasure") treasurePlaced = false;
-  //     if (erased == "spawn") spawnPlaced = false;
+  //     if (erased == "treasure") window.treasurePlaced = false;
+  //     if (erased == "spawn") window.spawnPlaced = false;
 
   //     cell.innerHTML = "";
   //     cell.className = "w-12 h-12 border border-[#1e2d36] grid-cell";
@@ -199,7 +199,7 @@ function selectGridCell(cell) {
   //     );
   //     innerDiv.appendChild(innerSpan);
   //     cell.appendChild(innerDiv);
-  //     spawnPlaced = true;
+  //     window.spawnPlaced = true;
   //     break;
   //   case "treasure":
   //     cell.classList.add("treasure", "bg-[#3a612c]", "relative");
@@ -216,11 +216,10 @@ function selectGridCell(cell) {
   //     );
   //     innerDiv.appendChild(innerSpan);
   //     cell.appendChild(innerDiv);
-  //     treasurePlaced = true;
+  //     window.treasurePlaced = true;
   //     break;
   // }
 
-  console.log(cell.dataset);
   if (selectedElement == "eraser") {
     sendAddElement(stompClient, "0", "empty", cell.dataset.x, cell.dataset.y);
   } else {
@@ -282,3 +281,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+export { selectionPossible, selectGridCell };

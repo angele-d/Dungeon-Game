@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 public class Grid {
-    int SIZE = 8;
+    int SIZE = 10;
     private Map<Coords, Tile> grid;
 
     public Grid() {
@@ -69,7 +69,7 @@ public class Grid {
             ArrayList<String> grid_row = new ArrayList<>();
             for (int row = 0; row < SIZE; row++) {
                 Tile tile = this.grid.get(new Coords(col, row));
-                grid_row.add(tile.toString());
+                grid_row.add('"'+tile.toString()+'"');
             }
             result.add(grid_row);
         }

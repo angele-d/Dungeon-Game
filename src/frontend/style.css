@@ -20,7 +20,7 @@
 .grid-cell:hover {
   border-color: #13a4ec;
   background-color: #1e3640;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 :root {
@@ -98,6 +98,8 @@ body.dark {
 
 .not-allowed-cell {
   border-color: red !important;
+  border-width: 1px !important;
+  border-style: solid !important;
 }
 
 .bank span {

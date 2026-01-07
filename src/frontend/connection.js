@@ -25,7 +25,8 @@ function onConnect(stompClient, frame) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
     let grid = payload["grid"];
-    updateGrid(grid);
+    let gridData = JSON.parse(grid);
+    updateGrid(gridData);
   });
 
   stompClient.subscribe("/topic/ai_changed", function (message) {
@@ -40,14 +41,18 @@ function onConnect(stompClient, frame) {
   stompClient.subscribe("/topic/game_launched", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    updateGrid(payload["grid"]);
+    let grid = payload["grid"];
+    let gridData = JSON.parse(grid);
+    updateGrid(gridData);
     updateHeroes(payload["heroes"]);
   });
 
   stompClient.subscribe("/topic/step_result", function (message) {
     console.log("Received message: " + message.body);
     let payload = JSON.parse(message.body);
-    updateGrid(payload["grid"]);
+    let grid = payload["grid"];
+    let gridData = JSON.parse(grid);
+    updateGrid(gridData);
     updateHeroes(payload["heroes"]);
   });
 }
