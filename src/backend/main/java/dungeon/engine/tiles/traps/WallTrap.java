@@ -5,12 +5,38 @@ import dungeon.engine.tiles.Trap;
 import dungeon.engine.tiles.wall.StoneWall;
 
 public class WallTrap extends Trap implements TurnListener {
-    private TurnListener listener;
+
+    private int placementCost = 150; // #FIXME: Change placementCost value
+    private int aStarValue = 3;
+
+    /* --- Constructor --- */
+    public WallTrap(Coords coords) {
+        super(coords,10, 1);
+    }
 
     public WallTrap(Coords coords,int damage,int area) {
         super(coords,damage, area);
     }
 
+    @Override
+    public String toString() {
+        return "walltrap";
+    }
+
+    /* --- Getters and Setters --- */
+
+    public int getAstarValue(){
+        return aStarValue;
+    }
+
+    public int getPlacementCost(){
+        return placementCost;
+    }
+    public void setPlacementCost(int cost){
+        this.placementCost = cost;
+    }
+
+    /* --- Functions --- */
 
     @Override
     public void activateTrap(Game game){
@@ -33,8 +59,4 @@ public class WallTrap extends Trap implements TurnListener {
         }
     }
 
-    
-    public int getAstarValue(){
-        return 3;
-    }
 }

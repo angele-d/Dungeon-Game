@@ -1,6 +1,8 @@
 
 package dungeon.engine;
 
+import dungeon.engine.tiles.wall.StoneWall;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -54,5 +56,17 @@ public class GameTest {
         assertEquals(500, game.getMoney());
         assertEquals(0, game.getScore());
         assertEquals(0, game.getTurn());
+    }
+
+    @Test
+    void testPlacementOnGrid(){
+        Game game = new Game();
+        Grid grid = game.getGrid();
+        Coords coords = new Coords(1, 1);
+        Tile tile = new StoneWall(coords);
+        int initialMoney = game.getMoney();
+        game.placementOnGrid(tile);
+        assertEquals(tile, grid.getTile(coords));
+        assertEquals(initialMoney - tile.getPlacementCost(), game.getMoney());
     }
 }

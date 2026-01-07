@@ -5,12 +5,28 @@ import dungeon.engine.Tile;
 
 public class Empty extends Tile {
 
+    private int placementCost = 0; //Useless but for consistency
+    private int aStarValue = 1;
+
+    /* --- Constructor --- */
+
     public Empty(Coords coords) {
         super(coords);
     }
 
+    /* --- Getters and Setters --- */
+
     public int getAstarValue(){
-        return 1;
+        return aStarValue;
     }
 
+    @Override
+    public String toString() {
+        return "empty";
+    }
+
+
+    public int getPlacementCost(){
+        return placementCost;
+    }
 }

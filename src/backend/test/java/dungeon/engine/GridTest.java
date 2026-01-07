@@ -14,6 +14,9 @@ public class GridTest {
             public int getAstarValue() {
                 return 0;
             }
+            public int getPlacementCost() {
+                return 0;
+            }
         };
         grid.setTile(tile);
         Tile retrievedTile = grid.getTile(coords);

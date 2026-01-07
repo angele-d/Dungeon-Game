@@ -3,11 +3,15 @@ package dungeon.engine;
 import dungeon.engine.Visitors.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 public class HeroVisitorTest {
     
+    /* HealVisitor */
+
     @Test
     void testHealVisitorOnHealer() {
         Healer healer = new Healer();
@@ -62,6 +66,8 @@ public class HeroVisitorTest {
         assertEquals(108, dwarf.getHealth());
     }
 
+    /* AreaDamageVisitor */
+
     @Test
     void testAreaDamageVisitorDirectHitFullDamage() {
         Dwarf dwarf = new Dwarf();
@@ -106,4 +112,64 @@ public class HeroVisitorTest {
         assertEquals(140, dwarf.getHealth());
     }
 
+    /* PoisonVisitor */
+
+    @Test
+    void testPoisonVisitorPoisonsHeroWithinRadius() {
+        Dwarf dwarf = new Dwarf();
+        dwarf.setCoords(new Coords(1, 0)); // distance 1 from epicenter
+
+        PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 2);
+        assertFalse(dwarf.getIsPoisoned());
+
+        dwarf.accept(visitor);
+
+        assertTrue(dwarf.getIsPoisoned());
+    }
+
+    @Test
+    void testPoisonVisitorDoesNotPoisonOutsideRadius() {
+        Dwarf dwarf = new Dwarf();
+        dwarf.setCoords(new Coords(3, 0));
+
+        PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 2);
+
+        dwarf.accept(visitor);
+
+        assertFalse(dwarf.getIsPoisoned());
+    }
+
+    @Test
+    void testPoisonVisitorTankLosesActionBeforePoisoned() {
+        Tank tank = new Tank();
+        tank.setCoords(new Coords(0, 0)); // distance 0
+
+        PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 1);
+
+        // Initially: has action, not poisoned
+        assertTrue(tank.getActionAvailable());
+        assertFalse(tank.getIsPoisoned());
+
+        // First visit: in radius, has action -> lose action, still not poisoned
+        tank.accept(visitor);
+        assertFalse(tank.getActionAvailable());
+        assertFalse(tank.getIsPoisoned());
+
+        // Second visit: still in radius, no action -> now poisoned
+        tank.accept(visitor);
+        assertTrue(tank.getIsPoisoned());
+    }
+
+    @Test
+    void testPoisonVisitorDefaultConstructorPoisonsOnlyOnExactTile() {
+        Dwarf dwarf = new Dwarf();
+        dwarf.setCoords(new Coords(0, 0));
+
+        // Default constructor: radius = 0
+        PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0));
+
+        dwarf.accept(visitor);
+
+        assertTrue(dwarf.getIsPoisoned());
+    }
 }
