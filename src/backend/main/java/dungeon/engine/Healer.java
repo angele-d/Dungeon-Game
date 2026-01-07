@@ -3,23 +3,29 @@ package dungeon.engine;
 public class Healer extends Hero {
     
     private int health;
-    private boolean actionAvailable;
-    private static final int HEAL_PERCENTAGE = 20;
+    private static final int PERSONAL_HEAL_PERCENTAGE = 20;
+    private static final int MAX_HEALTH = 150;
 
     public Healer() {
         super();
-        health = 150;
-        actionAvailable = true;
+        health = MAX_HEALTH;
         // Healer-specific initialization
     }
+
+    /* --- Getters and Setters --- */
     
     public int getHealth() {
         return health;
     }
-
     public void setHealth(int health) {
         this.health = health;
     }
+
+    public int getMaxHealth() {
+        return MAX_HEALTH;
+    }
+
+    /* --- Functions --- */
 
     @Override
     public void applyDamage(int damage) {
@@ -31,28 +37,38 @@ public class Healer extends Hero {
 
     @Override
     public boolean isActionAvailable() {
-        return actionAvailable;
+        return false;
     }
 
     @Override
     public void doAction() {
-        if(isActionAvailable()){
-            // TODO: Heal all heroes in the zone
-        }
-        actionAvailable = false;
+        // Do nothing
+    }
+
+    @Override
+    public void resetAction() {
+        // No action to reset
+    }
+
+    public void accept(HeroVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
     public Coords move(Game game) {
         // Healer-specific movement logic
-        // FIXME: CCheck: Copy Paste from Hero
+        // FIXME: Check: Copy Paste from Hero
         Coords newCoords = strategy.move(game, this);
-        health = Math.min(150, health + (health * HEAL_PERCENTAGE) / 100);
-        return newCoords;
-    }
 
-    @Override
-    public void resetAction() {
-        actionAvailable = true;
+        // Personal healing ability
+        health = Math.min(MAX_HEALTH, health + (health * PERSONAL_HEAL_PERCENTAGE) / 100);
+        
+        // Zone healing ability
+        HealVisitor healVisitor = new HealVisitor();
+        for(Hero ally : game.getHeroSquad().getHeroes()){
+            ally.accept(healVisitor);
+        }
+
+        return newCoords;
     }
 }
