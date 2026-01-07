@@ -40,6 +40,10 @@ public class Game {
         return grid;
     }
 
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+
     public int getId() {
         return id;
     }
@@ -55,8 +59,16 @@ public class Game {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public int getMoney() {
         return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 
     public int getTurn() {
