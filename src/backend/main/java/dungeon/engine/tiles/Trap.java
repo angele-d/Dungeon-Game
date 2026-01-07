@@ -21,5 +21,8 @@ public abstract class Trap extends Tile {
         return area;
     }
 
-
+    @Override
+    public String toString() {
+        return "trap";
+    }
 }

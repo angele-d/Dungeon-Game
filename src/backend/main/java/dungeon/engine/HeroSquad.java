@@ -55,4 +55,16 @@ public class HeroSquad{
             return squad;
         }
     }
+
+    public ArrayList<ArrayList<String>> serialized() {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for(Hero hero : this.heroList){
+            ArrayList<String> hero_serialized = new ArrayList<String>();
+            hero_serialized.add(hero.toString());
+            hero_serialized.add(Integer.toString(hero.getCoords().x()));
+            hero_serialized.add(Integer.toString(hero.getCoords().y()));
+            hero_serialized.add(Integer.toString(hero.getHealth()/hero.getMaxHealth()));
+        }
+        return result;
+    }
 } 
