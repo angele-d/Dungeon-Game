@@ -37,9 +37,9 @@ public class Mine extends Trap {
     /* --- Functions --- */
 
     @Override
-    public void activateTrap(Game game){
+    public void activateTrap(Game game) {
         AreaDamageVisitor areaDamageVisitor = new AreaDamageVisitor(this.getCoords(), this.getDamage(), this.getAreaRadius());
-        for(Hero hero : game.getHeroSquad().getHeroes()){
+        for (Hero hero : game.getHeroSquad().getHeroes()) {
             hero.accept(areaDamageVisitor);
         }
     }
