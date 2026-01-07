@@ -17,6 +17,8 @@ public class HeroSquad{
         heroList.remove(hero);
     }
 
+    /* --- Getters and Setters --- */
+
     public ArrayList<Hero> getHeroes(){
         return heroList;
     }
@@ -24,6 +26,14 @@ public class HeroSquad{
     public int getSquadSize(){
         return heroList.size();
     }
+
+    public void setStrategy(Strategy strategy) {
+        for(Hero hero : heroList){
+            hero.strategy = strategy;
+        }
+    }
+
+    /* --- Builder --- */
 
     public static class Builder{
         private ArrayList<Hero> heroList = new ArrayList<>();

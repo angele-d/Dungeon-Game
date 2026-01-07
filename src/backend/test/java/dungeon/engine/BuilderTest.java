@@ -44,4 +44,11 @@ public class BuilderTest {
             .build();
         assertEquals(3, squad.getSquadSize());
     }
+
+    @Test
+    void testBuilderCreatesHeroSquadInstance() {
+        HeroSquad.Builder builder = new HeroSquad.Builder();
+        HeroSquad squad = builder.build();
+        assertEquals(HeroSquad.class, squad.getClass());
+    }
 }

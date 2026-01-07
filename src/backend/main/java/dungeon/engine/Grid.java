@@ -48,4 +48,12 @@ public class Grid {
         }
         return neighbors;
     }
+
+    public Grid clone() {
+        Grid newGrid = new Grid();
+        for (Map.Entry<Coords, Tile> entry : this.grid.entrySet()) {
+            newGrid.setTile(entry.getValue());
+        }
+        return newGrid;
+    }
 }

@@ -35,4 +35,9 @@ public class TheMemeMaker extends Hero {
     public void doAction() {
         // Do nothing
     }
+
+    @Override
+    public void resetAction() {
+        // No action to reset
+    }
 }
