@@ -7,4 +7,7 @@ public class WallTrap extends Trap {
     public WallTrap(Coords coords,int damage,int area) {
         super(coords,damage, area);
     }
+    public int getAstarValue(){
+        return 3;
+    }
 }

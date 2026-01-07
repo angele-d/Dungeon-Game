@@ -21,5 +21,6 @@ public abstract class Trap extends Tile {
         return area;
     }
 
+    public abstract int getAstarValue();
 
 }

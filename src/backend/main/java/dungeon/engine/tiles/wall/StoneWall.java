@@ -7,4 +7,7 @@ public class StoneWall extends Wall {
     public StoneWall(Coords coords) {
         super(coords);
     }
+    public int getAstarValue(){
+        return 100;
+    }
 }

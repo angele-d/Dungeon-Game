@@ -11,4 +11,6 @@ public abstract class Tile {
         return coords;
     }
 
+    public abstract int getAstarValue();
+
 }

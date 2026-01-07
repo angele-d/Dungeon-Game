@@ -7,4 +7,7 @@ public class Mine extends Trap {
     public Mine(Coords coords,int damage,int area) {
         super(coords, damage, area);
     }
+    public int getAstarValue(){
+        return 5;
+    }
 }
