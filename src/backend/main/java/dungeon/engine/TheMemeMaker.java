@@ -15,6 +15,11 @@ public class TheMemeMaker extends Hero {
         // TheMemeMaker-specific initialization
     }
 
+    @Override
+    public String toString() {
+        return "TheMemeMaker";
+    }
+
     /* --- Getters and Setters --- */
 
     public int getHealth() {
