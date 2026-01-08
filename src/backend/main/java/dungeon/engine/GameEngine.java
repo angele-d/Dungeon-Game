@@ -135,11 +135,15 @@ public class GameEngine {
         return game;
     }
 
-    public void endGame(int gameId) {
-        Map<String, String> result = new HashMap<String, String>();
+    public Map<String, String> endGame(int gameId) {
+        Map<String, String> result;
         Game game = games.get(gameId);
+        result = getGameStats(gameId);
         game.endSimulation();
+        return result;
     }
+
+
 
     public Map<String, String> getGameStats(int gameId) {
         Map<String, String> result = new HashMap<String, String>();
@@ -147,13 +151,14 @@ public class GameEngine {
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heroes", game.getHeroSquad().serialized().toString());
         result.put("money", Integer.toString(game.getMoney()));
+        result.put("score", Integer.toString(game.getScore()));
         return result;
     }
 
     public Map<String, String> nextTurn(Integer gameId) {
         Game game = games.get(gameId);
         if (game != null) {
-            game.startSimulation();
+            game.nextTurn();
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
