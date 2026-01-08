@@ -97,4 +97,26 @@ class BFSTest {
         assertFalse(bfs.isWalkable(new Coords(1, 1), heroSquad));
         assertTrue(bfs.isWalkable(new Coords(0, 1), heroSquad));
     }
+
+    @Test
+    void searchWithDeadHero() {
+        Hero deadHero = new Muggle();
+        deadHero.setCoords(new Coords(0, 2));
+        deadHero.setHealth(0); // Dead hero
+        Hero aliveHero = new Muggle();
+        aliveHero.setCoords(new Coords(0, 0));
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(deadHero);
+        heroSquad.addHero(aliveHero);
+        Grid grid = new Grid();
+        grid.setTile(new Treasure(new Coords(0, 3)));
+        BFS bfs = new BFS(grid);
+        // Hero should be able to walk through dead hero
+        Coords coords = bfs.search(new Coords(0, 0), heroSquad);
+        assertEquals(new Coords(0, 1), coords);
+        coords = bfs.search(new Coords(0, 1), heroSquad);
+        assertEquals(new Coords(0, 2), coords); // Can walk on dead hero's position
+        coords = bfs.search(new Coords(0, 2), heroSquad);
+        assertEquals(new Coords(0, 3), coords);
+    }
 }

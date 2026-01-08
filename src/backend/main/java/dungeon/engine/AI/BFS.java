@@ -18,11 +18,6 @@ public class BFS {
 
     }
 
-    @Override
-    public String toString() {
-        return "BFS";
-    }
-
     /* --- Functions --- */
 
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
@@ -35,7 +30,9 @@ public class BFS {
 
         for(Hero hero : heroSquad.getHeroes()){
             if(hero.getCoords().equals(neighbor)){
-                return true;
+                // Check if the hero is alive
+                if(hero.getHealth() > 0) 
+                    return true;
             }
         }
 
@@ -85,5 +82,12 @@ public class BFS {
             }
         }
         return start;
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "BFS";
     }
 }

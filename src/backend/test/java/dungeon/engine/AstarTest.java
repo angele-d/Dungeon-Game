@@ -129,4 +129,24 @@ public class AstarTest {
         assertTrue(astar.isOccupied(new Coords(2, 2), heroSquad));
         assertFalse(astar.isOccupied(new Coords(0, 0), heroSquad));
     }
+
+    @Test
+    void searchWithDeadHero() {
+        Hero deadHero = new Muggle();
+        deadHero.setCoords(new Coords(1, 0));
+        deadHero.setHealth(0); // Dead hero
+        Hero aliveHero = new Muggle();
+        aliveHero.setCoords(new Coords(0, 0));
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(deadHero);
+        heroSquad.addHero(aliveHero);
+        Grid grid = new Grid();
+        Treasure t = new Treasure(new Coords(2, 0));
+        grid.setTile(t);
+
+        Astar astar = new Astar(grid);
+        // Hero should be able to walk through dead hero
+        Coords nextMove = astar.search(new Coords(0, 0), heroSquad);
+        assertEquals(new Coords(1, 0), nextMove); // Can walk on dead hero's position
+    }
 }
