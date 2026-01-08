@@ -181,17 +181,15 @@ public class Game {
     }
 
     public boolean isTerminated() {
-        boolean result = true;
         Tile treasure = getTreasure();
 
         for (Hero hero: heroSquad.getHeroes()) {
-            if (hero.getCoords() != treasure.getCoords() && hero.getHealth() != 0) {
-                result = false;
-                break;
+            if (!hero.getCoords().equals(treasure.getCoords()) && hero.getHealth() != 0) {
+                return false;
             }
         }
 
-        return result;
+        return true;
     }
 
     public boolean isSimulationReady() {

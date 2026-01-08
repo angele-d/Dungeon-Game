@@ -31,7 +31,7 @@ public class HeroSquad{
 
     public void setStrategy(Strategy strategy) {
         for(Hero hero : heroList){
-            hero.strategy = strategy;
+            hero.setStrategy(strategy);
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Observers.GameObserver;
+import dungeon.engine.Strategies.BFSStrategy;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
 import dungeon.engine.tiles.Treasure;
@@ -23,6 +24,7 @@ public abstract class Hero {
 
     public Hero() {
         // Common initialization for all heroes
+        this.strategy = new BFSStrategy();
     }
 
     /* --- Abstract Functions --- */
@@ -55,6 +57,10 @@ public abstract class Hero {
     }
     public Coords getCoords() {
         return coords;
+    }
+
+    public void setStrategy(Strategy strategy){
+        this.strategy = strategy;
     }
 
     /* --- Functions --- */
