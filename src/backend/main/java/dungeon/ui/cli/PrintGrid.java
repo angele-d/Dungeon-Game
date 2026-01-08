@@ -1,0 +1,73 @@
+package dungeon.ui.cli;
+
+import dungeon.engine.Coords;
+import dungeon.engine.HeroSquad;
+import dungeon.engine.Hero;
+import dungeon.engine.Game;
+import dungeon.engine.Tile;
+
+
+public class PrintGrid {
+public static void make_action (Game game, int size, String legendString){
+        print_grid(game, size, legendString);
+        System.out.println("\n");
+        System.out.println("Actions :");
+        System.out.println("   [1] Place an element");
+        System.out.println("   [2] Delete an element");
+        System.out.println("   [3] Save");
+        System.out.println("   [4] Load a game");
+        System.out.println("   [5] Start the game");
+        System.out.println("   [6] Leave");
+        System.out.println("\n");
+    }
+
+    public static void print_grid(Game game, int size, String legendString) {
+        System.out.println(legendString); // TODO: put prices
+        System.out.println("\n");
+        System.out.println("   0 1 2 3 4 5 6 7 8 9 A B C D E");
+        String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E"};
+        for (int i = 0; i < size; i++) {
+            System.out.println(cases[i] + " " + print_grid_line(game, i, size));
+        }
+        System.out.println("\n");
+    }
+
+    public static String print_grid_line(Game game, int line, int size){
+        String line_completed = new String();
+        for (int decr = 0; decr < size ; decr++ ){
+            Tile tile = game.getGrid().getTile(new Coords(line,decr));
+            if(heroIsHere(game,line, decr)){
+                line_completed += " E";
+            } else {
+                if (tile instanceof dungeon.engine.tiles.Empty) {
+                    line_completed += " .";
+                } else if (tile instanceof dungeon.engine.tiles.Treasure) {
+                    line_completed += " T";
+                } else if (tile instanceof dungeon.engine.tiles.StartingPoint) {
+                    line_completed += " S";
+                } else if (tile instanceof dungeon.engine.tiles.traps.Mine) {
+                    line_completed += " M";
+                } else if (tile instanceof dungeon.engine.tiles.traps.WallTrap) {
+                    line_completed += " T";
+                } else if (tile instanceof dungeon.engine.tiles.wall.StoneWall) {
+                    line_completed += " #";
+                } else if (tile instanceof dungeon.engine.tiles.wall.WoodWall) {
+                    line_completed += " @";
+                } else {
+                    line_completed += "  ";
+                }
+            }
+        }
+        return line_completed;
+    }
+
+    public static boolean heroIsHere(Game game, int line, int row){
+        HeroSquad heroS = game.getHeroSquad();
+        for (Hero hero : heroS.getHeroes()){
+            if(hero.getCoords().equals(new Coords(line,row))){
+                return true;
+            }
+        }
+        return false;
+    }
+}

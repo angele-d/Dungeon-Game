@@ -153,7 +153,7 @@ public class GameEngine {
     public Map<String, String> nextTurn(Integer gameId) {
         Game game = games.get(gameId);
         if (game != null) {
-            game.startSimulation();
+            game.nextTurn();
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
