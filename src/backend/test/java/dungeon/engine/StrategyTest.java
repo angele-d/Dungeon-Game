@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import dungeon.engine.AI.BFS;
-import dungeon.engine.AI.DFS;
 import dungeon.engine.tiles.Treasure;
 
 public class StrategyTest {

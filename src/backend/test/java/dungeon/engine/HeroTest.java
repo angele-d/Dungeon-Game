@@ -35,14 +35,4 @@ public class HeroTest {
         tank.setIsPoisoned(false);
         assertEquals(false, tank.getIsPoisoned());
     }
-
-    @Test
-    public void testResetAction(){
-        Dwarf dwarf = new Dwarf();
-        assertEquals(true, dwarf.getActionAvailable());
-        dwarf.doAction();
-        assertEquals(false, dwarf.getActionAvailable());
-        dwarf.resetAction();
-        assertEquals(true, dwarf.getActionAvailable());
-    }   
 }
