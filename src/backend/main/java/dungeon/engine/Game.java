@@ -1,5 +1,6 @@
 package dungeon.engine;
 
+import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.Trap;
 
 import java.util.ArrayList;
@@ -11,10 +12,10 @@ public class Game {
     private Grid grid;
     private Grid blueprint;
     private HeroSquad heroSquad;
-    private int score;
     private int money;
     private int turn;
     private ArrayList<TurnListener> turnListeners;
+    private ScoreManager scoreManager;
 
     /* --- Constructor --- */
 
@@ -23,10 +24,10 @@ public class Game {
         this.blueprint = grid.clone();
         this.id = 0;
         this.heroSquad = new HeroSquad();
-        this.score = 0;
         this.money = 500;
         this.turn = 0;
         this.turnListeners = new ArrayList<TurnListener>();
+        this.scoreManager = new ScoreManager();
     }
 
     /* --- Turn Observer Methods --- */
@@ -63,13 +64,6 @@ public class Game {
         this.heroSquad = heroSquad;
     }
 
-    public int getScore() {
-        return score;
-    }
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getMoney() {
         return money;
     }
@@ -81,14 +75,24 @@ public class Game {
         return turn;
     }
 
+    public ScoreManager getScoreManager() {
+        return scoreManager;
+    }
+    public int getScore() {
+        return scoreManager.getScore();
+    }
+    public void setScore(int score) {
+        scoreManager.setScore(score);
+    }
+
     /* --- Game Methods --- */
     public void startNewGame() {
         this.grid = new Grid();
         blueprint = grid.clone();
         this.heroSquad = new HeroSquad();
-        this.score = 0;
         this.money = 500;
         this.turn = 0;
+        this.scoreManager = new ScoreManager();
     }
 
     public void endGame(){
@@ -123,13 +127,6 @@ public class Game {
                 //((Trap) currentTile).process(heroSquad));
             }
         }
-    }
-
-    public void addScore(int points) {
-        this.score += points;
-    }
-    public void removeScore(int points) {
-        this.score -= points;
     }
 
     public void subMoney(int amount) {

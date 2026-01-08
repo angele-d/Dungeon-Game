@@ -32,9 +32,10 @@ public class ScoreManagerTest {
     @Test
     void testHeroDeathIncreasesScore() {
         int initialScore = scoreManager.getScore();
+        assertEquals(0, initialScore);
         dwarf.applyDamage(200); // Assuming this will kill the dwarf
         int updatedScore = scoreManager.getScore();
-        assertEquals(updatedScore, initialScore + 200);
+        assertEquals(updatedScore,200 + 150);
     }
 
     @Test

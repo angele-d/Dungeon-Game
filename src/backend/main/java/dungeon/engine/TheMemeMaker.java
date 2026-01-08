@@ -41,7 +41,7 @@ public class TheMemeMaker extends Hero {
     public void applyDamage(int damage) {
         health -= damage;
         notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
-        if(health < 0){
+        if(health <= 0){
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
