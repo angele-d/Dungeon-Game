@@ -105,6 +105,7 @@ public class Game {
         blueprint = grid.clone();
         //this.grid = new Grid();
         this.heroSquad = new HeroSquad();
+//        this.heroSquad.addHero();
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(coord);
         }

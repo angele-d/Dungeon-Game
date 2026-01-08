@@ -28,7 +28,7 @@ public class GameEngine {
 
     public boolean isGameTerminated(int gameId) {
         Game game = games.get(gameId);
-        if (game == null) {
+        if (game != null) {
             return game.isTerminated();
         }
         return false;
@@ -114,6 +114,8 @@ public class GameEngine {
         result.put("heros", game.getHeroSquad().serialized().toString());
         return result;
     }
+
+    /// TODO check accessiblity
 
     public Map<String, String> startSimulation(Integer game_id) {
         Game game = games.get(game_id);

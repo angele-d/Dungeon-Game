@@ -57,6 +57,6 @@ public class WallTrap extends Trap implements TurnListener {
 
     
     public int getAstarValue(){
-        return 3;
+        return aStarValue;
     }
 }
