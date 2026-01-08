@@ -19,6 +19,7 @@ public class Game {
     private int turn;
     private ArrayList<TurnListener> turnListeners;
     private ScoreManager scoreManager;
+    private final LeaderBoard leaderboard = new LeaderBoard();
 
     /* --- Constructor --- */
 
@@ -135,6 +136,9 @@ public class Game {
 
     public void endSimulation(){
         this.grid = blueprint.clone();
+
+        GameResults result = new GameResults(getScore(), getId(), getMoney());
+        leaderboard.addResults(result);
     }
 
     public void placementOnGrid(Tile tile) {
