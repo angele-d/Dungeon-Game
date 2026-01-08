@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ScoreManagerTest {
     
     private ScoreManager scoreManager;
-    private Dwarf dwarf;
+    private Dragon dwarf;
 
     @BeforeEach
     void setUp() {
         scoreManager = new ScoreManager();
-        dwarf = new Dwarf();
+        dwarf = new Dragon();
         dwarf.addObserver(scoreManager);
     }
 

@@ -120,7 +120,7 @@ public class Game {
     public void startSimulation() {
         blueprint = grid.clone();
         HeroSquad.Builder builder = new HeroSquad.Builder();
-        builder.addHero(new Dwarf())
+        builder.addHero(new Dragon())
                 .addHero(new Healer())
                 .addHero(new Tank())
                 .addHero(new TheMemeMaker());

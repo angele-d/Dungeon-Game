@@ -63,7 +63,7 @@ class MineTest {
 
     @Test
     void testMineActivateTrapOnDirectHit() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(5, 5));
 
         HeroSquad squad = new HeroSquad.Builder()
@@ -83,7 +83,7 @@ class MineTest {
 
     @Test
     void testMineActivateTrapWithAreaDamage() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(1, 0)); // distance 1 from mine
 
         HeroSquad squad = new HeroSquad.Builder()
@@ -103,7 +103,7 @@ class MineTest {
 
     @Test
     void testMineActivateTrapMultipleHeroes() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(5, 5)); // direct hit
 
         Tank tank = new Tank();

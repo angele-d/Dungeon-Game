@@ -4,7 +4,7 @@ import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
-public class Dwarf extends Hero {
+public class Dragon extends Hero {
 
     //TODO: Implement Dwarf wall breaking ability
     
@@ -12,7 +12,7 @@ public class Dwarf extends Hero {
     private boolean actionAvailable;
     private static final int MAX_HEALTH = 150;
 
-    public Dwarf() {
+    public Dragon() {
         super();
         health = MAX_HEALTH;
         actionAvailable = true;

@@ -42,7 +42,7 @@ public class DFS {
             for (Coords neighboor: grid.getNeighborsCoords(curr.getCoords())) {
 
                 if (!visited.contains(neighboor) && !previousCoords.contains(neighboor)) {
-                    if ((grid.getTile(neighboor) instanceof Empty || grid.getTile(neighboor) instanceof Treasure) || (hero instanceof Dwarf && hero.getActionAvailable() && grid.getTile(neighboor) instanceof WoodWall)) {
+                    if ((grid.getTile(neighboor) instanceof Empty || grid.getTile(neighboor) instanceof Treasure) || (hero instanceof Dragon && hero.getActionAvailable() && grid.getTile(neighboor) instanceof WoodWall)) {
                         visited.add(neighboor);
                         stack.push(new Node(neighboor, curr));
                     }

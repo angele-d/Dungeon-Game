@@ -34,7 +34,7 @@ public class PoisonTrapTest {
 
 	@Test
 	void testPoisonTrapActivateTrapAppliesDamageAndPoison() {
-		Dwarf dwarf = new Dwarf();
+		Dragon dwarf = new Dragon();
 		dwarf.setCoords(new Coords(5, 5));
 
 		HeroSquad squad = new HeroSquad.Builder()
@@ -59,10 +59,10 @@ public class PoisonTrapTest {
 
 	@Test
 	void testPoisonTrapActivateTrapRespectsAreaRadius() {
-		Dwarf inRange = new Dwarf();
+		Dragon inRange = new Dragon();
 		inRange.setCoords(new Coords(1, 0)); // distance 1
 
-		Dwarf outOfRange = new Dwarf();
+		Dragon outOfRange = new Dragon();
 		outOfRange.setCoords(new Coords(3, 0)); // distance 3
 
 		HeroSquad squad = new HeroSquad.Builder()

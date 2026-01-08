@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HeroTest {
     @Test
     public void testCreateHero(){
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         Tank tank = new Tank();
         Healer healer = new Healer();
         TheMemeMaker memeMarker = new TheMemeMaker();
@@ -19,7 +19,7 @@ public class HeroTest {
 
     @Test
     public void testHeroTakeDamage(){
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.applyDamage(50);
         assertEquals(100, dwarf.getHealth());
         dwarf.applyDamage(200);

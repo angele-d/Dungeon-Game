@@ -23,7 +23,7 @@ public class HeroVisitorTest {
 
     @Test
     void testHealVisitorOnOtherHero() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         int initialHealth = dwarf.getHealth();
         dwarf.applyDamage(20);
         HealVisitor healVisitor = new HealVisitor();
@@ -34,7 +34,7 @@ public class HeroVisitorTest {
 
     @Test
     void testHealVisitorDoesNotExceedMaxHealth() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.applyDamage(1);
 
         HealVisitor healVisitor = new HealVisitor();
@@ -45,7 +45,7 @@ public class HeroVisitorTest {
 
     @Test
     void testHealVisitorRecoversPartialHealth() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.applyDamage(100); // health = 50
 
         HealVisitor healVisitor = new HealVisitor();
@@ -56,7 +56,7 @@ public class HeroVisitorTest {
 
     @Test
     void testHealVisitorStacksAcrossVisits() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.applyDamage(60); // health = 90
 
         HealVisitor healVisitor = new HealVisitor();
@@ -70,7 +70,7 @@ public class HeroVisitorTest {
 
     @Test
     void testAreaDamageVisitorDirectHitFullDamage() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(0, 0));
 
         AreaDamageVisitor visitor = new AreaDamageVisitor(new Coords(0, 0), 50, 2);
@@ -81,7 +81,7 @@ public class HeroVisitorTest {
 
     @Test
     void testAreaDamageVisitorReducedDamageWithinRadius() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(1, 0)); // Manhattan distance 1 from epicenter
 
         AreaDamageVisitor visitor = new AreaDamageVisitor(new Coords(0, 0), 50, 2);
@@ -103,7 +103,7 @@ public class HeroVisitorTest {
 
     @Test
     void testAreaDamageVisitorDefaultDamageAndRadius() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(0, 0));
 
         AreaDamageVisitor visitor = new AreaDamageVisitor(new Coords(0, 0));
@@ -116,7 +116,7 @@ public class HeroVisitorTest {
 
     @Test
     void testPoisonVisitorPoisonsHeroWithinRadius() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(1, 0)); // distance 1 from epicenter
 
         PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 2);
@@ -129,7 +129,7 @@ public class HeroVisitorTest {
 
     @Test
     void testPoisonVisitorDoesNotPoisonOutsideRadius() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(3, 0));
 
         PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 2);
@@ -162,7 +162,7 @@ public class HeroVisitorTest {
 
     @Test
     void testPoisonVisitorDefaultConstructorPoisonsOnlyOnExactTile() {
-        Dwarf dwarf = new Dwarf();
+        Dragon dwarf = new Dragon();
         dwarf.setCoords(new Coords(0, 0));
 
         // Default constructor: radius = 0
