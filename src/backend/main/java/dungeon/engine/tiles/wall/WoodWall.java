@@ -5,30 +5,29 @@ import dungeon.engine.tiles.Wall;
 
 public class WoodWall extends Wall {
 
-    private int placementCost = 50;
-    private int aStarValue = 50;
+    private static final int PLACEMENT_COST = 50;
+    private static final int ASTAR_VALUE = 50;
 
     /* --- Constructor --- */
 
     public WoodWall(Coords coords) {
         super(coords);
     }
-    @Override
-    public String toString() {
-        return "woodwall";
-    }
-
 
     /* --- Getters and Setters --- */
 
     public int getAstarValue(){
-        return aStarValue;
+        return ASTAR_VALUE;
     }
 
     public int getPlacementCost(){
-        return placementCost;
+        return PLACEMENT_COST;
     }
-    public void setPlacementCost(int cost){
-        this.placementCost = cost;
+
+    /* --- ToString --- */
+    
+    @Override
+    public String toString() {
+        return "woodwall";
     }
 }

@@ -5,8 +5,8 @@ import dungeon.engine.tiles.Wall;
 
 public class StoneWall extends Wall {
 
-    private int placementCost = 75;
-    private int aStarValue = 100;
+    private static final int PLACEMENT_COST = 75;
+    private static final int ASTAR_VALUE = 100;
 
     /* --- Constructor --- */
 
@@ -14,21 +14,20 @@ public class StoneWall extends Wall {
         super(coords);
     }
 
-    @Override
-    public String toString() {
-        return "stonewall";
-    }
-
     /* --- Getters and Setters --- */
 
     public int getAstarValue(){
-        return aStarValue;
+        return ASTAR_VALUE;
     }
 
     public int getPlacementCost(){
-        return placementCost;
+        return PLACEMENT_COST;
     }
-    public void setPlacementCost(int cost){
-        this.placementCost = cost;
+
+    /* --- ToString --- */
+
+    @Override
+    public String toString() {
+        return "stonewall";
     }
 }

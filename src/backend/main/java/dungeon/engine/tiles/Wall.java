@@ -16,6 +16,11 @@ public abstract class Wall extends Tile {
     public abstract int getAstarValue();
 
     public abstract int getPlacementCost();
-    public abstract void setPlacementCost(int cost);
 
+    /* --- ToString --- */
+
+    @Override
+    public String toString() {
+        return "wall"; 
+    }
 }

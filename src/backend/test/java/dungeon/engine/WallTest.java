@@ -19,9 +19,6 @@ class WallTest {
         public int getPlacementCost() {
             return 0; //fake value for testing
         }
-        public void setPlacementCost(int cost) {
-            //fake implementation for testing
-        }
     }
 
     @Test

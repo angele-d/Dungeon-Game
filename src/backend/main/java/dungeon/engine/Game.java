@@ -138,8 +138,12 @@ public class Game {
 
     public void placementOnGrid(Tile tile) {
         int tileCost = tile.getPlacementCost();
-        if(this.money >= tileCost) {
-            this.subMoney(tileCost);
+        Tile currentTile = this.grid.getTile(tile.getCoords());
+        int currentTileCost = currentTile.getPlacementCost();
+        int totalCost = tileCost - currentTileCost; // Cost difference
+
+        if(this.money >= totalCost) {
+            this.subMoney(totalCost);
             this.grid.setTile(tile);
         }
     }

@@ -39,11 +39,6 @@ public abstract class Trap extends Tile {
         this.setCoords(coords);
     }
 
-    @Override
-    public String toString() {
-        return "trap";
-    }
-
     /* --- Abstract functions --- */
 
     public abstract int getAstarValue();
@@ -51,6 +46,11 @@ public abstract class Trap extends Tile {
     public abstract void activateTrap(Game game);
 
     public abstract int getPlacementCost();
-    public abstract void setPlacementCost(int cost);
 
+    /* --- ToString --- */
+
+    @Override
+    public String toString() {
+        return "trap";
+    }
 }
