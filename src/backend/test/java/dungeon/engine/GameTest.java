@@ -2,11 +2,12 @@
 package dungeon.engine;
 
 import dungeon.engine.tiles.StartingPoint;
+import dungeon.engine.tiles.Treasure;
 import dungeon.engine.tiles.wall.StoneWall;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
  
@@ -55,7 +56,7 @@ public class GameTest {
         game.subMoney(30);
         game.nextTurn();
         game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
-        game.getGrid().setTile(new StartingPoint(new Coords(1, 1)));
+        game.getGrid().setTile(new Treasure(new Coords(1, 1)));
         game.startSimulation();
         assertEquals(500, game.getMoney());
         assertEquals(0, game.getScore());
@@ -72,5 +73,17 @@ public class GameTest {
         game.placementOnGrid(tile);
         assertEquals(tile, grid.getTile(coords));
         assertEquals(initialMoney - tile.getPlacementCost(), game.getMoney());
+    }
+
+    @Test
+    void testIsSimulationReady(){
+        Game game = new Game();
+        game.setScore(50);
+        game.subMoney(30);
+        game.nextTurn();
+        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
+        assertFalse(game.isSimulationReady());
+        game.getGrid().setTile(new Treasure(new Coords(1, 1)));
+        assertTrue(game.isSimulationReady());
     }
 }

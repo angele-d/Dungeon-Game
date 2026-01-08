@@ -1,5 +1,6 @@
 package dungeon.engine;
 
+import dungeon.engine.AI.BFS;
 import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Trap;
@@ -182,5 +183,15 @@ public class Game {
         }
 
         return result;
+    }
+
+    public boolean isSimulationReady() {
+        Tile treasure = getTreasure();
+        Tile startingPoint = getStartingPoint();
+        if (treasure != null && startingPoint != null) {
+            BFS bfs = new BFS(getGrid());
+            return bfs.search(startingPoint.getCoords(), null) != null;
+        }
+        return false;
     }
 }
