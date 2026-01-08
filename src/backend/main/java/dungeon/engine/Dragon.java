@@ -3,10 +3,11 @@ package dungeon.engine;
 import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
+import dungeon.engine.tiles.wall.WoodWall;
+
+import java.util.ArrayList;
 
 public class Dragon extends Hero {
-
-    //TODO: Implement Dragon fire ability
     
     private int health;
     private int wallFireUses;
@@ -69,5 +70,25 @@ public class Dragon extends Hero {
 
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public Coords move(Game game){
+        // Dragon-specific movement logic
+
+        // Basic movement
+        Coords newCoords = basicMove(game);
+
+        // Fire neighbor wood walls if action available
+        ArrayList<Coords> neighbors = game.getGrid().getNeighborsCoords(newCoords);
+        for(Coords coord : neighbors){
+            Tile tile = game.getGrid().getTile(coord);
+            if(tile instanceof WoodWall && getActionAvailable()){
+                game.addFireTurnListener((FireTurnListener) tile);
+                setActionAvailable(false); // increase uses
+            }
+        }
+
+        return newCoords;
     }
 }

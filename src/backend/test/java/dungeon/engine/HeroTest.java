@@ -3,6 +3,8 @@ package dungeon.engine;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class HeroTest {
     @Test
@@ -34,5 +36,43 @@ public class HeroTest {
         assertEquals(true, tank.getIsPoisoned());
         tank.setIsPoisoned(false);
         assertEquals(false, tank.getIsPoisoned());
+    }
+
+    @Test
+    public void testDragonWallFireUses(){
+        Dragon dragon = new Dragon();
+        // Dragon should have 5 uses of wall fire
+        for(int i = 0; i < 5; i++){
+            assertTrue(dragon.getActionAvailable());
+            dragon.setActionAvailable(false);
+        }
+        assertFalse(dragon.getActionAvailable());
+    }
+
+    @Test
+    public void testDragonResetAction(){
+        Dragon dragon = new Dragon();
+        for(int i = 0; i < 5; i++){
+            dragon.setActionAvailable(false);
+        }
+        assertFalse(dragon.getActionAvailable());
+        dragon.resetAction();
+        assertTrue(dragon.getActionAvailable());
+    }
+
+    @Test
+    public void testDragonHealthCannotGoNegative(){
+        Dragon dragon = new Dragon();
+        dragon.applyDamage(300);
+        assertEquals(0, dragon.getHealth());
+    }
+
+    @Test
+    public void testDragonPartialDamage(){
+        Dragon dragon = new Dragon();
+        dragon.applyDamage(30);
+        assertEquals(120, dragon.getHealth());
+        dragon.applyDamage(20);
+        assertEquals(100, dragon.getHealth());
     }
 }

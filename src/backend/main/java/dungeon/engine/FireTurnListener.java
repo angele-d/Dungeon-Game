@@ -1,5 +1,5 @@
 package dungeon.engine;
 
-public interface TurnListener {
+public interface FireTurnListener {
     void onNewTurn(Game game);
 }

@@ -18,7 +18,8 @@ public class Game {
     private HeroSquad heroSquad;
     private int money;
     private int turn;
-    private ArrayList<TurnListener> turnListeners;
+    private ArrayList<HeroTurnListener> heroTurnListeners;
+    private ArrayList<FireTurnListener> fireTurnListeners;
     private ScoreManager scoreManager;
 
     /* --- Constructor --- */
@@ -30,7 +31,8 @@ public class Game {
         this.heroSquad = new HeroSquad();
         this.money = 500;
         this.turn = 0;
-        this.turnListeners = new ArrayList<TurnListener>();
+        this.heroTurnListeners = new ArrayList<HeroTurnListener>();
+        this.fireTurnListeners = new ArrayList<FireTurnListener>();
         this.scoreManager = new ScoreManager();
     }
 
@@ -42,7 +44,8 @@ public class Game {
         this.money = 500;
         this.turn = 0;
         this.scoreManager = new ScoreManager();
-        this.turnListeners = new ArrayList<TurnListener>();
+        this.heroTurnListeners = new ArrayList<HeroTurnListener>();
+        this.fireTurnListeners = new ArrayList<FireTurnListener>();
     }
 
     /* --- Getters and Setters --- */
@@ -63,17 +66,6 @@ public class Game {
             }
         }
         return null;
-    }
-
-    public void addTurnListener(TurnListener turnListener) {
-        this.turnListeners.add(turnListener);
-    }
-    public void removeTurnListener(TurnListener turnListener) {
-        this.turnListeners.remove(turnListener);
-    }
-
-    public List<TurnListener> getTurnListeners() {
-        return new ArrayList<>(turnListeners);
     }
 
     public Grid getGrid() {
@@ -113,6 +105,32 @@ public class Game {
     }
     public void setScore(int score) {
         scoreManager.setScore(score);
+    }
+
+    /* --- Hero Turn Listeners --- */
+
+    public void addHeroTurnListener(HeroTurnListener turnListener) {
+        this.heroTurnListeners.add(turnListener);
+    }
+    public void removeHeroTurnListener(HeroTurnListener turnListener) {
+        this.heroTurnListeners.remove(turnListener);
+    }
+
+    public List<HeroTurnListener> getHeroTurnListeners() {
+        return new ArrayList<>(heroTurnListeners);
+    }
+
+    /* --- Fire Turn Listeners --- */
+
+    public void addFireTurnListener(FireTurnListener turnListener) {
+        this.fireTurnListeners.add(turnListener);
+    }
+    public void removeFireTurnListener(FireTurnListener turnListener) {
+        this.fireTurnListeners.remove(turnListener);
+    }
+
+    public List<FireTurnListener> getFireTurnListeners() {
+        return new ArrayList<>(fireTurnListeners);
     }
 
     /* --- Game Methods --- */
@@ -157,7 +175,9 @@ public class Game {
     public void nextTurn() {
         this.turn += 1;
         for (Hero hero : heroSquad.getHeroes()) {
-            for(TurnListener listener : turnListeners) {
+
+            // Notify hero turn listeners for WallTrap
+            for(HeroTurnListener listener : heroTurnListeners) {
                 listener.onNewTurn(this);
             }
 
@@ -170,6 +190,11 @@ public class Game {
             if (currentTile instanceof Trap) {
                 ((Trap) currentTile).activateTrap(this);
             }
+        }
+
+        // Notify fire turn listeners for WoodWall
+        for(FireTurnListener listener : fireTurnListeners) {
+            listener.onNewTurn(this);
         }
 
         // Tick poison effect

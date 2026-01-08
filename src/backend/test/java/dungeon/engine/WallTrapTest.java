@@ -38,7 +38,7 @@ class WallTrapTest {
 
         trap.activateTrap(game);
 
-        assertTrue(game.getTurnListeners().contains(trap));
+        assertTrue(game.getHeroTurnListeners().contains(trap));
     }
 
     @Test
@@ -51,14 +51,14 @@ class WallTrapTest {
         hero.setCoords(new Coords(0, 0));
         squad.addHero(hero);
 
-        game.addTurnListener(trap);
+        game.addHeroTurnListener(trap);
 
         trap.onNewTurn(game);
 
         Tile placed = grid.getTile(trapCoords);
         assertTrue(placed instanceof StoneWall);
         assertEquals(trapCoords, placed.getCoords());
-        assertFalse(game.getTurnListeners().contains(trap));
+        assertFalse(game.getHeroTurnListeners().contains(trap));
     }
 
     @Test
@@ -69,13 +69,13 @@ class WallTrapTest {
         heroOnTrap.setCoords(trapCoords);
         squad.addHero(heroOnTrap);
 
-        game.addTurnListener(trap);
+        game.addHeroTurnListener(trap);
 
         trap.onNewTurn(game);
 
         Tile tileAtTrap = grid.getTile(trapCoords);
         assertFalse(tileAtTrap instanceof StoneWall);
-        assertTrue(game.getTurnListeners().contains(trap));
+        assertTrue(game.getHeroTurnListeners().contains(trap));
     }
 
     @Test
@@ -89,14 +89,14 @@ class WallTrapTest {
         squad.addHero(hero1);
         squad.addHero(hero2);
 
-        game.addTurnListener(trap);
+        game.addHeroTurnListener(trap);
 
         trap.onNewTurn(game);
 
         Tile placed = grid.getTile(trapCoords);
         assertTrue(placed instanceof StoneWall);
         assertEquals(trapCoords, placed.getCoords());
-        assertFalse(game.getTurnListeners().contains(trap));
+        assertFalse(game.getHeroTurnListeners().contains(trap));
     }
 
     @Test
@@ -108,8 +108,8 @@ class WallTrapTest {
         hero.setCoords(new Coords(0, 0));
         squad.addHero(hero);
 
-        game.addTurnListener(trapA);
-        game.addTurnListener(trapB);
+        game.addHeroTurnListener(trapA);
+        game.addHeroTurnListener(trapB);
 
         trapA.onNewTurn(game);
         trapB.onNewTurn(game);
@@ -118,8 +118,8 @@ class WallTrapTest {
         Tile second = grid.getTile(new Coords(5, 5));
         assertTrue(first instanceof StoneWall);
         assertTrue(second instanceof StoneWall);
-        assertFalse(game.getTurnListeners().contains(trapA));
-        assertFalse(game.getTurnListeners().contains(trapB));
+        assertFalse(game.getHeroTurnListeners().contains(trapA));
+        assertFalse(game.getHeroTurnListeners().contains(trapB));
     }
 
     @Test
@@ -131,18 +131,18 @@ class WallTrapTest {
         hero.setCoords(new Coords(1, 0));
         squad.addHero(hero);
 
-        game.addTurnListener(blockedTrap);
-        game.addTurnListener(freeTrap);
+        game.addHeroTurnListener(blockedTrap);
+        game.addHeroTurnListener(freeTrap);
 
         blockedTrap.onNewTurn(game);
         freeTrap.onNewTurn(game);
 
         Tile blockedTile = grid.getTile(new Coords(1, 0));
         assertFalse(blockedTile instanceof StoneWall);
-        assertTrue(game.getTurnListeners().contains(blockedTrap));
+        assertTrue(game.getHeroTurnListeners().contains(blockedTrap));
 
         Tile freeTile = grid.getTile(new Coords(7, 7));
         assertTrue(freeTile instanceof StoneWall);
-        assertFalse(game.getTurnListeners().contains(freeTrap));
+        assertFalse(game.getHeroTurnListeners().contains(freeTrap));
     }
 }
