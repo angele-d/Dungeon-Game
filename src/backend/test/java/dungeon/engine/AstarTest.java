@@ -15,7 +15,7 @@ public class AstarTest {
         HeroSquad heroSquad = new HeroSquad();
 
         Coords result = astar.search(new Coords(0, 0), heroSquad);
-        assertNull(result);
+        assertEquals(result, new Coords(0, 0));
     }
 
     @Test

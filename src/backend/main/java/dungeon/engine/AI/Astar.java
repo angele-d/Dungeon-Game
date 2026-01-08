@@ -76,7 +76,7 @@ public class Astar {
                     }
             }
         }
-        return null;
+        return start;
     }
 
     public Coords treasureFound(NodeValue curr){

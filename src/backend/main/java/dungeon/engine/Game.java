@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Game {
 
+    public static final int POISON_DAMAGE_PER_TURN = 5;
     private int id; //TODO: implement unique ID generation
     private Grid grid;
     private Grid blueprint;
@@ -168,6 +169,13 @@ public class Game {
             Tile currentTile = this.grid.getTile(hero.getCoords());
             if (currentTile instanceof Trap) {
                 ((Trap) currentTile).activateTrap(this);
+            }
+        }
+
+        // Tick poison effect
+        for(Hero hero : this.getHeroSquad().getHeroes()){
+            if(hero.getIsPoisoned()){
+                hero.applyDamage(POISON_DAMAGE_PER_TURN);
             }
         }
     }
