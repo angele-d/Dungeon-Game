@@ -263,7 +263,7 @@ public class TerminalLauncher {
     public static void execute_game(Game game, int size, Coords dep_hero) {
         int end = 0;
         int round = 1;
-        GameEngine.getInstance().startSimulation(game.getId(),dep_hero);
+        GameEngine.getInstance().startSimulation(game.getId());
 
         while (end == 0){
             if(end == 0 && round == 3){ // TODO: Finish Game : Print score, print finish

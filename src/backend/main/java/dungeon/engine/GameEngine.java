@@ -104,23 +104,12 @@ public class GameEngine {
         return game;
     }
 
-    public Map<String, String> startSimulation(Integer game_id, Coords coord) {
-        Game game = games.get(game_id);
-        if (game != null) {
-            game.startNewGame(coord);
-        }
-        Map<String, String> result = new HashMap<String, String>();
-        result.put("grid", game.getGrid().serialized().toString());
-        result.put("heros", game.getHeroSquad().serialized().toString());
-        return result;
-    }
-
     /// TODO check accessiblity
 
     public Map<String, String> startSimulation(Integer game_id) {
         Game game = games.get(game_id);
         if (game != null) {
-            game.startNewGame();
+            game.startSimulation();
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
@@ -136,6 +125,12 @@ public class GameEngine {
         return game;
     }
 
+    public void endGame(int gameId) {
+        Map<String, String> result = new HashMap<String, String>();
+        Game game = games.get(gameId);
+        game.endSimulation();
+    }
+
     public Map<String, String> getGameStats(int gameId) {
         Map<String, String> result = new HashMap<String, String>();
         Game game = games.get(gameId);
@@ -148,7 +143,7 @@ public class GameEngine {
     public Map<String, String> nextTurn(Integer game_id) {
         Game game = games.get(game_id);
         if (game != null) {
-            game.startNewGame();
+            game.startSimulation();
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());

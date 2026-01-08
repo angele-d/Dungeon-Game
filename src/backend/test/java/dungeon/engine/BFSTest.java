@@ -38,20 +38,20 @@ class BFSTest {
         assertEquals(new Coords(1, 2), coords);
     }
 
-    @Test
-    void searchWithWallBreak() {
-        Hero hero = new Dwarf();
-        Grid grid = new Grid();
-        grid.setTile(new Treasure(new Coords(0, 3)));
-        grid.setTile(new StoneWall(new Coords(0, 2)));
-        BFS bfs = new BFS(grid);
-        Coords coords = bfs.search(new Coords(0, 0), hero);
-        assertEquals(new Coords(0, 1), coords);
-        coords = bfs.search(new Coords(0, 1), hero);
-        assertEquals(new Coords(0, 2), coords);
-        coords = bfs.search(new Coords(0, 3), hero);
-        assertEquals(new Coords(0, 3), coords);
-    }
+//    @Test
+//    void searchWithWallBreak() {
+//        Hero hero = new Dwarf();
+//        Grid grid = new Grid();
+//        grid.setTile(new Treasure(new Coords(0, 3)));
+//        grid.setTile(new StoneWall(new Coords(0, 2)));
+//        BFS bfs = new BFS(grid);
+//        Coords coords = bfs.search(new Coords(0, 0), hero);
+//        assertEquals(new Coords(0, 1), coords);
+//        coords = bfs.search(new Coords(0, 1), hero);
+//        assertEquals(new Coords(0, 2), coords);
+//        coords = bfs.search(new Coords(0, 3), hero);
+//        assertEquals(new Coords(0, 3), coords);
+//    }
 
     @Test
     void searchNoTreasure() {

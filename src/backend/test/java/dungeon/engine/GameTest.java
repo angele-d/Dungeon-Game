@@ -1,6 +1,7 @@
 
 package dungeon.engine;
 
+import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.wall.StoneWall;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +54,9 @@ public class GameTest {
         game.setScore(50);
         game.subMoney(30);
         game.nextTurn();
-        game.startNewGame();
+        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
+        game.getGrid().setTile(new StartingPoint(new Coords(1, 1)));
+        game.startSimulation();
         assertEquals(500, game.getMoney());
         assertEquals(0, game.getScore());
         assertEquals(0, game.getTurn());
