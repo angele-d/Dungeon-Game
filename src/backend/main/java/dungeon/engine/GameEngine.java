@@ -1,8 +1,6 @@
 package dungeon.engine;
 
-import dungeon.engine.Strategies.BFSStrategy;
-import dungeon.engine.Strategies.DFSStrategy;
-import dungeon.engine.Strategies.Strategy;
+import dungeon.engine.Strategies.*;
 import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
@@ -47,6 +45,9 @@ public class GameEngine {
                 case "treasure":
                     tile = new Treasure(coords);
                     break;
+                case "startingpoint":
+                    tile = new StartingPoint(coords);
+                    break;
                 case "woodwall":
                     tile = new WoodWall(coords);
                     break;
@@ -82,6 +83,9 @@ public class GameEngine {
             case "DFS":
                 strategy = new DFSStrategy();
                 break;
+            case "Astar":
+                strategy = new AstarStrategy();
+                break;
             default:
                 strategy = new BFSStrategy();
                 break;
@@ -89,6 +93,22 @@ public class GameEngine {
 
         game.getHeroSquad().setStrategy(strategy);
         return Map.of("result", "true");
+    }
+
+    public Game getGame(Integer gameId) {
+        Game game = games.get(gameId);
+        return game;
+    }
+
+    public Map<String, String> startSimulation(Integer game_id, Coords coord) {
+        Game game = games.get(game_id);
+        if (game != null) {
+            game.startNewGame(coord);
+        }
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("grid", game.getGrid().serialized().toString());
+        result.put("heros", game.getHeroSquad().serialized().toString());
+        return result;
     }
 
     public Map<String, String> startSimulation(Integer game_id) {
@@ -103,8 +123,9 @@ public class GameEngine {
     }
 
     public Game newGame() {
-        Game game = new Game();
-        games.put(0, game);
+        int id = 1;
+        Game game = new Game(id);
+        games.put(id, game);
         return game;
     }
 

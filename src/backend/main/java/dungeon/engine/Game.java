@@ -17,10 +17,10 @@ public class Game {
     private int turn;
     private ArrayList<TurnListener> turnListeners;
 
-    public Game() {
+    public Game(int id) {
         this.grid = new Grid();
         this.blueprint = grid.clone();
-        this.id = 0;
+        this.id = id;
         this.heroSquad = new HeroSquad();
         this.score = 0;
         this.money = 500;
@@ -47,6 +47,16 @@ public class Game {
 
     public List<TurnListener> getTurnListeners() {
         return new ArrayList<>(turnListeners);
+    }
+
+    public Game() {
+        this.grid = new Grid();
+        this.blueprint = grid.clone();
+        this.id = 1;
+        this.heroSquad = new HeroSquad();
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
     }
 
     /* --- Getters and Setters --- */
@@ -91,10 +101,25 @@ public class Game {
     }
 
     /* --- Game Methods --- */
+    public void startNewGame(Coords coord) { // TODO : Place heroes in the starting point
+        blueprint = grid.clone();
+        //this.grid = new Grid();
+        this.heroSquad = new HeroSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(coord);
+        }
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+    }
+
     public void startNewGame() {
         blueprint = grid.clone();
 //        this.grid = new Grid();
         this.heroSquad = new HeroSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(new Coords(0,0));
+        }
         this.score = 0;
         this.money = 500;
         this.turn = 0;

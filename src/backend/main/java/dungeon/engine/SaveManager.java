@@ -26,6 +26,8 @@ public class SaveManager {
         }
     }
 
+    
+
     private record DataToSave(int size, Map<Coords, NamedTiles> grid, int score, int money) {}
     private record DataToGet(int size, Map<String, NamedTiles> grid, int score, int money) {}
 
