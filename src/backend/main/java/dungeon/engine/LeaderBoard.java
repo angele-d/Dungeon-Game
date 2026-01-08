@@ -5,15 +5,15 @@ import java.util.List;
 
 public class LeaderBoard {
     
-    private final List<GameResults> results = new ArrayList<>();
+    private final List<GameResult> results = new ArrayList<>();
 
-    public void addResults(GameResults result) {
+    public void addResults(GameResult result) {
         results.add(result);
     }
 
     /* --- Getters --- */
 
-    public List<GameResults> getResults() {
+    public List<GameResult> getResults() {
         return List.copyOf(results);
     }
 

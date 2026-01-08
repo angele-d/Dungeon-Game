@@ -1,13 +1,13 @@
 package dungeon.engine;
 
-public class GameResults {
+public class GameResult {
     private final int score;
     private final int gameId;
     private final int money;
     
     /* --- Constructor --- */
 
-    public GameResults(int score, int gameId, int money) {
+    public GameResult(int score, int gameId, int money) {
         this.score = score;
         this.gameId = gameId;
         this.money = money;
@@ -25,6 +25,11 @@ public class GameResults {
 
     public int getMoney() {
         return money;
+    }
+
+    @Override
+    public String toString() {
+        return "["+String.valueOf(score)+String.valueOf(gameId)+String.valueOf(money)+"]";
     }
 
 }
