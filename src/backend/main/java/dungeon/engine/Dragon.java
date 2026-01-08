@@ -6,16 +6,17 @@ import dungeon.engine.Visitors.HeroVisitor;
 
 public class Dragon extends Hero {
 
-    //TODO: Implement Dragon wall breaking ability
+    //TODO: Implement Dragon fire ability
     
     private int health;
-    private boolean actionAvailable;
+    private int wallFireUses;
+    private final int MAX_WALL_FIRE_USES = 5;
     private static final int MAX_HEALTH = 150;
 
     public Dragon() {
         super();
         health = MAX_HEALTH;
-        actionAvailable = true;
+        wallFireUses = 0;
         // Dragon-specific initialization
     }
 
@@ -38,10 +39,15 @@ public class Dragon extends Hero {
     }
 
     public boolean getActionAvailable() {
-        return actionAvailable;
+        return wallFireUses < MAX_WALL_FIRE_USES;
     }
     public void setActionAvailable(boolean status) {
-        actionAvailable = status;
+        if(status == false){ // use wall fire
+            wallFireUses++;
+        }
+        else{ // reset uses
+            wallFireUses = 0;
+        }
     }
 
     /* --- Functions --- */
