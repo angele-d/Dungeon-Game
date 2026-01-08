@@ -82,7 +82,7 @@ public class StrategyTest {
         GameEngine.getInstance().changeAI(game.getId(), "Astar");
 
         for (Hero hero: GameEngine.getInstance().getGame(game.getId()).getHeroSquad().getHeroes()) {
-            assertTrue(hero.strategy instanceof AstarStrategy);
+            assertInstanceOf(AstarStrategy.class, hero.strategy);
         }
     }
 }

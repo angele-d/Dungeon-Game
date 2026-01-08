@@ -165,6 +165,8 @@ public class GameEngine {
         Map<String, String> result;
         Game game = games.get(gameId);
         result = getGameStats(gameId);
+        GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
+        leaderboard.addResults(gameResult);
         game.endSimulation();
         return result;
     }

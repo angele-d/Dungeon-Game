@@ -135,9 +135,6 @@ public class Game {
 
     public void endSimulation(){
         this.grid = blueprint.clone();
-
-        GameResult result = new GameResult(getScore(), getId(), getMoney());
-        leaderboard.addResults(result);
     }
 
     public void placementOnGrid(Tile tile) {
