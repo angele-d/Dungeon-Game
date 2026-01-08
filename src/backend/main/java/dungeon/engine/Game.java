@@ -1,6 +1,7 @@
 package dungeon.engine;
 
 import dungeon.engine.Observers.ScoreManager;
+import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Trap;
 import dungeon.engine.tiles.Treasure;
 
@@ -53,12 +54,22 @@ public class Game {
         return null;
     }
 
+    private Tile getStartingPoint() {
+        for (Coords coords: grid.getGrid().keySet()) {
+            if (grid.getTile(coords) instanceof StartingPoint) {
+                return grid.getTile(coords);
+            }
+        }
+        return null;
+    }
+
     public void addTurnListener(TurnListener turnListener) {
         this.turnListeners.add(turnListener);
     }
     public void removeTurnListener(TurnListener turnListener) {
         this.turnListeners.remove(turnListener);
     }
+
     public List<TurnListener> getTurnListeners() {
         return new ArrayList<>(turnListeners);
     }
@@ -104,32 +115,24 @@ public class Game {
 
     /* --- Game Methods --- */
 
-    public void startNewGame(Coords coord) { // TODO : Place heroes in the starting point
+    public void startSimulation() {
         blueprint = grid.clone();
-        //this.grid = new Grid();
-        this.heroSquad = new HeroSquad();
-//        this.heroSquad.addHero();
+        HeroSquad.Builder builder = new HeroSquad.Builder();
+        builder.addHero(new Dwarf())
+                .addHero(new Healer())
+                .addHero(new Tank())
+                .addHero(new TheMemeMaker());
+        this.heroSquad = builder.build();
+        Tile startingPoint = getStartingPoint();
         for (Hero hero : heroSquad.getHeroes()) {
-            hero.setCoords(coord);
+            hero.setCoords(startingPoint.getCoords());
         }
         this.scoreManager = new ScoreManager();
         this.money = 500;
         this.turn = 0;
     }
 
-    public void startNewGame() {
-        blueprint = grid.clone();
-//        this.grid = new Grid();
-        this.heroSquad = new HeroSquad();
-        for (Hero hero : heroSquad.getHeroes()) {
-            hero.setCoords(new Coords(0,0));
-        }
-        this.scoreManager = new ScoreManager();
-        this.money = 500;
-        this.turn = 0;
-    }
-
-    public void endGame(){
+    public void endSimulation(){
         this.grid = blueprint.clone();
     }
 
