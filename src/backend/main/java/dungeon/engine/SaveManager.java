@@ -117,6 +117,7 @@ public class SaveManager {
                     .toList();
         } catch (IOException e) {
 //            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }
