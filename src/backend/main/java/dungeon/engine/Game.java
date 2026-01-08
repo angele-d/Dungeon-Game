@@ -11,13 +11,15 @@ import java.util.List;
 
 public class Game {
 
+    public static final int POISON_DAMAGE_PER_TURN = 5;
     private int id; //TODO: implement unique ID generation
     private Grid grid;
     private Grid blueprint;
     private HeroSquad heroSquad;
     private int money;
     private int turn;
-    private ArrayList<TurnListener> turnListeners;
+    private ArrayList<HeroTurnListener> heroTurnListeners;
+    private ArrayList<FireTurnListener> fireTurnListeners;
     private ScoreManager scoreManager;
 
     /* --- Constructor --- */
@@ -29,7 +31,8 @@ public class Game {
         this.heroSquad = new HeroSquad();
         this.money = 500;
         this.turn = 0;
-        this.turnListeners = new ArrayList<TurnListener>();
+        this.heroTurnListeners = new ArrayList<HeroTurnListener>();
+        this.fireTurnListeners = new ArrayList<FireTurnListener>();
         this.scoreManager = new ScoreManager();
     }
 
@@ -41,7 +44,8 @@ public class Game {
         this.money = 500;
         this.turn = 0;
         this.scoreManager = new ScoreManager();
-        this.turnListeners = new ArrayList<TurnListener>();
+        this.heroTurnListeners = new ArrayList<HeroTurnListener>();
+        this.fireTurnListeners = new ArrayList<FireTurnListener>();
     }
 
     /* --- Getters and Setters --- */
@@ -62,17 +66,6 @@ public class Game {
             }
         }
         return null;
-    }
-
-    public void addTurnListener(TurnListener turnListener) {
-        this.turnListeners.add(turnListener);
-    }
-    public void removeTurnListener(TurnListener turnListener) {
-        this.turnListeners.remove(turnListener);
-    }
-
-    public List<TurnListener> getTurnListeners() {
-        return new ArrayList<>(turnListeners);
     }
 
     public Grid getGrid() {
@@ -118,15 +111,41 @@ public class Game {
         scoreManager.setScore(score);
     }
 
+    /* --- Hero Turn Listeners --- */
+
+    public void addHeroTurnListener(HeroTurnListener turnListener) {
+        this.heroTurnListeners.add(turnListener);
+    }
+    public void removeHeroTurnListener(HeroTurnListener turnListener) {
+        this.heroTurnListeners.remove(turnListener);
+    }
+
+    public List<HeroTurnListener> getHeroTurnListeners() {
+        return new ArrayList<>(heroTurnListeners);
+    }
+
+    /* --- Fire Turn Listeners --- */
+
+    public void addFireTurnListener(FireTurnListener turnListener) {
+        this.fireTurnListeners.add(turnListener);
+    }
+    public void removeFireTurnListener(FireTurnListener turnListener) {
+        this.fireTurnListeners.remove(turnListener);
+    }
+
+    public List<FireTurnListener> getFireTurnListeners() {
+        return new ArrayList<>(fireTurnListeners);
+    }
+
     /* --- Game Methods --- */
 
     public void startSimulation() {
         blueprint = grid.clone();
         HeroSquad.Builder builder = new HeroSquad.Builder();
-        builder.addHero(new Dwarf())
+        builder.addHero(new Dragon())
                 .addHero(new Healer())
                 .addHero(new Tank())
-                .addHero(new TheMemeMaker());
+                .addHero(new Muggle());
         this.heroSquad = builder.build();
         Tile startingPoint = getStartingPoint();
         for (Hero hero : heroSquad.getHeroes()) {
@@ -160,7 +179,9 @@ public class Game {
     public void nextTurn() {
         this.turn += 1;
         for (Hero hero : heroSquad.getHeroes()) {
-            for(TurnListener listener : turnListeners) {
+
+            // Notify hero turn listeners for WallTrap
+            for(HeroTurnListener listener : heroTurnListeners) {
                 listener.onNewTurn(this);
             }
 
@@ -174,6 +195,18 @@ public class Game {
                 ((Trap) currentTile).activateTrap(this);
             }
         }
+
+        // Notify fire turn listeners for WoodWall
+        for(FireTurnListener listener : fireTurnListeners) {
+            listener.onNewTurn(this);
+        }
+
+        // Tick poison effect
+        for(Hero hero : this.getHeroSquad().getHeroes()){
+            if(hero.getIsPoisoned()){
+                hero.applyDamage(POISON_DAMAGE_PER_TURN);
+            }
+        }
     }
 
     public void subMoney(int amount) {
@@ -185,9 +218,13 @@ public class Game {
 
         boolean isOneAlive = false;
         for (Hero hero: heroSquad.getHeroes()) {
-            if (hero.getCoords().equals(treasure.getCoords())) {
+
+            // Stop when one hero reaches the treasure
+            if(hero.getCoords().equals(treasure.getCoords())) {
                 return true;
             }
+
+            // Check if at least one hero is alive
             isOneAlive = isOneAlive || hero.getHealth() != 0;
         }
 

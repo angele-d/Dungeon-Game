@@ -63,7 +63,7 @@ public class HeroSquad{
         for(Hero hero : this.heroList){
             ArrayList<String> hero_serialized = new ArrayList<String>();
             hero_serialized.add('"' + hero.toString() + '"');
-            if(hero.getCoords() == null) {
+            if(hero.getCoords() != null) {
                 hero_serialized.add(Integer.toString(hero.getCoords().x()));
                 hero_serialized.add(Integer.toString(hero.getCoords().y()));
             } else {

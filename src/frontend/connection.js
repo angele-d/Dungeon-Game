@@ -119,6 +119,14 @@ function sendCreateGame(stompClient) {
 
       window.id = id;
 
+      stompClient.subscribe(`/topic/ai_changed/${id}`, function (message) {
+        let payload = JSON.parse(message.body);
+        if (payload["result"] == "false") {
+          alert("AI change failed on server.");
+        } else {
+          document.querySelector("#ai-menu").value = window.ai;
+        }
+      });
       sendChangeAI(stompClient, "BFS"); // Default AI
 
       const urlParams = new URLSearchParams(window.location.search);

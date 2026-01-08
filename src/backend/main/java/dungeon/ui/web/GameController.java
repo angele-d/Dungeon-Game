@@ -23,7 +23,7 @@ public class GameController {
     @MessageMapping("/test")
     @SendTo("/topic/messages")
     public Map<String, String> hello(Map<String, String> payload) {
-        String message = payload.get("message");
+        payload.get("message");
         return Map.of("message", "Hello World!");
     }
 
@@ -33,7 +33,6 @@ public class GameController {
         Game new_game = GameEngine.getInstance().newGame();
         Map<String, String> result = GameEngine.getInstance().getGameStats(new_game.getId());
         result.put("id", String.valueOf(new_game.getId()));
-        System.out.println(new_game.getId());
 
         String destination = "/topic/get-id/" + tmpId;
         messagingTemplate.convertAndSend(destination, result);

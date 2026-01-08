@@ -248,8 +248,6 @@ function updateHeroes(heroesData) {
 
   // Update on the information panel
 
-  console.log(heroesData);
-
   const infoPanel = document.querySelector(".info-panel");
   infoPanel.innerHTML = ""; // Clear existing info
 
