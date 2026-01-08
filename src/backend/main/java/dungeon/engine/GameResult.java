@@ -29,7 +29,11 @@ public class GameResult {
 
     @Override
     public String toString() {
-        return "["+String.valueOf(score)+String.valueOf(gameId)+String.valueOf(money)+"]";
+        return String.valueOf(score)+" "+String.valueOf(gameId)+" "+String.valueOf(money);
+    }
+
+    public String serialized() {
+        return "["+String.valueOf(score)+","+String.valueOf(gameId)+","+String.valueOf(money)+"]";
     }
 
 }
