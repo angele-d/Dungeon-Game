@@ -189,9 +189,13 @@ public class Game {
 
         boolean isOneAlive = false;
         for (Hero hero: heroSquad.getHeroes()) {
-            if (hero.getCoords().equals(treasure.getCoords())) {
+
+            // Stop when one hero reaches the treasure
+            if(hero.getCoords().equals(treasure.getCoords())) {
                 return true;
             }
+
+            // Check if at least one hero is alive
             isOneAlive = isOneAlive || hero.getHealth() != 0;
         }
 

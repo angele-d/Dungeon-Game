@@ -171,16 +171,6 @@ public class GameEngine {
          } else {
              return null;
          }
-
-
-    }
-
-    public boolean isGameTerminated(int gameId) {
-        Game game = games.get(gameId);
-        if (game != null) {
-            return game.isTerminated();
-        }
-        return false;
     }
 
     public Map<String, String> endGame(int gameId) {
@@ -191,6 +181,15 @@ public class GameEngine {
         leaderboard.addResults(gameResult);
         game.endSimulation();
         return result;
+    }
+
+    public boolean isGameTerminated(int gameId) {
+        Game game = games.get(gameId);
+        if (game != null) {
+            return game.isTerminated();
+        }
+        // Game not found
+        return false;
     }
 
     public Map<String, String> nextTurn(Integer gameId) {
