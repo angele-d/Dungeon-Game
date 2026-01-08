@@ -1,5 +1,5 @@
 const config = {
-  spawn: 0,
+  startingpoint: 0,
   treasure: 0,
   eraser: 0,
   woodwall: 50,

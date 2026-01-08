@@ -125,7 +125,11 @@ public class GameEngine {
     }
 
     public Game newGame() {
-        int id = 1;
+        int id = 0;
+        while (games.containsKey(id)) {
+            id++;
+        }
+
         Game game = new Game(id);
         games.put(id, game);
         return game;

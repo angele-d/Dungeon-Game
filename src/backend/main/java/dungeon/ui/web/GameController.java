@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 
 import java.util.Map;
@@ -22,47 +24,66 @@ public class GameController {
         return Map.of("message", "Hello World!");
     }
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @MessageMapping("/new_game")
-    @SendTo("/topic/new_game")
-    public Map<String, String> newGame(Map<String, String> payload) {
+    public void newGame(Map<String, String> payload) {
+        String tmpId = payload.get("id");
         Game new_game = GameEngine.getInstance().newGame();
         Map<String, String> result = GameEngine.getInstance().getGameStats(new_game.getId());
-        return result;
+        result.put("id", String.valueOf(new_game.getId()));
+        System.out.println(new_game.getId());
+
+        String destination = "/topic/get-id/" + tmpId;
+        messagingTemplate.convertAndSend(destination, result);
     }
 
     @MessageMapping("/place_tile")
-    @SendTo("/topic/tile_placed")
-    public Map<String, String> place_tile(Map<String, String> payload) {
+    public void place_tile(Map<String, String> payload) {
         String id = payload.get("id");
         String type = payload.get("tile_type");
         String col = payload.get("col");
         String row = payload.get("row");
         Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id), new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
-        return result;
+
+        String destination = "/topic/tile_placed/" + id;
+        messagingTemplate.convertAndSend(destination, result);
     }
 
     @MessageMapping("/launch_game")
-    @SendTo("/topic/game_launched")
-    public Map<String, String> launch_game(Map<String, String> payload) {
+    public void launch_game(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().startSimulation(Integer.parseInt(id));
-        return result;
+
+        String destination = "/topic/game_launched/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    @MessageMapping("/get_game_stats")
+    public void send_game_stats(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = GameEngine.getInstance().getGameStats(Integer.parseInt(id));
+        String destination = "/topic/send_game_stats/" + id;
+        messagingTemplate.convertAndSend(destination, result);
     }
 
     @MessageMapping("/next_step")
-    @SendTo("/topic/step_result")
-    public Map<String, String> next_step(Map<String, String> payload) {
+    public void next_step(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().nextTurn(Integer.parseInt(id));
-        return result;
+
+        String destination = "/topic/step_result/" + id;
+        messagingTemplate.convertAndSend(destination, result);
     }
 
     @MessageMapping("/change_ai")
-    @SendTo("/topic/ai_changed")
-    public Map<String, String> change_ai(Map<String, String> payload) {
+    public void change_ai(Map<String, String> payload) {
         String id = payload.get("id");
         String type = payload.get("ai");
         Map<String, String> result = GameEngine.getInstance().changeAI(Integer.parseInt(id), type);
-        return result;
+
+        String destination = "/topic/ai_changed/" + id;
+        messagingTemplate.convertAndSend(destination, result);
     }
 }

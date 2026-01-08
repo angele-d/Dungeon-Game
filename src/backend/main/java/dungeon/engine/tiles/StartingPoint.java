@@ -21,6 +21,11 @@ public class StartingPoint extends Tile {
     }
 
     @Override
+    public String toString() {
+        return "startingpoint";
+    }
+
+    @Override
     public int getPlacementCost() {
         return PLACEMENT_COST;
     }

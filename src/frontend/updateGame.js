@@ -16,8 +16,10 @@ function updateGrid(gridData) {
   let folds = new Map([
     ["woodwall", 0],
     ["stonewall", 0],
-    ["spike", 0],
-    ["spawn", 0],
+    ["poisontrap", 0],
+    ["mine", 0],
+    ["walltrap", 0],
+    ["startingpoint", 0],
     ["treasure", 0],
   ]);
 
@@ -151,8 +153,8 @@ function updateGrid(gridData) {
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
           break;
-        case "spawn":
-          cell.classList.add("spawn", "bg-black", "relative");
+        case "startingpoint":
+          cell.classList.add("startingpoint", "bg-black", "relative");
           innerSpan = document.createElement("span");
           innerSpan.classList.add("material-symbols-outlined", "text-white");
           innerSpan.textContent = "skull";
@@ -204,6 +206,7 @@ function updateGrid(gridData) {
 
   // Update sidebar folds
   folds.forEach((count, elementType) => {
+    console.log(elementType, count);
     const sidebarElement = document
       .getElementById(elementType)
       .querySelector(".folds");

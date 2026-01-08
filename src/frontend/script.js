@@ -67,7 +67,7 @@ function selectionPossible(elt) {
       selectedElement == "eraser") ||
     !canAfford(config[selectedElement]) ||
     (selectedElement == "treasure" && window.treasurePlaced) ||
-    (selectedElement == "spawn" && window.spawnPlaced)
+    (selectedElement == "startingpoint" && window.spawnPlaced)
   ) {
     elt.classList.add("not-allowed-cell");
   }
@@ -104,11 +104,15 @@ function selectGridCell(cell) {
   // }
 
   if (selectedElement == "eraser") {
-    sendAddElement(stompClient, "0", "empty", cell.dataset.x, cell.dataset.y);
+    sendAddElement(stompClient, "empty", cell.dataset.x, cell.dataset.y);
+    if (cell.classList.contains("startingpoint")) {
+      window.spawnPlaced = false;
+    } else if (cell.classList.contains("treasure")) {
+      window.treasurePlaced = false;
+    }
   } else {
     sendAddElement(
       stompClient,
-      "0",
       selectedElement,
       cell.dataset.x,
       cell.dataset.y
@@ -140,7 +144,7 @@ function onSelectAIChange(elt) {
    * elt - The DOM element of the select dropdown
    * Returns: None
    */
-  sendChangeAI(stompClient, "0", elt.value);
+  sendChangeAI(stompClient, elt.value);
 }
 
 function changeAI(ai) {
@@ -188,9 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelector("#next-button").addEventListener("click", () => {
     if (window.gameLaunched) {
-      sendNextStep(stompClient, "0");
+      sendNextStep(stompClient);
     } else {
-      sendLaunchGame(stompClient, "0");
+      sendLaunchGame(stompClient);
     }
   });
 });
