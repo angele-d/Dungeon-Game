@@ -42,14 +42,15 @@ public class GameTest {
     void testGameScoreManagement(){
         Game game = new Game();
         int initialScore = game.getScore();
-        game.addScore(10);
-        assertEquals(initialScore + 10, game.getScore());
+        assertEquals(0, initialScore);
+        game.setScore(10);
+        assertEquals(10, game.getScore());
     }
 
     @Test
     void testReinitializeGame(){
         Game game = new Game();
-        game.addScore(50);
+        game.setScore(50);
         game.subMoney(30);
         game.nextTurn();
         game.startNewGame();
