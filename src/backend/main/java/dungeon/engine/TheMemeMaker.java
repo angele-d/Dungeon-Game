@@ -9,15 +9,12 @@ public class TheMemeMaker extends Hero {
     private int health;
     private static final int MAX_HEALTH = 150;
 
+    /* --- Constructor --- */
+
     public TheMemeMaker() {
         super();
         health = MAX_HEALTH;
         // TheMemeMaker-specific initialization
-    }
-
-    @Override
-    public String toString() {
-        return "TheMemeMaker";
     }
 
     /* --- Getters and Setters --- */
@@ -59,5 +56,12 @@ public class TheMemeMaker extends Hero {
 
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "TheMemeMaker";
     }
 }

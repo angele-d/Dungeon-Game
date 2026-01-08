@@ -4,7 +4,7 @@ import dungeon.engine.*;
 import dungeon.engine.tiles.Trap;
 import dungeon.engine.tiles.wall.StoneWall;
 
-public class WallTrap extends Trap implements TurnListener {
+public class WallTrap extends Trap implements HeroTurnListener {
 
     private static final int PLACEMENT_COST = 150; // #FIXME: Change placementCost value
     private static final int ASTAR_VALUE = 3;
@@ -33,7 +33,7 @@ public class WallTrap extends Trap implements TurnListener {
 
     @Override
     public void activateTrap(Game game){
-        game.addTurnListener(this);
+        game.addHeroTurnListener(this);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class WallTrap extends Trap implements TurnListener {
         if (available) {
             Tile tile = new StoneWall(this.getCoords());
             game.getGrid().setTile(tile);
-            game.removeTurnListener(this);
+            game.removeHeroTurnListener(this);
         }
     }
 
