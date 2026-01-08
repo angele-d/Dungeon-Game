@@ -78,7 +78,7 @@ public class GameTest {
     @Test
     void testIsSimulationReady(){
         Game game = new Game();
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
         game.getHeroSquad().addHero(hero);
         game.setScore(50);

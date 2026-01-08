@@ -141,7 +141,7 @@ public class Game {
         builder.addHero(new Dragon())
                 .addHero(new Healer())
                 .addHero(new Tank())
-                .addHero(new TheMemeMaker());
+                .addHero(new Muggle());
         this.heroSquad = builder.build();
         Tile startingPoint = getStartingPoint();
         for (Hero hero : heroSquad.getHeroes()) {

@@ -100,9 +100,9 @@ public class AstarTest {
     @Test
     void avoidsHeroBlocking() {
         Grid grid = new Grid();
-        Hero hero1 = new TheMemeMaker();
+        Hero hero1 = new Muggle();
         hero1.setCoords(new Coords(1, 0));
-        Hero hero2 = new TheMemeMaker();
+        Hero hero2 = new Muggle();
         hero2.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero1);
@@ -119,7 +119,7 @@ public class AstarTest {
 
     @Test
     void isOccupied() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(2, 2));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);

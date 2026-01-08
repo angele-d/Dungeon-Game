@@ -8,7 +8,7 @@ import dungeon.engine.Creators.DragonCreator;
 import dungeon.engine.Creators.HealerCreator;
 import dungeon.engine.Creators.HeroCreator;
 import dungeon.engine.Creators.TankCreator;
-import dungeon.engine.Creators.TheMemeMakerCreator;
+import dungeon.engine.Creators.MuggleCreator;
 
 public class HeroCreatorTest {
     
@@ -34,10 +34,10 @@ public class HeroCreatorTest {
     }
 
     @Test
-    public void testTheMemeMakerCreator() {
-        HeroCreator creator = new TheMemeMakerCreator();
+    public void testMuggleCreator() {
+        HeroCreator creator = new MuggleCreator();
         Hero hero = creator.createHero();
-        assertTrue(hero instanceof TheMemeMaker);
+        assertTrue(hero instanceof Muggle);
     }
 
     @Test
@@ -45,18 +45,18 @@ public class HeroCreatorTest {
         HeroCreator healerCreator = new HealerCreator();
         HeroCreator dragonCreator = new DragonCreator();
         HeroCreator tankCreator = new TankCreator();
-        HeroCreator memeMakerCreator = new TheMemeMakerCreator();
+        HeroCreator muggleCreator = new MuggleCreator();
 
         Hero healer = healerCreator.createHero();
         Hero dragon = dragonCreator.createHero();
         Hero tank = tankCreator.createHero();
-        Hero memeMaker = memeMakerCreator.createHero();
+        Hero muggle = muggleCreator.createHero();
 
         assertTrue(healer instanceof Healer);
         assertTrue(dragon instanceof Dragon);
         assertTrue(tank instanceof Tank);
-        assertTrue(memeMaker instanceof TheMemeMaker);
-        assertNotSame(tank, memeMaker);
+        assertTrue(muggle instanceof Muggle);
+        assertNotSame(tank, muggle);
     }
 
     @Test
