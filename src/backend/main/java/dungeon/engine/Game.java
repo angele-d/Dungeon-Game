@@ -31,6 +31,19 @@ public class Game {
         this.scoreManager = new ScoreManager();
     }
 
+    public Game() {
+        this.grid = new Grid();
+        this.blueprint = grid.clone();
+        this.id = 1;
+        this.heroSquad = new HeroSquad();
+        this.money = 500;
+        this.turn = 0;
+        this.scoreManager = new ScoreManager();
+        this.turnListeners = new ArrayList<TurnListener>();
+    }
+
+    /* --- Getters and Setters --- */
+
     private Tile getTreasure() {
         for (Coords coords: grid.getGrid().keySet()) {
             if (grid.getTile(coords) instanceof Treasure) {
@@ -43,26 +56,12 @@ public class Game {
     public void addTurnListener(TurnListener turnListener) {
         this.turnListeners.add(turnListener);
     }
-
     public void removeTurnListener(TurnListener turnListener) {
         this.turnListeners.remove(turnListener);
     }
-
     public List<TurnListener> getTurnListeners() {
         return new ArrayList<>(turnListeners);
     }
-
-    public Game() {
-        this.grid = new Grid();
-        this.blueprint = grid.clone();
-        this.id = 1;
-        this.heroSquad = new HeroSquad();
-        this.score = 0;
-        this.money = 500;
-        this.turn = 0;
-    }
-
-    /* --- Getters and Setters --- */
 
     public Grid getGrid() {
         return grid;
@@ -104,6 +103,7 @@ public class Game {
     }
 
     /* --- Game Methods --- */
+
     public void startNewGame(Coords coord) { // TODO : Place heroes in the starting point
         blueprint = grid.clone();
         //this.grid = new Grid();
@@ -111,7 +111,7 @@ public class Game {
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(coord);
         }
-        this.score = 0;
+        this.scoreManager = new ScoreManager();
         this.money = 500;
         this.turn = 0;
     }
@@ -123,10 +123,9 @@ public class Game {
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(new Coords(0,0));
         }
-        this.score = 0;
+        this.scoreManager = new ScoreManager();
         this.money = 500;
         this.turn = 0;
-        this.scoreManager = new ScoreManager();
     }
 
     public void endGame(){
