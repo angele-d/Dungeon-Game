@@ -4,7 +4,9 @@ const config = {
   eraser: 0,
   woodwall: 50,
   stonewall: 75,
-  spike: 100,
+  poisontrap: 100,
+  mine: 100,
+  walltrap: 150,
 };
 
 export default config;
