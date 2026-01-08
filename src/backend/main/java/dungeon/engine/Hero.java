@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Observers.GameObserver;
-import dungeon.engine.Strategies.BFSStrategy;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
 import dungeon.engine.tiles.Treasure;
