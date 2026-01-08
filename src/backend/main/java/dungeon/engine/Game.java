@@ -2,6 +2,7 @@ package dungeon.engine;
 
 import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.Trap;
+import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,10 @@ public class Game {
 
     /* --- Constructor --- */
 
-    public Game() {
+    public Game(int id) {
         this.grid = new Grid();
         this.blueprint = grid.clone();
-        this.id = 0;
+        this.id = id;
         this.heroSquad = new HeroSquad();
         this.money = 500;
         this.turn = 0;
@@ -30,7 +31,14 @@ public class Game {
         this.scoreManager = new ScoreManager();
     }
 
-    /* --- Turn Observer Methods --- */
+    private Tile getTreasure() {
+        for (Coords coords: grid.getGrid().keySet()) {
+            if (grid.getTile(coords) instanceof Treasure) {
+                return grid.getTile(coords);
+            }
+        }
+        return null;
+    }
 
     public void addTurnListener(TurnListener turnListener) {
         this.turnListeners.add(turnListener);
@@ -42,6 +50,16 @@ public class Game {
 
     public List<TurnListener> getTurnListeners() {
         return new ArrayList<>(turnListeners);
+    }
+
+    public Game() {
+        this.grid = new Grid();
+        this.blueprint = grid.clone();
+        this.id = 1;
+        this.heroSquad = new HeroSquad();
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
     }
 
     /* --- Getters and Setters --- */
@@ -86,10 +104,26 @@ public class Game {
     }
 
     /* --- Game Methods --- */
-    public void startNewGame() {
-        this.grid = new Grid();
+    public void startNewGame(Coords coord) { // TODO : Place heroes in the starting point
         blueprint = grid.clone();
+        //this.grid = new Grid();
         this.heroSquad = new HeroSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(coord);
+        }
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+    }
+
+    public void startNewGame() {
+        blueprint = grid.clone();
+//        this.grid = new Grid();
+        this.heroSquad = new HeroSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(new Coords(0,0));
+        }
+        this.score = 0;
         this.money = 500;
         this.turn = 0;
         this.scoreManager = new ScoreManager();
@@ -131,5 +165,19 @@ public class Game {
 
     public void subMoney(int amount) {
         this.money -= amount;
+    }
+
+    public boolean isTerminated() {
+        boolean result = true;
+        Tile treasure = getTreasure();
+
+        for (Hero hero: heroSquad.getHeroes()) {
+            if (hero.getCoords() != treasure.getCoords() && hero.getHealth() != 0) {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
     }
 }

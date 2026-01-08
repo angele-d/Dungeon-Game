@@ -23,4 +23,9 @@ public class Treasure extends Tile {
     public int getPlacementCost(){
         return placementCost;
     }
+
+    @Override
+    public String toString() {
+        return "treasure";
+    }
 }

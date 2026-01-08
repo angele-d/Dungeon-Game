@@ -20,6 +20,12 @@ public class Empty extends Tile {
         return aStarValue;
     }
 
+    @Override
+    public String toString() {
+        return "empty";
+    }
+
+
     public int getPlacementCost(){
         return placementCost;
     }

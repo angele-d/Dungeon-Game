@@ -14,6 +14,11 @@ public class StoneWall extends Wall {
         super(coords);
     }
 
+    @Override
+    public String toString() {
+        return "stonewall";
+    }
+
     /* --- Getters and Setters --- */
 
     public int getAstarValue(){
