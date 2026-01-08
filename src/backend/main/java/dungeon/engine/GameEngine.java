@@ -8,25 +8,30 @@ import dungeon.engine.tiles.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GameEngine {
     private static GameEngine gameEngine;
     private final LeaderBoard leaderboard = new LeaderBoard();
 
-    private Map<Integer, Game> games;
+    public Map<Integer, Game> games;
 
 
     /* --- Constructor --- */
 
     private GameEngine() {
         games = new HashMap<Integer, Game>();
-        for (String saveFile: SaveManager.listSaveFiles()) {
+        System.out.println(SaveManager.listSaveFiles().toString());
+        for (String saveFile: Objects.requireNonNull(SaveManager.listSaveFiles())) {
             Game game = new Game();
             try {
                 SaveManager.load(game, saveFile);
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                System.out.println("Failed to load save file: " + saveFile);
+            }
             games.put(game.getId(), game);
         }
+        updateLeaderboard();
     }
 
     /* --- Singleton --- */
@@ -185,6 +190,7 @@ public class GameEngine {
         result = getGameStats(gameId);
         GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
         leaderboard.addResults(gameResult);
+        updateLeaderboard();
         game.endSimulation();
         return result;
     }

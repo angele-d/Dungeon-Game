@@ -26,4 +26,12 @@ public class LeaderBoardTest {
         assertTrue(leaderBoard.getResults().contains(gameResult1));
         assertTrue(leaderBoard.getResults().contains(gameResult2));
     }
+
+    @Test
+    public void testEngineLeaderboard() {
+        GameEngine gameEngine = GameEngine.getInstance();
+        System.out.println(gameEngine.games.toString());
+        System.out.println(gameEngine.getLeaderBoard().getResults().toString());
+
+    }
 }

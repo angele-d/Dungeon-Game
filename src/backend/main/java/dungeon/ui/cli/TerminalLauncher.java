@@ -212,6 +212,7 @@ public class TerminalLauncher {
                 case 3:
                     try {
                         SaveManager.save(game);
+                        GameEngine.getInstance().updateLeaderboard();
                     } catch (IOException e) {
                         System.err.println("Error during backup : " + e.getMessage());
                         System.out.println("\n");
@@ -249,6 +250,7 @@ public class TerminalLauncher {
                     if (save_game.equals("yes")) {
                         try {
                             SaveManager.save(game);
+                            GameEngine.getInstance().updateLeaderboard();
                             System.out.println("I save your game !");
                             System.out.println("\n");
                             System.out.println("\n");
@@ -302,6 +304,7 @@ public class TerminalLauncher {
                         case 3:
                             try {
                                 SaveManager.save(game);
+                                GameEngine.getInstance().updateLeaderboard();
                                 System.out.println("I save your game !");
                             } catch (IOException e) {
                                 System.err.println("Error during backup : " + e.getMessage());
