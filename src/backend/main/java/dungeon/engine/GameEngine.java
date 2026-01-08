@@ -84,9 +84,6 @@ public class GameEngine {
             case "BFS":
                 strategy = new BFSStrategy();
                 break;
-            case "DFS":
-                strategy = new DFSStrategy();
-                break;
             case "Astar":
                 strategy = new AstarStrategy();
                 break;
@@ -136,7 +133,6 @@ public class GameEngine {
     }
 
     public void endGame(int gameId) {
-        Map<String, String> result = new HashMap<String, String>();
         Game game = games.get(gameId);
         game.endSimulation();
     }

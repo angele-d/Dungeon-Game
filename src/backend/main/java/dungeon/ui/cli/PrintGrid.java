@@ -6,6 +6,8 @@ import dungeon.engine.Hero;
 import dungeon.engine.Game;
 import dungeon.engine.Tile;
 
+import java.util.Scanner;
+
 
 public class PrintGrid {
 public static void make_action (Game game, int size, String legendString){
@@ -25,7 +27,7 @@ public static void make_action (Game game, int size, String legendString){
         System.out.println(legendString); // TODO: put prices
         System.out.println("\n");
         System.out.println("   0 1 2 3 4 5 6 7 8 9 A B C D E");
-        String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E"};
+        String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9"};
         for (int i = 0; i < size; i++) {
             System.out.println(cases[i] + " " + print_grid_line(game, i, size));
         }
@@ -53,6 +55,8 @@ public static void make_action (Game game, int size, String legendString){
                     line_completed += " #";
                 } else if (tile instanceof dungeon.engine.tiles.wall.WoodWall) {
                     line_completed += " @";
+                } else if (tile instanceof dungeon.engine.tiles.traps.PoisonTrap) {
+                    line_completed += " P";
                 } else {
                     line_completed += "  ";
                 }
@@ -69,5 +73,16 @@ public static void make_action (Game game, int size, String legendString){
             }
         }
         return false;
+    }
+
+    public static void manage_end_game (){
+        System.out.println("\n");
+        System.out.println("What would you want to do ? ");
+        System.out.println("   [1] New game");
+        System.out.println("   [2] Edit your game");
+        System.out.println("   [3] Save your game");
+        System.out.println("   [4] Leaderboard");
+        System.out.println("   [5] Leave");
+        System.out.println("\n");
     }
 }

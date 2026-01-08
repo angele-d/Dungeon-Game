@@ -5,6 +5,7 @@ import dungeon.engine.SaveManager;
 import dungeon.engine.GameEngine;
 import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.traps.Mine;
+import dungeon.engine.tiles.traps.PoisonTrap;
 import dungeon.engine.tiles.traps.WallTrap;
 import dungeon.engine.tiles.wall.StoneWall;
 import dungeon.engine.tiles.wall.WoodWall;
@@ -18,7 +19,7 @@ public class TerminalLauncher {
     public static void main(String[] args) {
         gameGenerator();
     }
-    
+
     public static void gameGenerator(){
         Scanner scanner = new Scanner(System.in);
         Game game = GameEngine.getInstance().newGame();
@@ -30,33 +31,33 @@ public class TerminalLauncher {
         scoreManager.setScore(0);
 
         int size_grid = game.getGrid().getSize();
-        List<String> legend = List.of("S","T","#", "@", "W", "M");
-        List<String> name_cases = List.of("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E");
+        List<String> legend = List.of("S","T","#", "@", "W", "M","P");
+        List<String> name_cases = List.of("0","1","2","3","4","5","6","7","8","9");
         System.out.println("============== Welcome in the Dungeon ! ==============");
         System.out.println("\n");
         System.out.println("Heroes' strategy :");
-        System.out.println("   [1] DFS");
-        System.out.println("   [2] BFS");
-        System.out.println("   [3] A*");
+        System.out.println("   [1] BFS");
+        System.out.println("   [2] A*");
         System.out.println("\n");
         
         int strategy = 0;
         int strategy_AI = 0;
         while (strategy == 0) {
-            System.out.print("Give the indicated AI strategy : ");
+            System.out.print("Give the indicated AI strategy : "); // TODO: Cannot change the strategy
             String strat = scanner.next();
             try {
                 strategy_AI = Integer.parseInt(strat);
             } catch (NumberFormatException e) {
-                System.out.println("Veuillez entrer un nombre entre 1 et 3 !");
+                System.out.println("Veuillez entrer un nombre entre 1 et 2 !");
                 continue;
             }
-            if (strategy_AI > 0 && strategy_AI < 4){
+            if (strategy_AI > 0 && strategy_AI < 3){
                 strategy = 1;
+            } else {
+                System.out.println("Veuillez entrer un nombre entre 1 et 2 !");
             }
         }
 
-        GameEngine.getInstance().changeAI(ID, getTypeAI(strategy_AI));
 
         System.out.println("\n");
         System.out.print("Thank you !");
@@ -126,8 +127,6 @@ public class TerminalLauncher {
                         pos_object_y = scanner.next();
                         if (name_cases.contains(pos_object_x) && name_cases.contains(pos_object_y)){
                             choice_coord = 1;
-                            pos_object_x = convertButton(pos_object_x);
-                            pos_object_y = convertButton(pos_object_y);
                         }
                         
                     }
@@ -166,8 +165,6 @@ public class TerminalLauncher {
                         pos_object_delete_y = scanner.next();
                         if (name_cases.contains(pos_object_delete_x) && name_cases.contains(pos_object_delete_y)){
                             choice_delete = 1;
-                            pos_object_delete_x = convertButton(pos_object_delete_x);
-                            pos_object_delete_y = convertButton(pos_object_delete_y);
                         }
                     }
                     
@@ -229,8 +226,44 @@ public class TerminalLauncher {
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                ExecuteGame.execute_game(game,size_grid, new Coords(S_x,S_y), scoreManager, legendString);
-                // TODO: a la mort, afficher si nouvelle partie, si enregistrer, leaderboard, edition de sa partie
+                ExecuteGame.execute_game(game,size_grid, new Coords(S_x,S_y), scoreManager, legendString, strategy_AI);
+                
+                int action = 0;
+                int action_player_game = 1;
+                while (action == 0) {
+                    PrintGrid.manage_end_game();
+                    String input = scanner.next();
+                    try {
+                        action_player_game = Integer.parseInt(input);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Veuillez entrer un nombre entre 1 et 5 !");
+                        continue;
+                    }
+                    if (action_player_game > 0 && action_player_game < 6){
+                        action = 1;
+                    }
+                }
+                switch (action_player_game) {
+                    case 1:
+                        gameGenerator();
+                        break;
+                    case 2: // TODO: edit game
+                        break;
+                    case 3:
+                        try {
+                            SaveManager.save(game);
+                        } catch (IOException e) {
+                            System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
+                        }
+                        System.out.println("I save your game !");
+                        break;
+                    case 4: // TODO: Leaderboard
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case 6:
                 System.out.println("This is the end !");
@@ -242,25 +275,6 @@ public class TerminalLauncher {
         scanner.close();
     }
     
-
-
-    public static String convertButton(String thing){
-        switch (thing) {
-            case "A":
-                return "10";
-            case "B":
-                return "11";
-            case "C":
-                return "12";
-            case "D":
-                return "13";
-            case "E":
-                return "14";
-        
-            default:
-                return thing;
-        }
-    }
 
     public static String getTypeObject(String action_object){
         switch (action_object) {
@@ -276,26 +290,15 @@ public class TerminalLauncher {
                 return "walltrap";
             case "M":
                 return "mine";
+            case "P":
+                return "poisontrap";
             default:
                 return "empty";
         }
     }
-
-    public static String getTypeAI(int strategy_AI){
-        switch (strategy_AI) {
-            case 1:
-                return "DFS";
-            case 2:
-                return "BFS";
-            case 3:
-                return "Astar";
-            default:
-                return "BFS";
-        }
-    }
     
     public static String legendString(){
-        String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - " + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - " + (new WoodWall(null)).getPlacementCost() + ", W = Wall Trap - " + (new WallTrap(null)).getPlacementCost() + ", M = Mine - " + (new Mine(null)).getPlacementCost();
+        String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - " + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - " + (new WoodWall(null)).getPlacementCost() + ", W = Wall Trap - " + (new WallTrap(null)).getPlacementCost() + ", M = Mine - " + (new Mine(null)).getPlacementCost() + ", P = Poison Trap - " + (new PoisonTrap(null)).getPlacementCost();
         return legend;
     }
     

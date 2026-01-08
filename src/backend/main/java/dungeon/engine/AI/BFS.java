@@ -16,6 +16,11 @@ public class BFS {
 
     }
 
+    @Override
+    public String toString() {
+        return "BFS";
+    }
+
     public Coords search(Coords start, Hero hero) {
         Queue<Node> queue = new LinkedList<Node>();
         Set<Coords> visited = new HashSet<Coords>();

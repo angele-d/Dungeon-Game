@@ -17,6 +17,11 @@ public class Astar {
 
     }
 
+    @Override
+    public String toString() {
+        return "Astar";
+    }
+
     public Coords search(Coords start) {
         PriorityQueue<NodeValue> value = new PriorityQueue<>(
             Comparator.comparingInt(NodeValue::getValue)
@@ -54,4 +59,6 @@ public class Astar {
         }
         return curr.getNode().getCoords();
     }
+        
+       
 }
