@@ -159,14 +159,15 @@ public class Game {
             for(TurnListener listener : turnListeners) {
                 listener.onNewTurn(this);
             }
-            // Movement
+
+            // Movement + Effects 
             Coords newCoords = hero.move(this);
             doMovement(hero, newCoords);
+
             //Trap Checking
             Tile currentTile = this.grid.getTile(hero.getCoords());
             if (currentTile instanceof Trap) {
-                //TODO: Implement trap processing
-                //((Trap) currentTile).process(heroSquad));
+                ((Trap) currentTile).activateTrap(this);
             }
         }
     }
