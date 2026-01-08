@@ -3,12 +3,12 @@ package dungeon.ui.web;
 import dungeon.engine.Coords;
 import dungeon.engine.Game;
 import dungeon.engine.GameEngine;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 
 import java.util.Map;
@@ -17,15 +17,15 @@ import java.util.Map;
 @Controller
 public class GameController {
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @MessageMapping("/test")
     @SendTo("/topic/messages")
     public Map<String, String> hello(Map<String, String> payload) {
         String message = payload.get("message");
         return Map.of("message", "Hello World!");
     }
-
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/new_game")
     public void newGame(Map<String, String> payload) {
@@ -39,8 +39,18 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    @MessageMapping("/change_ai")
+    public void changeAi(Map<String, String> payload) {
+        String id = payload.get("id");
+        String type = payload.get("ai");
+        Map<String, String> result = GameEngine.getInstance().changeAI(Integer.parseInt(id), type);
+
+        String destination = "/topic/ai_changed/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
     @MessageMapping("/place_tile")
-    public void place_tile(Map<String, String> payload) {
+    public void placeTile(Map<String, String> payload) {
         String id = payload.get("id");
         String type = payload.get("tile_type");
         String col = payload.get("col");
@@ -51,8 +61,17 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    @MessageMapping("/is_simulation_ready")
+    public void isSimulationReady(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = GameEngine.getInstance().isSimulationReady(Integer.parseInt(id));
+
+        String destination = "/topic/simulation_ready/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
     @MessageMapping("/launch_game")
-    public void launch_game(Map<String, String> payload) {
+    public void launchGame(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().startSimulation(Integer.parseInt(id));
 
@@ -61,7 +80,7 @@ public class GameController {
     }
 
     @MessageMapping("/get_game_stats")
-    public void send_game_stats(Map<String, String> payload) {
+    public void getGameStats(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().getGameStats(Integer.parseInt(id));
         String destination = "/topic/send_game_stats/" + id;
@@ -69,7 +88,7 @@ public class GameController {
     }
 
     @MessageMapping("/next_step")
-    public void next_step(Map<String, String> payload) {
+    public void nextStep(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().nextTurn(Integer.parseInt(id));
 
@@ -77,13 +96,31 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    @MessageMapping("/change_ai")
-    public void change_ai(Map<String, String> payload) {
+    @MessageMapping("/is_game_terminated")
+    public void isGameTerminated(Map<String, String> payload) {
         String id = payload.get("id");
-        String type = payload.get("ai");
-        Map<String, String> result = GameEngine.getInstance().changeAI(Integer.parseInt(id), type);
+        Map<String, String> result = Map.of("result", String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
 
-        String destination = "/topic/ai_changed/" + id;
+        String destination = "/topic/game_launched/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    @MessageMapping("/end_game")
+    public void endGame(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = GameEngine.getInstance().getGameStats(Integer.parseInt(id));
+        GameEngine.getInstance().endGame(Integer.parseInt(id));
+
+        String destination = "/topic/game_ended/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    @MessageMapping("/get_leaderboard")
+    public void getLeaderBoard(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = GameEngine.getInstance().getLeaderBoardString();
+
+        String destination = "/topic/leaderboard/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 }

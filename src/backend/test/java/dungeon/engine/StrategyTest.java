@@ -2,6 +2,7 @@ package dungeon.engine;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import dungeon.engine.Strategies.AstarStrategy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -67,5 +68,21 @@ public class StrategyTest {
         Coords result2 = bfs.search(start, hero);
         
         assertEquals(result1, result2, "BFS should be deterministic");
+    }
+
+    @Test
+    void testStrategySwitch() {
+        Game game = GameEngine.getInstance().newGame();
+        GameEngine.getInstance().placeTile(game.getId(), new Coords(0, 0), "startingpoint");
+        GameEngine.getInstance().placeTile(game.getId(), new Coords(1, 1), "treasure");
+
+        assertEquals(GameEngine.getInstance().isSimulationReady(game.getId()).get("result"), "true");
+
+        GameEngine.getInstance().startSimulation(game.getId());
+        GameEngine.getInstance().changeAI(game.getId(), "Astar");
+
+        for (Hero hero: GameEngine.getInstance().getGame(game.getId()).getHeroSquad().getHeroes()) {
+            assertInstanceOf(AstarStrategy.class, hero.strategy);
+        }
     }
 }
