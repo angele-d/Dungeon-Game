@@ -114,4 +114,13 @@ public class GameController {
         String destination = "/topic/game_ended/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
+
+    @MessageMapping("/get_leaderboard")
+    public void getLeaderBoard(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = GameEngine.getInstance().getLeaderBoardString();
+
+        String destination = "/topic/leaderboard/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
 }

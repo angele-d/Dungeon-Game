@@ -10,8 +10,10 @@ import java.util.Map;
 
 public class GameEngine {
     private static GameEngine gameEngine;
+    private final LeaderBoard leaderboard = new LeaderBoard();
 
     private Map<Integer, Game> games;
+
 
     /* --- Constructor --- */
 
@@ -31,6 +33,10 @@ public class GameEngine {
     }
 
     /* --- Getters ---- */
+
+    public LeaderBoard getLeaderBoard() {
+        return leaderboard;
+    }
 
     public Game getGame(Integer gameId) {
         Game game = games.get(gameId);
@@ -171,6 +177,17 @@ public class GameEngine {
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heroes", game.getHeroSquad().serialized().toString());
+        return result;
+    }
+
+    public Map<String, String> getLeaderBoardString() {
+        String leaderboardString = "[";
+        for (GameResult gameResult: getLeaderBoard().getResults()) {
+            leaderboardString = leaderboardString + gameResult.toString()+",";
+        }
+        leaderboardString = leaderboardString.substring(0, leaderboardString.length()-1)+"]";
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("result", leaderboardString);
         return result;
     }
 }
