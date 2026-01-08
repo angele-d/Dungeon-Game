@@ -24,7 +24,9 @@ public static void make_action (Game game, int size, String legendString){
     }
 
     public static void print_grid(Game game, int size, String legendString) {
-        System.out.println(legendString); // TODO: put prices
+        System.out.println(legendString);
+        System.out.println("\n");
+        System.out.println("Your game id is : " + game.getId());
         System.out.println("\n");
         System.out.println("   0 1 2 3 4 5 6 7 8 9 A B C D E");
         String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9"};
