@@ -102,4 +102,23 @@ public class SaveManager {
 
 
     }
+
+    // List all files in the "saves" directory (file names only). Returns an empty list if the directory doesn't exist.
+    public static java.util.List<String> listSaveFiles() {
+        Path dir = Path.of("saves");
+        if (!Files.exists(dir) || !Files.isDirectory(dir)) {
+            return java.util.List.of();
+        }
+        try (java.util.stream.Stream<Path> stream = Files.list(dir)) {
+            return stream
+                    .filter(Files::isRegularFile)
+                    .map(p -> p.getFileName().toString())
+                    .sorted()
+                    .toList();
+        } catch (IOException e) {
+//            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }
+

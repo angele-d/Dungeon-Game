@@ -5,6 +5,7 @@ import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,13 @@ public class GameEngine {
 
     private GameEngine() {
         games = new HashMap<Integer, Game>();
+        for (String saveFile: SaveManager.listSaveFiles()) {
+            Game game = new Game();
+            try {
+                SaveManager.load(game, saveFile);
+            } catch (IOException e) {}
+            games.put(game.getId(), game);
+        }
     }
 
     /* --- Singleton --- */
@@ -39,7 +47,12 @@ public class GameEngine {
     }
 
     public Game getGame(Integer gameId) {
-        Game game = games.get(gameId);
+        Game game;
+        if (games.containsKey(gameId)) {
+            game = games.get(gameId);
+        } else {
+            game = newGame(gameId);
+        }
         return game;
     }
 
@@ -147,10 +160,19 @@ public class GameEngine {
         while (games.containsKey(id)) {
             id++;
         }
+        return newGame(id);
+    }
 
-        Game game = new Game(id);
-        games.put(id, game);
-        return game;
+    public Game newGame(int gameId) {
+         if (!games.containsKey(gameId)) {
+             Game game = new Game(gameId);
+             games.put(gameId, game);
+             return game;
+         } else {
+             return null;
+         }
+
+
     }
 
     public boolean isGameTerminated(int gameId) {
