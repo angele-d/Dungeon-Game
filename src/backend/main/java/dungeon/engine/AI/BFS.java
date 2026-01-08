@@ -18,6 +18,11 @@ public class BFS {
 
     }
 
+    @Override
+    public String toString() {
+        return "BFS";
+    }
+
     /* --- Functions --- */
 
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){

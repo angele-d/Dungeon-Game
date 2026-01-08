@@ -20,6 +20,11 @@ public class Astar {
 
     }
 
+    @Override
+    public String toString() {
+        return "Astar";
+    }
+
     /* --- Functions --- */
 
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
@@ -85,4 +90,6 @@ public class Astar {
         }
         return curr.getNode().getCoords();
     }
+        
+       
 }

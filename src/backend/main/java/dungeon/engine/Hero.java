@@ -61,6 +61,9 @@ public abstract class Hero {
     public void setStrategy(Strategy strategy){
         this.strategy = strategy;
     }
+    public Strategy getStrategy(){
+        return this.strategy;
+    }
 
     /* --- Functions --- */
 
