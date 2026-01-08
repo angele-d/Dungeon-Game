@@ -17,6 +17,17 @@ public class Game {
     private int turn;
     private ArrayList<TurnListener> turnListeners;
 
+    public Game(int id) {
+        this.grid = new Grid();
+        this.blueprint = grid.clone();
+        this.id = id;
+        this.heroSquad = new HeroSquad();
+        this.score = 0;
+        this.money = 500;
+        this.turn = 0;
+        this.turnListeners = new ArrayList<TurnListener>();
+    }
+
     public Game() {
         this.grid = new Grid();
         this.blueprint = grid.clone();

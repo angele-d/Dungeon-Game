@@ -103,8 +103,13 @@ public class GameEngine {
     }
 
     public Game newGame() {
-        Game game = new Game();
-        games.put(0, game);
+        int id = 0;
+        while (games.containsKey(id)) {
+            id++;
+        }
+
+        Game game = new Game(id);
+        games.put(id, game);
         return game;
     }
 
