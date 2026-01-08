@@ -202,7 +202,7 @@ function sendNextStepIfPossible(stompClient) {
         const url = new URL(window.location.href);
 
         // Replace filename
-        url.pathname = url.pathname.replace("code.html", "leaderboard.html");
+        url.pathname = url.pathname.replace("game.html", "leaderboard.html");
 
         // Add query param
         url.searchParams.set("id", window.id);

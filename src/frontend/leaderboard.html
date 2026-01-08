@@ -1,9 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html class="dark" lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dungeon Game Interface</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="leaderboard.css" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="tailwind_config.js"></script>
+    <script type="module" src="leaderboard.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   </head>
-  <body></body>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col"
+  >
+    <!-- Top Navigation -->
+    <header
+      class="flex items-center justify-between whitespace-nowrap border-b border-solid border-surface-border bg-background-dark px-6 py-3 shrink-0 z-20"
+    >
+      <div class="flex items-center gap-4 text-white">
+        <div
+          class="size-8 flex items-center justify-center bg-primary/20 rounded-lg text-primary"
+        >
+          <span class="material-symbols-outlined">token</span>
+        </div>
+        <div>
+          <h2
+            class="text-white text-lg font-bold leading-tight tracking-[-0.015em]"
+          >
+            Dungeon Crawler
+          </h2>
+          <span
+            class="text-xs text-slate-400 font-medium tracking-wide uppercase"
+            >v1.0.4 Alpha</span
+          >
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button
+          class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-surface-dark hover:bg-surface-border text-white transition-colors border border-surface-border"
+        >
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+      </div>
+    </header>
+    <!-- Main Layout -->
+    <main class="flex-1 flex overflow-hidden">
+      <!-- Left Sidebar: Map Assets & Stats -->
+      <aside
+        id="left-panel"
+        class="w-80 bg-background-dark border-r border-surface-border z-10 hidden lg:flex"
+      ></aside>
+      <!-- Center: Game Grid -->
+      <section
+        class="flex-1 bg-[#0b1216] relative flex flex-col items-center justify-center p-8 overflow-hidden"
+      >
+        <div id="leaderboard">
+          <div id="leaderboard-content">
+            <div class="leaderboard-header">
+              <h2 class="leaderboard-title">Leaderboard</h2>
+              <p class="leaderboard-subtitle">Top Players</p>
+            </div>
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Player</th>
+                  <th>Score</th>
+                  <th>Remaining</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-list">
+                <!-- Leaderboard entries will be dynamically inserted here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- Right Sidebar: Controls -->
+      <aside
+        class="w-96 bg-background-dark border-l border-surface-border flex flex-col shrink-0 z-10 shadow-xl"
+      ></aside>
+    </main>
+  </body>
 </html>
