@@ -48,6 +48,6 @@ public class GridTest {
     @Test
     void testGetGridSize() {
         Grid grid = new Grid();
-        assertEquals(64, grid.getGrid().size()); // 8x8 grid
+        assertEquals(100, grid.getGrid().size()); // 10x10 grid
     }
 }
