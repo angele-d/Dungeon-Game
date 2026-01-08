@@ -5,8 +5,8 @@ import dungeon.engine.Tile;
 
 public class Empty extends Tile {
 
-    private int placementCost = 0; //Useless but for consistency
-    private int aStarValue = 1;
+    private static final int PLACEMENT_COST = 0; //Useless but for consistency
+    private static final int ASTAR_VALUE = 1;
 
     /* --- Constructor --- */
 
@@ -17,16 +17,17 @@ public class Empty extends Tile {
     /* --- Getters and Setters --- */
 
     public int getAstarValue(){
-        return aStarValue;
+        return ASTAR_VALUE;
     }
+
+    public int getPlacementCost(){
+        return PLACEMENT_COST;
+    }
+
+    /* --- ToString --- */
 
     @Override
     public String toString() {
         return "empty";
-    }
-
-
-    public int getPlacementCost(){
-        return placementCost;
     }
 }

@@ -8,10 +8,11 @@ import dungeon.engine.Hero;
 
 public class Mine extends Trap {
 
-    private int placementCost = 100; // FIXME: Change placementCost value
-    private int aStarValue = 5;
+    private static final int PLACEMENT_COST = 100; // FIXME: Change placementCost value
+    private static final int ASTAR_VALUE = 5;
 
     /* --- Constructor --- */
+
     public Mine(Coords coords) {
         super(coords, 50, 2);
     }
@@ -23,16 +24,12 @@ public class Mine extends Trap {
     /* --- Getters and Setters --- */
 
     public int getAstarValue(){
-        return aStarValue;
+        return ASTAR_VALUE;
     }
 
     public int getPlacementCost(){
-        return placementCost;
+        return PLACEMENT_COST;
     }
-    public void setPlacementCost(int cost){
-        this.placementCost = cost;
-    }
-
 
     /* --- Functions --- */
 
@@ -43,6 +40,8 @@ public class Mine extends Trap {
             hero.accept(areaDamageVisitor);
         }
     }
+
+    /* --- ToString --- */
 
     @Override
     public String toString() {
