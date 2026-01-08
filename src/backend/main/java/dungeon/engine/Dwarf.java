@@ -19,6 +19,11 @@ public class Dwarf extends Hero {
         // Dwarf-specific initialization
     }
 
+    @Override
+    public String toString() {
+        return "Dwarf";
+    }
+
     /* --- Getters and Setters --- */
 
     public int getHealth() {

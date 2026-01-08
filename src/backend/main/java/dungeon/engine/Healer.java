@@ -17,6 +17,11 @@ public class Healer extends Hero {
         // Healer-specific initialization
     }
 
+    @Override
+    public String toString() {
+        return "Healer";
+    }
+
     /* --- Getters and Setters --- */
     
     public int getHealth() {

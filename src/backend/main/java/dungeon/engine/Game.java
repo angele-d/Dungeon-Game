@@ -179,13 +179,15 @@ public class Game {
     public boolean isTerminated() {
         Tile treasure = getTreasure();
 
+        boolean isOneAlive = false;
         for (Hero hero: heroSquad.getHeroes()) {
-            if (!hero.getCoords().equals(treasure.getCoords()) && hero.getHealth() != 0) {
-                return false;
+            if (hero.getCoords().equals(treasure.getCoords())) {
+                return true;
             }
+            isOneAlive = isOneAlive || hero.getHealth() != 0;
         }
 
-        return true;
+        return !isOneAlive;
     }
 
     public boolean isSimulationReady() {
