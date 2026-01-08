@@ -38,7 +38,7 @@ public class StrategyTest {
     }
     
     @Test
-    void testBFSReturnsNullWhenNoTreasure() {
+    void testBFSReturnsStartWhenNoTreasure() {
         Hero hero = new TheMemeMaker();
         hero.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
@@ -46,7 +46,7 @@ public class StrategyTest {
         BFS bfs = new BFS(grid);
         
         Coords next = bfs.search(new Coords(0, 0), heroSquad);
-        assertNull(next);
+        assertEquals(next, new Coords(0, 0));
     }
 
     

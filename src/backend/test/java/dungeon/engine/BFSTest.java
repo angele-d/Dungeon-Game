@@ -53,7 +53,7 @@ class BFSTest {
         Grid grid = new Grid();
         BFS bfs = new BFS(grid);
         Coords coords = bfs.search(new Coords(0, 0), heroSquad);
-        assertNull(coords);
+        assertEquals(coords, new Coords(0, 0));
     }
 
     @Test
