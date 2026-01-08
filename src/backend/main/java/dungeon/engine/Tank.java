@@ -10,6 +10,8 @@ public class Tank extends Hero {
     private boolean actionAvailable;
     private static final int MAX_HEALTH = 200;
 
+    /* --- Constructor --- */
+
     public Tank() {
         super();
         health = MAX_HEALTH;
@@ -56,5 +58,12 @@ public class Tank extends Hero {
 
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Tank";
     }
 }

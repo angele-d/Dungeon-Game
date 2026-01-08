@@ -2,25 +2,29 @@ package dungeon.engine;
 
 import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
-import dungeon.engine.Visitors.HealVisitor;
 import dungeon.engine.Visitors.HeroVisitor;
+import dungeon.engine.tiles.wall.WoodWall;
 
-public class Healer extends Hero {
+import java.util.ArrayList;
+
+public class Dragon extends Hero {
     
     private int health;
-    private static final int PERSONAL_HEAL_PERCENTAGE = 20;
+    private int wallFireUses;
+    private final int MAX_WALL_FIRE_USES = 5;
     private static final int MAX_HEALTH = 150;
 
     /* --- Constructor --- */
 
-    public Healer() {
+    public Dragon() {
         super();
         health = MAX_HEALTH;
-        // Healer-specific initialization
+        wallFireUses = 0;
+        // Dragon-specific initialization
     }
 
     /* --- Getters and Setters --- */
-    
+
     public int getHealth() {
         return health;
     }
@@ -33,10 +37,15 @@ public class Healer extends Hero {
     }
 
     public boolean getActionAvailable() {
-        return false;
+        return wallFireUses < MAX_WALL_FIRE_USES;
     }
     public void setActionAvailable(boolean status) {
-        // Do nothing   
+        if(status == false){ // use wall fire
+            wallFireUses++;
+        }
+        else{ // reset uses
+            wallFireUses = 0;
+        }
     }
 
     /* --- Functions --- */
@@ -45,7 +54,7 @@ public class Healer extends Hero {
     public void applyDamage(int damage) {
         health -= damage;
         notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
-        if(health <= 0){
+        if (health <= 0) {
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
@@ -53,7 +62,7 @@ public class Healer extends Hero {
 
     @Override
     public void resetAction() {
-        // No action to reset
+        setActionAvailable(true);
     }
 
     public void accept(HeroVisitor visitor) {
@@ -61,28 +70,29 @@ public class Healer extends Hero {
     }
 
     @Override
-    public Coords move(Game game) {
-        // Healer-specific movement logic
+    public Coords move(Game game){
+        // Dragon-specific movement logic
 
         // Basic movement
         Coords newCoords = basicMove(game);
 
-        // Personal healing ability
-        health = Math.min(MAX_HEALTH, health + (health * PERSONAL_HEAL_PERCENTAGE) / 100);
-        
-        // Zone healing ability
-        HealVisitor healVisitor = new HealVisitor();
-        for(Hero ally : game.getHeroSquad().getHeroes()){
-            ally.accept(healVisitor);
+        // Fire neighbor wood walls if action available
+        ArrayList<Coords> neighbors = game.getGrid().getNeighborsCoords(newCoords);
+        for(Coords coord : neighbors){
+            Tile tile = game.getGrid().getTile(coord);
+            if(tile instanceof WoodWall && getActionAvailable()){
+                game.addFireTurnListener((FireTurnListener) tile);
+                setActionAvailable(false); // increase uses
+            }
         }
 
         return newCoords;
     }
 
     /* --- toString --- */
-    
+
     @Override
     public String toString() {
-        return "Healer";
+        return "Dragon";
     }
 }

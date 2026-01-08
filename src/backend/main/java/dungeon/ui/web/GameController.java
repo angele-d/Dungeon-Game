@@ -100,7 +100,7 @@ public class GameController {
         String id = payload.get("id");
         Map<String, String> result = Map.of("result", String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
 
-        String destination = "/topic/game_launched/" + id;
+        String destination = "/topic/game_terminated/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 

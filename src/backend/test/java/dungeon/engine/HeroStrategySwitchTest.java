@@ -35,7 +35,7 @@ class HeroStrategySwitchTest {
     @DisplayName("1) Initialisation: le héros n'a pas de stratégie par défaut")
     void shouldHaveNoStrategyByDefaultOnInitialization() {
         // Given
-        Dwarf hero = new Dwarf();
+        Dragon hero = new Dragon();
 
         // When
         // aucun traitement
@@ -49,7 +49,7 @@ class HeroStrategySwitchTest {
     void shouldSwitchStrategyFromUpToDown() {
         // Given
         Game game = new Game();
-        Dwarf hero = new Dwarf();
+        Dragon hero = new Dragon();
         hero.setCoords(new Coords(3, 3));
         // On ajoute le héros à la squad du jeu pour satisfaire basicMove (tick poison)
         game.getHeroSquad().addHero(hero);

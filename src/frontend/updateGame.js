@@ -1,6 +1,6 @@
 import { game_config } from "./game_config.js";
 let { size } = game_config;
-import { selectionPossible, selectGridCell } from "./script.js";
+import { selectionPossible, selectGridCell } from "./game.js";
 
 function updateGrid(gridData) {
   /**
@@ -35,6 +35,7 @@ function updateGrid(gridData) {
       switch (gridData[i][j]) {
         case "empty":
           cell.classList.add(
+            "grid-cell",
             "empty",
             "w-12",
             "h-12",
@@ -45,6 +46,7 @@ function updateGrid(gridData) {
           break;
         case "woodwall":
           cell.classList.add(
+            "grid-cell",
             "w-12",
             "h-12",
             "border",
@@ -75,6 +77,7 @@ function updateGrid(gridData) {
           break;
         case "stonewall":
           cell.classList.add(
+            "grid-cell",
             "w-12",
             "h-12",
             "border",
@@ -103,7 +106,12 @@ function updateGrid(gridData) {
           cell.appendChild(innerDiv);
           break;
         case "poisontrap":
-          cell.classList.add("poisontrap", "bg-[#4a1e1e]", "relative");
+          cell.classList.add(
+            "grid-cell",
+            "poisontrap",
+            "bg-[#4a1e1e]",
+            "relative"
+          );
           innerSpan = document.createElement("span");
           innerSpan.classList.add("material-symbols-outlined", "text-red-500");
           innerSpan.textContent = "coronavirus";
@@ -120,7 +128,7 @@ function updateGrid(gridData) {
           cell.appendChild(innerDiv);
           break;
         case "mine":
-          cell.classList.add("mine", "bg-[#4a1e1e]", "relative");
+          cell.classList.add("grid-cell", "mine", "bg-[#4a1e1e]", "relative");
           innerSpan = document.createElement("span");
           innerSpan.classList.add("material-symbols-outlined", "text-red-500");
           innerSpan.textContent = "bomb";
@@ -137,7 +145,12 @@ function updateGrid(gridData) {
           cell.appendChild(innerDiv);
           break;
         case "walltrap":
-          cell.classList.add("walltrap", "bg-[#4a1e1e]", "relative");
+          cell.classList.add(
+            "grid-cell",
+            "walltrap",
+            "bg-[#4a1e1e]",
+            "relative"
+          );
           innerSpan = document.createElement("span");
           innerSpan.classList.add("material-symbols-outlined", "text-red-500");
           innerSpan.textContent = "mist";
@@ -154,7 +167,12 @@ function updateGrid(gridData) {
           cell.appendChild(innerDiv);
           break;
         case "startingpoint":
-          cell.classList.add("startingpoint", "bg-black", "relative");
+          cell.classList.add(
+            "grid-cell",
+            "startingpoint",
+            "bg-black",
+            "relative"
+          );
           innerSpan = document.createElement("span");
           innerSpan.classList.add("material-symbols-outlined", "text-white");
           innerSpan.textContent = "skull";
@@ -171,7 +189,12 @@ function updateGrid(gridData) {
           window.spawnPlaced = true;
           break;
         case "treasure":
-          cell.classList.add("treasure", "bg-[#3a612c]", "relative");
+          cell.classList.add(
+            "grid-cell",
+            "treasure",
+            "bg-[#3a612c]",
+            "relative"
+          );
           innerSpan = document.createElement("span");
           innerSpan.classList.add(
             "material-symbols-outlined",
@@ -206,7 +229,6 @@ function updateGrid(gridData) {
 
   // Update sidebar folds
   folds.forEach((count, elementType) => {
-    console.log(elementType, count);
     const sidebarElement = document
       .getElementById(elementType)
       .querySelector(".folds");
@@ -225,19 +247,21 @@ function updateHeroes(heroesData) {
    */
 
   // Update on the information panel
-  return;
+
   const infoPanel = document.querySelector(".info-panel");
   infoPanel.innerHTML = ""; // Clear existing info
 
   let colors = ["green", "blue", "red", "purple", "yellow"];
   heroesData.forEach((hero, index) => {
+    hero[3] = parseInt(hero[3]) * 100; // Convert to percentage
+
     const color = colors[index % colors.length];
     const heroDiv = document.createElement("div");
     heroDiv.classList.add("hero-info", "flex", "items-center", "gap-3");
     heroDiv.innerHTML = `
             <div class="flex items-center gap-3">
               <div class="relative">
-                <div class="size-12 rounded-full overflow-hidden border-2 border-green-500 bg-surface-dark">
+                <div class="size-12 rounded-full overflow-hidden border-2 border-${color}-500 bg-surface-dark">
                   <img alt="Healer Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAAkqwEGSlT9FyPrvC-JtetAQKnVRGVpbT4uv0jeXJFcioU7jHVxWR3wOVxAq-Gc6To23Xbb7nEY38x0POiCInnyywW17QcvkjVIDHd0XDMSnNgDkphzFUt5UdScQUJs7RkP1K-QXrStZPkO9HMb7leB4bcPa_B9nRt-ldrtq5kGD1ZmY7-1bDAWD1Wa6qdYa41qr_wQ9t4h_3WuN1MvQA9gsZsEGSD89xVRFNPO95eVy4VE14oXhty8K44gXGQsHAmgowteqIn5W9">
                 </div>
                 <div class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border">
@@ -261,7 +285,7 @@ function updateHeroes(heroesData) {
     // Update on the grid
     const targetCell =
       document.querySelectorAll(".grid-cell")[
-        parseInt(hero[2]) * size + parseInt(hero[1])
+        parseInt(hero[1]) * size + parseInt(hero[2])
       ];
     targetCell.classList.add("relative");
     targetCell.innerHTML = heroPawns[hero[0]];

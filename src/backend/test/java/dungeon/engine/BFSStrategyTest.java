@@ -3,7 +3,6 @@ package dungeon.engine;
 import dungeon.engine.AI.BFS;
 import dungeon.engine.Strategies.BFSStrategy;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,98 +21,103 @@ class BFSStrategyTest {
     }
 
     @Test
-    @DisplayName("1. Cas Nominal : Un chemin est trouvé, le héros doit avancer vers la prochaine étape")
-    void testMove_NominalPathFound() {
+    void testMoveWhenPathFound() {
         TheMemeMaker hero = new TheMemeMaker();
         hero.setCoords(startCoords);
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(hero);
 
         BFS testBFS = new BFS(null) {
             @Override
-            public Coords search(Coords start, Hero h) {
+            public Coords search(Coords start, HeroSquad heroSquad) {
                 return nextStepCoords;
             }
         };
 
-        Coords result = bfsStrategy.moveWithBFS(testBFS, hero);
+        Coords result = bfsStrategy.moveWithBFS(testBFS, heroSquad, hero);
 
-        assertNotNull(result, "La stratégie ne doit pas renvoyer null si un chemin existe");
-        assertEquals(nextStepCoords, result, "Le héros doit se déplacer vers la coordonnée renvoyée par le BFS");
+        assertNotNull(result);
+        assertEquals(nextStepCoords, result);
     }
 
     @Test
-    @DisplayName("2. Obstacle : L'algorithme contourne (Simulé par le retour du BFS)")
-    void testMove_ObstacleAvoidance() {
+    void testMoveObstacleAvoidance() {
         TheMemeMaker hero = new TheMemeMaker();
         hero.setCoords(startCoords);
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(hero);
 
         Coords detourCoords = new Coords(2, 1);
 
         BFS testBFS = new BFS(null) {
             @Override
-            public Coords search(Coords start, Hero h) {
+            public Coords search(Coords start, HeroSquad heroSquad) {
                 return detourCoords;
             }
         };
 
-        Coords result = bfsStrategy.moveWithBFS(testBFS, hero);
+        Coords result = bfsStrategy.moveWithBFS(testBFS, heroSquad, hero);
 
-        assertEquals(detourCoords, result, "La stratégie doit suivre le chemin de contournement calculé par le BFS");
+        assertEquals(detourCoords, result);
     }
 
     @Test
-    @DisplayName("3. Pas de chemin : La cible est inaccessible")
-    void testMove_NoPathAvailable() {
+    void testMoveNoPathAvailable() {
         TheMemeMaker hero = new TheMemeMaker();
         hero.setCoords(startCoords);
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(hero);
 
         BFS testBFS = new BFS(null) {
             @Override
-            public Coords search(Coords start, Hero h) {
+            public Coords search(Coords start, HeroSquad heroSquad) {
                 return null;
             }
         };
 
-        Coords result = bfsStrategy.moveWithBFS(testBFS, hero);
+        Coords result = bfsStrategy.moveWithBFS(testBFS, heroSquad, hero);
 
-        assertNull(result, "Si aucun chemin n'est trouvé, la stratégie doit renvoyer null (ou gérer l'attente)");
+        assertNull(result);
     }
 
     @Test
-    @DisplayName("4. Déjà sur place : Le héros est sur la case cible")
-    void testMove_AlreadyAtTarget() {
+    void testMoveAlreadyAtTarget() {
         TheMemeMaker hero = new TheMemeMaker();
         hero.setCoords(targetCoords);
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(hero);
 
         BFS testBFS = new BFS(null) {
             @Override
-            public Coords search(Coords start, Hero h) {
+            public Coords search(Coords start, HeroSquad heroSquad) {
                 return targetCoords;
             }
         };
 
-        Coords result = bfsStrategy.moveWithBFS(testBFS, hero);
+        Coords result = bfsStrategy.moveWithBFS(testBFS, heroSquad, hero);
 
-        assertEquals(targetCoords, result, "Le héros doit rester sur place s'il a atteint l'objectif");
+        assertEquals(targetCoords, result);
     }
 
     @Test
-    @DisplayName("5. Limites et Intégrité : Vérifier le passage des coordonnées au BFS")
-    void testMove_BoundaryAndDataIntegrity() {
+    void testMoveBoundaryAndDataIntegrity() {
         TheMemeMaker hero = new TheMemeMaker();
         hero.setCoords(startCoords);
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(hero);
 
         final Coords returned = new Coords(10, 10);
 
         BFS testBFS = new BFS(null) {
             @Override
-            public Coords search(Coords start, Hero h) {
+            public Coords search(Coords start, HeroSquad heroSquad) {
                 // ensure the start coordinate passed is the hero's coordinate
-                assertEquals(startCoords, start, "Le BFS doit recevoir les coordonnées actuelles du héros");
+                assertEquals(startCoords, start);
                 return returned;
             }
         };
 
-        Coords result = bfsStrategy.moveWithBFS(testBFS, hero);
+        Coords result = bfsStrategy.moveWithBFS(testBFS, heroSquad, hero);
         assertEquals(returned, result);
     }
 }

@@ -23,9 +23,9 @@ public class HeroSquadTest {
     @Test
     void removeHeroFromSquad() {
         HeroSquad squad = new HeroSquad();
-        Dwarf dwarf = new Dwarf();
-        squad.addHero(dwarf);
-        squad.removeHero(dwarf);
+        Dragon dragon = new Dragon();
+        squad.addHero(dragon);
+        squad.removeHero(dragon);
         assertEquals(0, squad.getSquadSize()); 
     }
 
@@ -41,7 +41,7 @@ public class HeroSquadTest {
     void testSquadSizeAfterMultipleAdds() {
         HeroSquad squad = new HeroSquad();
         squad.addHero(new Healer());
-        squad.addHero(new Dwarf());
+        squad.addHero(new Dragon());
         squad.addHero(new Tank());
         assertEquals(3, squad.getSquadSize());
     }

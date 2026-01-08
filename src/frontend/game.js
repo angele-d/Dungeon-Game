@@ -59,6 +59,11 @@ function selectionPossible(elt) {
    * Returns: None
    */
   if (!elt) return;
+  console.log(window.gameLaunched);
+  if (window.gameLaunched) {
+    elt.classList.add("not-allowed-cell");
+    return;
+  }
 
   if (
     (Array.from(elt.classList).indexOf("empty") == -1 &&
@@ -73,16 +78,6 @@ function selectionPossible(elt) {
   }
 }
 
-function make2digits(num) {
-  /**
-   * Formats a number to be at least two digits with leading zeros
-   * Parameters:
-   * num - The number to format
-   * Returns: String representation of the number with at least two digits
-   */
-  return num.toString().padStart(2, "0");
-}
-
 function selectGridCell(cell) {
   /**
    * Handles the placement of the selected element onto the grid cell
@@ -95,13 +90,6 @@ function selectGridCell(cell) {
     cell.classList.contains("not-allowed-cell")
   )
     return;
-  let innerSpan, innerDiv;
-  // let folds = selectedDOM.querySelector(".folds");
-  // if (folds) {
-  //   folds.textContent = `x${make2digits(
-  //     parseInt(folds.textContent.slice(1)) + 1
-  //   )}`;
-  // }
 
   if (selectedElement == "eraser") {
     sendAddElement(stompClient, "empty", cell.dataset.x, cell.dataset.y);
@@ -144,11 +132,8 @@ function onSelectAIChange(elt) {
    * elt - The DOM element of the select dropdown
    * Returns: None
    */
+  window.ai = elt.value;
   sendChangeAI(stompClient, elt.value);
-}
-
-function changeAI(ai) {
-  window.ai = ai;
 }
 
 /**
@@ -160,8 +145,8 @@ import {
   connectClient,
   sendAddElement,
   sendChangeAI,
-  sendLaunchGame,
-  sendNextStep,
+  sendCheckSimulationReady,
+  sendNextStepIfPossible,
 } from "./connection.js";
 
 let stompClient;
@@ -191,10 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelector("#next-button").addEventListener("click", () => {
+    selectedDOM = null;
+    selectedElement = null;
     if (window.gameLaunched) {
-      sendNextStep(stompClient);
+      sendNextStepIfPossible(stompClient);
     } else {
-      sendLaunchGame(stompClient);
+      sendCheckSimulationReady(stompClient);
     }
   });
 });

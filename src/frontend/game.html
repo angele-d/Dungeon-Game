@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="tailwind_config.js"></script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="game.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
@@ -273,110 +273,7 @@
             Party Status(PLACEHOLDER)
           </h3>
           <div class="info-panel space-y-4">
-            <!-- Party Member -->
-            <div class="flex items-center gap-3">
-              <div class="relative">
-                <div
-                  class="size-12 rounded-full overflow-hidden border-2 border-green-500 bg-surface-dark"
-                >
-                  <img
-                    alt="Healer Avatar"
-                    class="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAAkqwEGSlT9FyPrvC-JtetAQKnVRGVpbT4uv0jeXJFcioU7jHVxWR3wOVxAq-Gc6To23Xbb7nEY38x0POiCInnyywW17QcvkjVIDHd0XDMSnNgDkphzFUt5UdScQUJs7RkP1K-QXrStZPkO9HMb7leB4bcPa_B9nRt-ldrtq5kGD1ZmY7-1bDAWD1Wa6qdYa41qr_wQ9t4h_3WuN1MvQA9gsZsEGSD89xVRFNPO95eVy4VE14oXhty8K44gXGQsHAmgowteqIn5W9"
-                  />
-                </div>
-                <div
-                  class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border"
-                >
-                  <span
-                    class="material-symbols-outlined text-green-500 text-xs block"
-                    >health_and_safety</span
-                  >
-                </div>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex justify-between items-center mb-1">
-                  <p class="text-sm font-bold text-white truncate">
-                    Elara (Healer)
-                  </p>
-                  <span class="text-xs text-green-400 font-mono">100%</span>
-                </div>
-                <div
-                  class="w-full h-1.5 bg-surface-border rounded-full overflow-hidden"
-                >
-                  <div class="h-full bg-green-500 w-full"></div>
-                </div>
-              </div>
-            </div>
-            <!-- Party Member -->
-            <div class="flex items-center gap-3">
-              <div class="relative">
-                <div
-                  class="size-12 rounded-full overflow-hidden border-2 border-blue-500 bg-surface-dark"
-                >
-                  <img
-                    alt="Tank Avatar"
-                    class="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCBm5QtEzQsUQl_4i3yaY_c4Huwjh2Wx_p0R00vaApH8wCIrxRVwsE20NjxWnxH5N-WttQ70X-KLQaE9YcN7GihSQfVqh-pI2VbW-rKvRsBN5MyGDqkU47usOA690kYAbWNJMg1K6-viUH2ZALY7_EMXBKVvrftXDaobEH482V3S0hO0pkL92hlt3iksAqI2u_AbKiS_wXUIDfUUWwDtNODDI0YfS592ObmBs5JalOuHzgpTspOR8oKLgQ5odk4eCH7r1zObc6eJ-C"
-                  />
-                </div>
-                <div
-                  class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border"
-                >
-                  <span
-                    class="material-symbols-outlined text-blue-500 text-xs block"
-                    >shield</span
-                  >
-                </div>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex justify-between items-center mb-1">
-                  <p class="text-sm font-bold text-white truncate">
-                    Grom (Tank)
-                  </p>
-                  <span class="text-xs text-blue-400 font-mono">85%</span>
-                </div>
-                <div
-                  class="w-full h-1.5 bg-surface-border rounded-full overflow-hidden"
-                >
-                  <div class="h-full bg-blue-500 w-[85%]"></div>
-                </div>
-              </div>
-            </div>
-            <!-- Party Member -->
-            <div class="flex items-center gap-3 opacity-60">
-              <div class="relative">
-                <div
-                  class="size-12 rounded-full overflow-hidden border-2 border-slate-500 bg-surface-dark"
-                >
-                  <img
-                    alt="Dwarf Avatar"
-                    class="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp46x5M97AIxEOEgtfXdUsMuwXz-Wmevfz-jOyeMwWLZVMsPLogUE6FwCH2SRW6Ldyk4QFCVZYO8pStlYjxQJ_0xfbR7mfn9I28q_17qSeNV9cZBpCQjF8Dtvo72W_57knmXWV8_Dpi-0Nzzhj9QvFiMF2VYMOXxvsOTBySy-xz2t6oC35hRPfzcEZLWIH10XAzx-zfku4Jsq908RA9yE5MQ0PtpE5wASJTK7o0eK3HRWr6aSQaInZU2fHcCEI4sCYgteG5WGT9SgT"
-                  />
-                </div>
-                <div
-                  class="absolute -bottom-1 -right-1 bg-surface-dark rounded-full p-0.5 border border-surface-border"
-                >
-                  <span
-                    class="material-symbols-outlined text-slate-500 text-xs block"
-                    >construction</span
-                  >
-                </div>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex justify-between items-center mb-1">
-                  <p class="text-sm font-bold text-white truncate">
-                    Bori (Dwarf)
-                  </p>
-                  <span class="text-xs text-red-400 font-mono">CRITICAL</span>
-                </div>
-                <div
-                  class="w-full h-1.5 bg-surface-border rounded-full overflow-hidden"
-                >
-                  <div class="h-full bg-red-500 w-[15%]"></div>
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>

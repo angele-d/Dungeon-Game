@@ -17,9 +17,9 @@ public class BuilderTest {
     void testBuilderAddsHeroes() {
         HeroSquad.Builder builder = new HeroSquad.Builder();
         Healer healer = new Healer();
-        Dwarf dwarf = new Dwarf();
+        Dragon dragon = new Dragon();
         builder.addHero(healer);
-        builder.addHero(dwarf);
+        builder.addHero(dragon);
         HeroSquad squad = builder.build();
         assertEquals(2, squad.getSquadSize());
     }
@@ -39,7 +39,7 @@ public class BuilderTest {
         HeroSquad.Builder builder = new HeroSquad.Builder();
         HeroSquad squad = builder
             .addHero(new Healer())
-            .addHero(new Dwarf())
+            .addHero(new Dragon())
             .addHero(new Tank())
             .build();
         assertEquals(3, squad.getSquadSize());

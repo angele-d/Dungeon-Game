@@ -56,6 +56,12 @@ header {
   overflow-y: auto;
 }
 
+#editor-panel.gray-out {
+  filter: grayscale(100%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 body.dark {
   background-color: var(--background-dark);
   color: #fff;
