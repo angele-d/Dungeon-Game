@@ -21,6 +21,7 @@ public class TerminalLauncher {
     }
 
     public static void gameGenerator(int edit, int game_id_load, int S_x,int S_y,int T_x,int T_y){
+        int DISPLAY_SIZE = 10;
         Scanner scanner = new Scanner(System.in);
         Game game;
         int startingPointPassage = 0;
@@ -50,12 +51,14 @@ public class TerminalLauncher {
                 strategy_AI = Integer.parseInt(strat);
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a number between 1 and 2 !");
+                System.out.println("\n");
                 continue;
             }
             if (strategy_AI > 0 && strategy_AI < 3){
                 strategy = 1;
             } else {
                 System.out.println("Please enter a number between 1 and 2 !");
+                System.out.println("\n");
             }
         }
 
@@ -130,6 +133,7 @@ public class TerminalLauncher {
                                 choice = 1;
                             } else {
                                 System.out.print("You cannot place two treasures or two starting points...");
+                                System.out.println("\n");
                             }
                             
                         }
@@ -144,6 +148,7 @@ public class TerminalLauncher {
                             choice_coord = 1;
                         } else {
                             System.out.print("Please choose a available tile...");
+                            System.out.println("\n");
                         }
                         
                     }
@@ -184,6 +189,7 @@ public class TerminalLauncher {
                             choice_delete = 1;
                         } else {
                             System.out.print("Please choose a case...");
+                            System.out.println("\n");
                         }
                     }
                     
@@ -208,25 +214,18 @@ public class TerminalLauncher {
                         SaveManager.save(game);
                     } catch (IOException e) {
                         System.err.println("Error during backup : " + e.getMessage());
+                        System.out.println("\n");
                     }
                     System.out.println("I save your game !");
+                    System.out.println("\n");
                     break;
-                case 4: // TODO: LeaderBoard
-                    int game_id = 0;
-                    int choice_load = 0;
-                    while (choice_load == 0) {
-                        System.out.print("What is your game id ? ");
-                        String input = scanner.next();
-                        try {
-                            game_id = Integer.parseInt(input);
-                            choice_load = 1;
-                        } catch (NumberFormatException e) {
-                            System.out.println("Please enter a number between 1 and 6 !");
-                            continue;
-                        }
+                case 4:
+                    int optionLead = LeaderBoard.showLeaderBoard(scanner, DISPLAY_SIZE);
+                    if (optionLead != -1){
+                        game = GameEngine.getInstance().getGame(optionLead);
+                        System.out.println("Your game is ready ! ");
+                        System.out.println("\n");
                     }
-                    game = GameEngine.getInstance().getGame(game_id);
-                    System.out.println("Your game is ready ! ");
                     break;
                 case 5:
                     if (startingPointPassage > 0 && treasurePointPassage > 0){
@@ -235,10 +234,12 @@ public class TerminalLauncher {
                             
                         } else {
                             System.out.println("At least one accessible path is needed...");
+                            System.out.println("\n");
                         }
                         
                     } else {
                         System.out.print("You must have a starting point and a treasure...");
+                        System.out.println("\n");
                     }
                     
                     break; 
@@ -249,9 +250,13 @@ public class TerminalLauncher {
                         try {
                             SaveManager.save(game);
                             System.out.println("I save your game !");
+                            System.out.println("\n");
+                            System.out.println("\n");
                             end_action = 1; 
                         } catch (IOException e) {
                             System.err.println("Error during backup : " + e.getMessage());
+                            System.out.println("\n");
+                            System.out.println("\n");
                         }
                     } else {
                         end_action = 1; 
@@ -276,42 +281,60 @@ public class TerminalLauncher {
                         action_player_game = Integer.parseInt(input);
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a number between 1 and 5 !");
+                        System.out.println("\n");
                         continue;
                     }
                     if (action_player_game > 0 && action_player_game < 6){
                         action = 1;
                     }
                 }
-                switch (action_player_game) {
-                    case 1:
-                        gameGenerator(0,0,-1,-1,-1,-1);
-                        break;
-                    case 2:
-                        gameGenerator(1,game.getId(), S_x,S_y,T_x,T_y);
-                        break;
-                    case 3:
-                        try {
-                            SaveManager.save(game);
-                        } catch (IOException e) {
-                            System.err.println("Error during backup : " + e.getMessage());
-                        }
-                        System.out.println("I save your game !");
-                        break;
-                    case 4: // TODO: Leaderboard
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        break;
+                int lead_option = 0;
+                while (lead_option == 0) {
+                    switch (action_player_game) {
+                        case 1:
+                            gameGenerator(0,0,-1,-1,-1,-1);
+                            lead_option = 1;
+                            break;
+                        case 2:
+                            gameGenerator(1,game.getId(), S_x,S_y,T_x,T_y);
+                            lead_option = 1;
+                            break;
+                        case 3:
+                            try {
+                                SaveManager.save(game);
+                                System.out.println("I save your game !");
+                            } catch (IOException e) {
+                                System.err.println("Error during backup : " + e.getMessage());
+                            }
+                            System.out.println("\n");
+                            break;
+                        case 4:
+                            int optionLead = LeaderBoard.showLeaderBoard(scanner, DISPLAY_SIZE);
+                            if (optionLead != -1){
+                                game = GameEngine.getInstance().getGame(optionLead);
+                                gameGenerator(1,game.getId(), S_x,S_y,T_x,T_y);
+                                lead_option = 1;
+                            }
+                            break;
+                        case 5:
+                            lead_option = 1;
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 break;
+
             case 6:
                 System.out.println("This is the end !");
+                System.out.println("\n");
+                System.out.println("\n");
                 break;
             default:
                 break;
+            
         }
-        
+            
         scanner.close();
     }
     

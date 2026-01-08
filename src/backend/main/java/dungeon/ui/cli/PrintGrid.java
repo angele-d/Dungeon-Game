@@ -26,7 +26,7 @@ public static void make_action (Game game, int size, String legendString){
         System.out.println("\n");
         System.out.println("Your game ID : " + game.getId());
         System.out.println("\n");
-        System.out.println("   0 1 2 3 4 5 6 7 8 9 A B C D E");
+        System.out.println("   0 1 2 3 4 5 6 7 8 9");
         String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9"};
         for (int i = 0; i < size; i++) {
             System.out.println(cases[i] + " " + print_grid_line(game, i, size,edit));

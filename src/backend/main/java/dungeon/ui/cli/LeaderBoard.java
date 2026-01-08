@@ -3,7 +3,6 @@ package dungeon.ui.cli;
 import dungeon.engine.GameEngine;
 import dungeon.engine.GameResult;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,11 +19,20 @@ public class LeaderBoard {
         boolean run = true;
         int page = 0;
         int result = -1;
+        System.out.println("==================== Leaderboard ====================");
         while (run) {
             System.out.print("Games "+page*DISPLAY_SIZE+" to "+(page+1)*DISPLAY_SIZE);
-            String message = generateLeaderboard(leaderboard, page, DISPLAY_SIZE);
+            System.out.print("\n");
+            System.out.print("\n");
+            String result_leader = generateLeaderboard(leaderboard, page, DISPLAY_SIZE);
+            System.out.print(result_leader);
+            System.out.print("\n");
+            System.out.print("\n");
             System.out.print("Choose an action:\n(p)revious (n)ext (c)lose\nOr write a game id");
+            System.out.print("\n");
+            System.out.print("\n");
             String action = scanner.next();
+            System.out.print("\n");
             switch (action) {
                 case "p":
                     if (page > 0) {
@@ -32,7 +40,7 @@ public class LeaderBoard {
                     }
                     break;
                 case "n":
-                    if (page*DISPLAY_SIZE < leaderboard.size()) {
+                    if ((page+1)*DISPLAY_SIZE < leaderboard.size()) {
                         page++;
                     }
                     break;
@@ -44,11 +52,15 @@ public class LeaderBoard {
                     try {
                         int id = Integer.parseInt(action);
                         result = id;
+                        run = false;
                     } catch (NumberFormatException e) {
 
                     }
             }
         }
+        System.out.print("\n");
+        System.out.println("=====================================================");
+        System.out.print("\n");
         return result;
     }
 
@@ -58,8 +70,8 @@ public class LeaderBoard {
          */
 
         String result="";
-        for (int i = page*DISPLAY_SIZE; i < leaderboard.size(); i++) {
-            result = leaderboard.get(i).toString() + "\n";
+        for (int i = page*DISPLAY_SIZE; i < Math.min((page+1)*DISPLAY_SIZE, leaderboard.size()); i++) {
+            result += leaderboard.get(i).toString() + "\n";
         }
         return result;
     }
