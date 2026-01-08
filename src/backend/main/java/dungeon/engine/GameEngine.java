@@ -153,6 +153,15 @@ public class GameEngine {
         return result;
     }
 
+    public void updateLeaderboard() {
+        for (Game game : games.values()) {
+            GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
+            if (!leaderboard.getResults().contains(gameResult)) {
+                leaderboard.addResults(gameResult);
+            }
+        }
+    }
+
     /* --- Game Management --- */
 
     public Game newGame() {
