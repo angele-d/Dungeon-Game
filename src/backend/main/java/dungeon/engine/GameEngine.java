@@ -1,8 +1,6 @@
 package dungeon.engine;
 
-import dungeon.engine.Strategies.BFSStrategy;
-import dungeon.engine.Strategies.DFSStrategy;
-import dungeon.engine.Strategies.Strategy;
+import dungeon.engine.Strategies.*;
 import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
@@ -30,7 +28,7 @@ public class GameEngine {
 
     public boolean isGameTerminated(int gameId) {
         Game game = games.get(gameId);
-        if (game == null) {
+        if (game != null) {
             return game.isTerminated();
         }
         return false;
@@ -47,11 +45,17 @@ public class GameEngine {
                 case "treasure":
                     tile = new Treasure(coords);
                     break;
+                case "startingpoint":
+                    tile = new StartingPoint(coords);
+                    break;
                 case "woodwall":
                     tile = new WoodWall(coords);
                     break;
                 case "stonewall":
                     tile = new StoneWall(coords);
+                    break;
+                case "poisontrap":
+                    tile = new PoisonTrap(coords);
                     break;
                 case "mine":
                     tile = new Mine(coords);
@@ -68,6 +72,7 @@ public class GameEngine {
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
+        result.put("money", String.valueOf(game.getMoney()));
         return result;
     }
 
@@ -82,6 +87,9 @@ public class GameEngine {
             case "DFS":
                 strategy = new DFSStrategy();
                 break;
+            case "Astar":
+                strategy = new AstarStrategy();
+                break;
             default:
                 strategy = new BFSStrategy();
                 break;
@@ -91,6 +99,24 @@ public class GameEngine {
         return Map.of("result", "true");
     }
 
+    public Game getGame(Integer gameId) {
+        Game game = games.get(gameId);
+        return game;
+    }
+
+    public Map<String, String> startSimulation(Integer game_id, Coords coord) {
+        Game game = games.get(game_id);
+        if (game != null) {
+            game.startNewGame(coord);
+        }
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("grid", game.getGrid().serialized().toString());
+        result.put("heros", game.getHeroSquad().serialized().toString());
+        return result;
+    }
+
+    /// TODO check accessiblity
+
     public Map<String, String> startSimulation(Integer game_id) {
         Game game = games.get(game_id);
         if (game != null) {
@@ -99,6 +125,7 @@ public class GameEngine {
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heroes", game.getHeroSquad().serialized().toString());
+        result.put("money", String.valueOf(game.getMoney()));
         return result;
     }
 

@@ -25,10 +25,6 @@ public class WallTrap extends Trap implements TurnListener {
 
     /* --- Getters and Setters --- */
 
-    public int getAstarValue(){
-        return aStarValue;
-    }
-
     public int getPlacementCost(){
         return placementCost;
     }
@@ -59,4 +55,8 @@ public class WallTrap extends Trap implements TurnListener {
         }
     }
 
+    
+    public int getAstarValue(){
+        return aStarValue;
+    }
 }

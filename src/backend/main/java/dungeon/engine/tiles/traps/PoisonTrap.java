@@ -21,6 +21,9 @@ public class PoisonTrap extends Trap {
         super(coords, 0, 0);
     }
 
+    @Override
+    public String toString() { return "poisontrap"; }
+
     /* --- Getters and Setters --- */
 
     public int getAstarValue() {

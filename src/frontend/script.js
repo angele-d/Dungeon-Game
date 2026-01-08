@@ -28,7 +28,7 @@ function generateGrid() {
   }
 }
 
-import { canAfford, deductMoney, updateMoneyDisplay } from "./moneyManager.js";
+import { canAfford } from "./moneyManager.js";
 import config from "./money_config.js";
 
 /**
@@ -67,7 +67,7 @@ function selectionPossible(elt) {
       selectedElement == "eraser") ||
     !canAfford(config[selectedElement]) ||
     (selectedElement == "treasure" && window.treasurePlaced) ||
-    (selectedElement == "spawn" && window.spawnPlaced)
+    (selectedElement == "startingpoint" && window.spawnPlaced)
   ) {
     elt.classList.add("not-allowed-cell");
   }
@@ -96,16 +96,20 @@ function selectGridCell(cell) {
   )
     return;
   let innerSpan, innerDiv;
-  deductMoney(config[selectedElement]);
-  let folds = selectedDOM.querySelector(".folds");
-  if (folds) {
-    folds.textContent = `x${make2digits(
-      parseInt(folds.textContent.slice(1)) + 1
-    )}`;
-  }
+  // let folds = selectedDOM.querySelector(".folds");
+  // if (folds) {
+  //   folds.textContent = `x${make2digits(
+  //     parseInt(folds.textContent.slice(1)) + 1
+  //   )}`;
+  // }
 
   if (selectedElement == "eraser") {
     sendAddElement(stompClient, "empty", cell.dataset.x, cell.dataset.y);
+    if (cell.classList.contains("startingpoint")) {
+      window.spawnPlaced = false;
+    } else if (cell.classList.contains("treasure")) {
+      window.treasurePlaced = false;
+    }
   } else {
     sendAddElement(
       stompClient,
@@ -117,7 +121,7 @@ function selectGridCell(cell) {
 }
 
 const grid = document.querySelector(".grid");
-const cells = document.querySelector(".space-y-3");
+const cells = document.querySelector("#editor-assets");
 
 document.addEventListener("pointerdown", (event) => {
   if (!grid.contains(event.target) && !cells.contains(event.target)) {
@@ -164,7 +168,6 @@ let stompClient;
 
 document.addEventListener("DOMContentLoaded", () => {
   generateGrid();
-  updateMoneyDisplay();
   stompClient = getClient();
   connectClient(stompClient);
   document.querySelectorAll("div.cell").forEach((element) => {

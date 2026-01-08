@@ -1,9 +1,9 @@
 package dungeon.engine.AI;
 
-import dungeon.engine.Coords;
-import dungeon.engine.Grid;
-import dungeon.engine.Node;
+import dungeon.engine.*;
+import dungeon.engine.tiles.Empty;
 import dungeon.engine.tiles.Treasure;
+import dungeon.engine.tiles.wall.WoodWall;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ public class BFS {
 
     }
 
-    public Coords search(Coords start) {
+    public Coords search(Coords start, Hero hero) {
         Queue<Node> queue = new LinkedList<Node>();
         Set<Coords> visited = new HashSet<Coords>();
         queue.add(new Node(start, null));
@@ -32,8 +32,11 @@ public class BFS {
             for (Coords neighboor: grid.getNeighborsCoords(curr.getCoords())) {
 
                 if (!visited.contains(neighboor)) {
-                    visited.add(neighboor);
-                    queue.add(new Node(neighboor, curr));
+                    if ((grid.getTile(neighboor) instanceof Empty || grid.getTile(neighboor) instanceof Treasure) || (hero instanceof Dwarf && hero.getActionAvailable() && grid.getTile(neighboor) instanceof WoodWall)) {
+                        visited.add(neighboor);
+                        queue.add(new Node(neighboor, curr));
+                    }
+
                 }
             }
         }

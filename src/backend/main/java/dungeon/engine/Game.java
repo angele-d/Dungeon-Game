@@ -1,5 +1,6 @@
 package dungeon.engine;
 
+import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.Trap;
 import dungeon.engine.tiles.Treasure;
 
@@ -12,32 +13,36 @@ public class Game {
     private Grid grid;
     private Grid blueprint;
     private HeroSquad heroSquad;
-    private int score;
     private int money;
     private int turn;
     private ArrayList<TurnListener> turnListeners;
+    private ScoreManager scoreManager;
+
+    /* --- Constructor --- */
 
     public Game(int id) {
         this.grid = new Grid();
         this.blueprint = grid.clone();
         this.id = id;
         this.heroSquad = new HeroSquad();
-        this.score = 0;
         this.money = 500;
         this.turn = 0;
         this.turnListeners = new ArrayList<TurnListener>();
+        this.scoreManager = new ScoreManager();
     }
 
     public Game() {
         this.grid = new Grid();
         this.blueprint = grid.clone();
-        this.id = 0;
+        this.id = 1;
         this.heroSquad = new HeroSquad();
-        this.score = 0;
         this.money = 500;
         this.turn = 0;
+        this.scoreManager = new ScoreManager();
         this.turnListeners = new ArrayList<TurnListener>();
     }
+
+    /* --- Getters and Setters --- */
 
     private Tile getTreasure() {
         for (Coords coords: grid.getGrid().keySet()) {
@@ -51,21 +56,16 @@ public class Game {
     public void addTurnListener(TurnListener turnListener) {
         this.turnListeners.add(turnListener);
     }
-
     public void removeTurnListener(TurnListener turnListener) {
         this.turnListeners.remove(turnListener);
     }
-
     public List<TurnListener> getTurnListeners() {
         return new ArrayList<>(turnListeners);
     }
 
-    /* --- Getters and Setters --- */
-
     public Grid getGrid() {
         return grid;
     }
-
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
@@ -81,18 +81,9 @@ public class Game {
         this.heroSquad = heroSquad;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getMoney() {
         return money;
     }
-
     public void setMoney(int money) {
         this.money = money;
     }
@@ -101,12 +92,39 @@ public class Game {
         return turn;
     }
 
+    public ScoreManager getScoreManager() {
+        return scoreManager;
+    }
+    public int getScore() {
+        return scoreManager.getScore();
+    }
+    public void setScore(int score) {
+        scoreManager.setScore(score);
+    }
+
     /* --- Game Methods --- */
+
+    public void startNewGame(Coords coord) { // TODO : Place heroes in the starting point
+        blueprint = grid.clone();
+        //this.grid = new Grid();
+        this.heroSquad = new HeroSquad();
+//        this.heroSquad.addHero();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(coord);
+        }
+        this.scoreManager = new ScoreManager();
+        this.money = 500;
+        this.turn = 0;
+    }
+
     public void startNewGame() {
         blueprint = grid.clone();
 //        this.grid = new Grid();
         this.heroSquad = new HeroSquad();
-        this.score = 0;
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.setCoords(new Coords(0,0));
+        }
+        this.scoreManager = new ScoreManager();
         this.money = 500;
         this.turn = 0;
     }
@@ -143,10 +161,6 @@ public class Game {
                 //((Trap) currentTile).process(heroSquad));
             }
         }
-    }
-
-    public void addScore(int points) {
-        this.score += points;
     }
 
     public void subMoney(int amount) {

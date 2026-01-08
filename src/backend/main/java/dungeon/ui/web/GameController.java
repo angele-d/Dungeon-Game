@@ -64,7 +64,6 @@ public class GameController {
     public void send_game_stats(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().getGameStats(Integer.parseInt(id));
-        System.out.println(result);
         String destination = "/topic/send_game_stats/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }

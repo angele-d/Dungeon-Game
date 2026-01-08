@@ -13,9 +13,25 @@ function updateGrid(gridData) {
   grid.innerHTML = "";
   let innerSpan, innerDiv;
 
+  let folds = new Map([
+    ["woodwall", 0],
+    ["stonewall", 0],
+    ["poisontrap", 0],
+    ["mine", 0],
+    ["walltrap", 0],
+    ["startingpoint", 0],
+    ["treasure", 0],
+  ]);
+
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement("div");
+
+      // Count elements for sidebar display
+      if (folds.has(gridData[i][j])) {
+        folds.set(gridData[i][j], folds.get(gridData[i][j]) + 1);
+      }
+
       switch (gridData[i][j]) {
         case "empty":
           cell.classList.add(
@@ -86,11 +102,11 @@ function updateGrid(gridData) {
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
           break;
-        case "spike":
-          cell.classList.add("spike", "bg-[#4a1e1e]", "relative");
+        case "poisontrap":
+          cell.classList.add("poisontrap", "bg-[#4a1e1e]", "relative");
           innerSpan = document.createElement("span");
-          innerSpan.classList.add("material-symbols-outlined", "text-red-700");
-          innerSpan.textContent = "dangerous";
+          innerSpan.classList.add("material-symbols-outlined", "text-red-500");
+          innerSpan.textContent = "coronavirus";
           innerDiv = document.createElement("div");
           innerDiv.classList.add(
             "absolute",
@@ -103,8 +119,42 @@ function updateGrid(gridData) {
           innerDiv.appendChild(innerSpan);
           cell.appendChild(innerDiv);
           break;
-        case "spawn":
-          cell.classList.add("spawn", "bg-black", "relative");
+        case "mine":
+          cell.classList.add("mine", "bg-[#4a1e1e]", "relative");
+          innerSpan = document.createElement("span");
+          innerSpan.classList.add("material-symbols-outlined", "text-red-500");
+          innerSpan.textContent = "bomb";
+          innerDiv = document.createElement("div");
+          innerDiv.classList.add(
+            "absolute",
+            "inset-0",
+            "flex",
+            "items-center",
+            "justify-center",
+            "opacity-40"
+          );
+          innerDiv.appendChild(innerSpan);
+          cell.appendChild(innerDiv);
+          break;
+        case "walltrap":
+          cell.classList.add("walltrap", "bg-[#4a1e1e]", "relative");
+          innerSpan = document.createElement("span");
+          innerSpan.classList.add("material-symbols-outlined", "text-red-500");
+          innerSpan.textContent = "mist";
+          innerDiv = document.createElement("div");
+          innerDiv.classList.add(
+            "absolute",
+            "inset-0",
+            "flex",
+            "items-center",
+            "justify-center",
+            "opacity-40"
+          );
+          innerDiv.appendChild(innerSpan);
+          cell.appendChild(innerDiv);
+          break;
+        case "startingpoint":
+          cell.classList.add("startingpoint", "bg-black", "relative");
           innerSpan = document.createElement("span");
           innerSpan.classList.add("material-symbols-outlined", "text-white");
           innerSpan.textContent = "skull";
@@ -153,6 +203,15 @@ function updateGrid(gridData) {
       });
     }
   }
+
+  // Update sidebar folds
+  folds.forEach((count, elementType) => {
+    console.log(elementType, count);
+    const sidebarElement = document
+      .getElementById(elementType)
+      .querySelector(".folds");
+    sidebarElement.textContent = `x${count}`;
+  });
 }
 
 import { heroPawns } from "./heroPawns.js";
