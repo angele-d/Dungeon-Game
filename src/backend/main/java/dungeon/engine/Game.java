@@ -19,11 +19,10 @@ public class Game {
     private int turn;
     private ArrayList<TurnListener> turnListeners;
     private ScoreManager scoreManager;
-
     /* --- Constructor --- */
 
     public Game(int id) {
-        this.grid = new Grid();
+        this.grid = new Grid(getId());
         this.blueprint = grid.clone();
         this.id = id;
         this.heroSquad = new HeroSquad();

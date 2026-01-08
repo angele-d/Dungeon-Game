@@ -1,7 +1,10 @@
 package dungeon.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dungeon.engine.tiles.StartingPoint;
+import dungeon.engine.tiles.Treasure;
 import org.junit.jupiter.api.Test;
 
 public class GridTest {
@@ -49,5 +52,39 @@ public class GridTest {
     void testGetGridSize() {
         Grid grid = new Grid();
         assertEquals(100, grid.getGrid().size()); // 10x10 grid
+    }
+
+    @Test
+    void testGridGeneration() {
+        Grid grid = new Grid();
+        boolean treasureFound = false;
+        boolean startPositionFound = false;
+        for (Tile tile: grid.getGrid().values()) {
+            if (tile instanceof Treasure) {
+                treasureFound = true;
+            } else if (tile instanceof StartingPoint) {
+                startPositionFound = true;
+            }
+        }
+        assertTrue(startPositionFound);
+        assertTrue(treasureFound);
+    }
+
+    @Test
+    void testMultipleGridGeneration() {
+        for (int i=0; i<10; i++) {
+            Grid grid = new Grid(i);
+            boolean treasureFound = false;
+            boolean startPositionFound = false;
+            for (Tile tile : grid.getGrid().values()) {
+                if (tile instanceof Treasure) {
+                    treasureFound = true;
+                } else if (tile instanceof StartingPoint) {
+                    startPositionFound = true;
+                }
+            }
+            assertTrue(startPositionFound);
+            assertTrue(treasureFound);
+        }
     }
 }

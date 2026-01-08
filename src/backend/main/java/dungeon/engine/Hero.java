@@ -24,7 +24,7 @@ public abstract class Hero {
 
     public Hero() {
         // Common initialization for all heroes
-        this.strategy = new BFSStrategy();
+        this.strategy = null;
     }
 
     /* --- Abstract Functions --- */
