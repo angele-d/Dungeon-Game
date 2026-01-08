@@ -182,7 +182,7 @@ public class GameEngine {
     public Map<String, String> getLeaderBoardString() {
         String leaderboardString = "[";
         for (GameResult gameResult: getLeaderBoard().getResults()) {
-            leaderboardString = leaderboardString + gameResult.toString()+",";
+            leaderboardString = leaderboardString + gameResult.serialized()+",";
         }
         leaderboardString = leaderboardString.substring(0, leaderboardString.length()-1)+"]";
         Map<String, String> result = new HashMap<String, String>();

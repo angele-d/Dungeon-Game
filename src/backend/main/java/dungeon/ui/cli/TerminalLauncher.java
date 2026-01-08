@@ -190,8 +190,4 @@ public class TerminalLauncher {
         String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - " + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - " + (new WoodWall(null)).getPlacementCost() + ", W = Wall Trap - " + (new WallTrap(null)).getPlacementCost() + ", M = Mine - " + (new Mine(null)).getPlacementCost() + ", P = Poison Trap - " + (new PoisonTrap(null)).getPlacementCost();
         return legend;
     }
-    
-    
-    
-    // TODO: leaderboard (affiche page par page les games)
 }
