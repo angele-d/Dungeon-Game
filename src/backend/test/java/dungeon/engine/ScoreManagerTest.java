@@ -12,19 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ScoreManagerTest {
     
     private ScoreManager scoreManager;
-    private Dragon dwarf;
+    private Dragon dragon;
 
     @BeforeEach
     void setUp() {
         scoreManager = new ScoreManager();
-        dwarf = new Dragon();
-        dwarf.addObserver(scoreManager);
+        dragon = new Dragon();
+        dragon.addObserver(scoreManager);
     }
 
     @Test
     void testDamageTakenIncreasesScore() {
         int initialScore = scoreManager.getScore();
-        dwarf.applyDamage(50);
+        dragon.applyDamage(50);
         int updatedScore = scoreManager.getScore();
         assertEquals(updatedScore, initialScore + 50);
     }
@@ -33,7 +33,7 @@ public class ScoreManagerTest {
     void testHeroDeathIncreasesScore() {
         int initialScore = scoreManager.getScore();
         assertEquals(0, initialScore);
-        dwarf.applyDamage(200); // Assuming this will kill the dwarf
+        dragon.applyDamage(200); // Assuming this will kill the dragon
         int updatedScore = scoreManager.getScore();
         assertEquals(updatedScore,200 + 150);
     }

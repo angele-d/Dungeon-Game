@@ -20,7 +20,7 @@ public class HeroCreatorTest {
     }
 
     @Test
-    public void testDwarfCreator() {
+    public void testDragonCreator() {
         HeroCreator creator = new DragonCreator();
         Hero hero = creator.createHero();
         assertTrue(hero instanceof Dragon);
@@ -43,17 +43,17 @@ public class HeroCreatorTest {
     @Test
     public void testDifferentCreators(){
         HeroCreator healerCreator = new HealerCreator();
-        HeroCreator dwarfCreator = new DragonCreator();
+        HeroCreator dragonCreator = new DragonCreator();
         HeroCreator tankCreator = new TankCreator();
         HeroCreator memeMakerCreator = new TheMemeMakerCreator();
 
         Hero healer = healerCreator.createHero();
-        Hero dwarf = dwarfCreator.createHero();
+        Hero dragon = dragonCreator.createHero();
         Hero tank = tankCreator.createHero();
         Hero memeMaker = memeMakerCreator.createHero();
 
         assertTrue(healer instanceof Healer);
-        assertTrue(dwarf instanceof Dragon);
+        assertTrue(dragon instanceof Dragon);
         assertTrue(tank instanceof Tank);
         assertTrue(memeMaker instanceof TheMemeMaker);
         assertNotSame(tank, memeMaker);

@@ -23,71 +23,71 @@ public class HeroVisitorTest {
 
     @Test
     void testHealVisitorOnOtherHero() {
-        Dragon dwarf = new Dragon();
-        int initialHealth = dwarf.getHealth();
-        dwarf.applyDamage(20);
+        Dragon dragon = new Dragon();
+        int initialHealth = dragon.getHealth();
+        dragon.applyDamage(20);
         HealVisitor healVisitor = new HealVisitor();
-        dwarf.accept(healVisitor);
+        dragon.accept(healVisitor);
         int expectedHealth = (initialHealth - 20) + ((initialHealth - 20) * 10 / 100);
-        assertEquals(expectedHealth, dwarf.getHealth());
+        assertEquals(expectedHealth, dragon.getHealth());
     }
 
     @Test
     void testHealVisitorDoesNotExceedMaxHealth() {
-        Dragon dwarf = new Dragon();
-        dwarf.applyDamage(1);
+        Dragon dragon = new Dragon();
+        dragon.applyDamage(1);
 
         HealVisitor healVisitor = new HealVisitor();
-        dwarf.accept(healVisitor);
+        dragon.accept(healVisitor);
 
-        assertEquals(dwarf.getMaxHealth(), dwarf.getHealth());
+        assertEquals(dragon.getMaxHealth(), dragon.getHealth());
     }
 
     @Test
     void testHealVisitorRecoversPartialHealth() {
-        Dragon dwarf = new Dragon();
-        dwarf.applyDamage(100); // health = 50
+        Dragon dragon = new Dragon();
+        dragon.applyDamage(100); // health = 50
 
         HealVisitor healVisitor = new HealVisitor();
-        dwarf.accept(healVisitor);
+        dragon.accept(healVisitor);
 
-        assertEquals(55, dwarf.getHealth());
+        assertEquals(55, dragon.getHealth());
     }
 
     @Test
     void testHealVisitorStacksAcrossVisits() {
-        Dragon dwarf = new Dragon();
-        dwarf.applyDamage(60); // health = 90
+        Dragon dragon = new Dragon();
+        dragon.applyDamage(60); // health = 90
 
         HealVisitor healVisitor = new HealVisitor();
-        dwarf.accept(healVisitor); // 90 -> 99
-        dwarf.accept(healVisitor); // 99 -> 108
+        dragon.accept(healVisitor); // 90 -> 99
+        dragon.accept(healVisitor); // 99 -> 108
 
-        assertEquals(108, dwarf.getHealth());
+        assertEquals(108, dragon.getHealth());
     }
 
     /* AreaDamageVisitor */
 
     @Test
     void testAreaDamageVisitorDirectHitFullDamage() {
-        Dragon dwarf = new Dragon();
-        dwarf.setCoords(new Coords(0, 0));
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(0, 0));
 
         AreaDamageVisitor visitor = new AreaDamageVisitor(new Coords(0, 0), 50, 2);
-        dwarf.accept(visitor);
+        dragon.accept(visitor);
 
-        assertEquals(100, dwarf.getHealth());
+        assertEquals(100, dragon.getHealth());
     }
 
     @Test
     void testAreaDamageVisitorReducedDamageWithinRadius() {
-        Dragon dwarf = new Dragon();
-        dwarf.setCoords(new Coords(1, 0)); // Manhattan distance 1 from epicenter
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(1, 0)); // Manhattan distance 1 from epicenter
 
         AreaDamageVisitor visitor = new AreaDamageVisitor(new Coords(0, 0), 50, 2);
-        dwarf.accept(visitor);
+        dragon.accept(visitor);
 
-        assertEquals(110, dwarf.getHealth()); // 50 * 80% = 40 damage
+        assertEquals(110, dragon.getHealth()); // 50 * 80% = 40 damage
     }
 
     @Test
@@ -103,40 +103,40 @@ public class HeroVisitorTest {
 
     @Test
     void testAreaDamageVisitorDefaultDamageAndRadius() {
-        Dragon dwarf = new Dragon();
-        dwarf.setCoords(new Coords(0, 0));
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(0, 0));
 
         AreaDamageVisitor visitor = new AreaDamageVisitor(new Coords(0, 0));
-        dwarf.accept(visitor);
+        dragon.accept(visitor);
 
-        assertEquals(140, dwarf.getHealth());
+        assertEquals(140, dragon.getHealth());
     }
 
     /* PoisonVisitor */
 
     @Test
     void testPoisonVisitorPoisonsHeroWithinRadius() {
-        Dragon dwarf = new Dragon();
-        dwarf.setCoords(new Coords(1, 0)); // distance 1 from epicenter
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(1, 0)); // distance 1 from epicenter
 
         PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 2);
-        assertFalse(dwarf.getIsPoisoned());
+        assertFalse(dragon.getIsPoisoned());
 
-        dwarf.accept(visitor);
+        dragon.accept(visitor);
 
-        assertTrue(dwarf.getIsPoisoned());
+        assertTrue(dragon.getIsPoisoned());
     }
 
     @Test
     void testPoisonVisitorDoesNotPoisonOutsideRadius() {
-        Dragon dwarf = new Dragon();
-        dwarf.setCoords(new Coords(3, 0));
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(3, 0));
 
         PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0), 2);
 
-        dwarf.accept(visitor);
+        dragon.accept(visitor);
 
-        assertFalse(dwarf.getIsPoisoned());
+        assertFalse(dragon.getIsPoisoned());
     }
 
     @Test
@@ -162,14 +162,14 @@ public class HeroVisitorTest {
 
     @Test
     void testPoisonVisitorDefaultConstructorPoisonsOnlyOnExactTile() {
-        Dragon dwarf = new Dragon();
-        dwarf.setCoords(new Coords(0, 0));
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(0, 0));
 
         // Default constructor: radius = 0
         PoisonVisitor visitor = new PoisonVisitor(new Coords(0, 0));
 
-        dwarf.accept(visitor);
+        dragon.accept(visitor);
 
-        assertTrue(dwarf.getIsPoisoned());
+        assertTrue(dragon.getIsPoisoned());
     }
 }

@@ -34,11 +34,11 @@ public class PoisonTrapTest {
 
 	@Test
 	void testPoisonTrapActivateTrapAppliesDamageAndPoison() {
-		Dragon dwarf = new Dragon();
-		dwarf.setCoords(new Coords(5, 5));
+		Dragon dragon = new Dragon();
+		dragon.setCoords(new Coords(5, 5));
 
 		HeroSquad squad = new HeroSquad.Builder()
-			.addHero(dwarf)
+			.addHero(dragon)
 			.build();
 
 		Game game = new Game();
@@ -46,15 +46,15 @@ public class PoisonTrapTest {
 
 		PoisonTrap poisonTrap = new PoisonTrap(new Coords(5, 5), 30, 1);
 
-		int initialHealth = dwarf.getHealth();
-		assertFalse(dwarf.getIsPoisoned());
+		int initialHealth = dragon.getHealth();
+		assertFalse(dragon.getIsPoisoned());
 
 		poisonTrap.activateTrap(game);
 
 		// AreaDamageVisitor
-		assertEquals(initialHealth - 30, dwarf.getHealth());
+		assertEquals(initialHealth - 30, dragon.getHealth());
 		// PoisonVisitor
-		assertTrue(dwarf.getIsPoisoned());
+		assertTrue(dragon.getIsPoisoned());
 	}
 
 	@Test

@@ -17,9 +17,9 @@ public class BuilderTest {
     void testBuilderAddsHeroes() {
         HeroSquad.Builder builder = new HeroSquad.Builder();
         Healer healer = new Healer();
-        Dragon dwarf = new Dragon();
+        Dragon dragon = new Dragon();
         builder.addHero(healer);
-        builder.addHero(dwarf);
+        builder.addHero(dragon);
         HeroSquad squad = builder.build();
         assertEquals(2, squad.getSquadSize());
     }

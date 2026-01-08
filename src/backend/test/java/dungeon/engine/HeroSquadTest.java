@@ -23,9 +23,9 @@ public class HeroSquadTest {
     @Test
     void removeHeroFromSquad() {
         HeroSquad squad = new HeroSquad();
-        Dragon dwarf = new Dragon();
-        squad.addHero(dwarf);
-        squad.removeHero(dwarf);
+        Dragon dragon = new Dragon();
+        squad.addHero(dragon);
+        squad.removeHero(dragon);
         assertEquals(0, squad.getSquadSize()); 
     }
 

@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HeroTest {
     @Test
     public void testCreateHero(){
-        Dragon dwarf = new Dragon();
+        Dragon dragon = new Dragon();
         Tank tank = new Tank();
         Healer healer = new Healer();
         TheMemeMaker memeMarker = new TheMemeMaker();
-        assertEquals(150, dwarf.getHealth());
+        assertEquals(150, dragon.getHealth());
         assertEquals(200, tank.getHealth());
         assertEquals(150, healer.getHealth());
         assertEquals(150, memeMarker.getHealth());
@@ -19,11 +19,11 @@ public class HeroTest {
 
     @Test
     public void testHeroTakeDamage(){
-        Dragon dwarf = new Dragon();
-        dwarf.applyDamage(50);
-        assertEquals(100, dwarf.getHealth());
-        dwarf.applyDamage(200);
-        assertEquals(0, dwarf.getHealth());
+        Dragon dragon = new Dragon();
+        dragon.applyDamage(50);
+        assertEquals(100, dragon.getHealth());
+        dragon.applyDamage(200);
+        assertEquals(0, dragon.getHealth());
     }
 
     @Test

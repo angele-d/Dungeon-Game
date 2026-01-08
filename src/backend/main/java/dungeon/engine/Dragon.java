@@ -6,7 +6,7 @@ import dungeon.engine.Visitors.HeroVisitor;
 
 public class Dragon extends Hero {
 
-    //TODO: Implement Dwarf wall breaking ability
+    //TODO: Implement Dragon wall breaking ability
     
     private int health;
     private boolean actionAvailable;
@@ -16,12 +16,12 @@ public class Dragon extends Hero {
         super();
         health = MAX_HEALTH;
         actionAvailable = true;
-        // Dwarf-specific initialization
+        // Dragon-specific initialization
     }
 
     @Override
     public String toString() {
-        return "Dwarf";
+        return "Dragon";
     }
 
     /* --- Getters and Setters --- */
