@@ -86,6 +86,10 @@ public class Game {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public HeroSquad getHeroSquad() {
         return heroSquad;
     }

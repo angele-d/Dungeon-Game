@@ -178,6 +178,9 @@ public class GameEngine {
     public boolean isGameTerminated(int gameId) {
         Game game = games.get(gameId);
         if (game != null) {
+            try {
+                SaveManager.save(game);
+            } catch (IOException e) {}
             return game.isTerminated();
         }
         return false;

@@ -58,7 +58,12 @@ function onConnect(stompClient, frame) {
       window.money = parseInt(payload["money"]);
       updateMoneyDisplay(payload["money"]);
       let heroes = payload["heroes"];
-      let heroesData = JSON.parse(heroes);
+      let heroesData;
+      if (heroes) {
+        heroesData = JSON.parse(heroes);
+      } else {
+        heroesData = [];
+      }
       updateHeroes(heroesData);
       document.querySelector("#next-button").textContent = "Next Turn";
       window.gameLaunched = true;
