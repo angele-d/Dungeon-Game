@@ -104,10 +104,16 @@ public class GameEngine {
         return game;
     }
 
-    /// TODO check accessiblity
+    public Map<String, String> isSimulationReady(Integer gameId) {
+        Game game = games.get(gameId);
 
-    public Map<String, String> startSimulation(Integer game_id) {
-        Game game = games.get(game_id);
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("result", String.valueOf(game.isSimulationReady()));
+        return result;
+    }
+
+    public Map<String, String> startSimulation(Integer gameId) {
+        Game game = games.get(gameId);
         if (game != null) {
             game.startSimulation();
         }
@@ -140,8 +146,8 @@ public class GameEngine {
         return result;
     }
 
-    public Map<String, String> nextTurn(Integer game_id) {
-        Game game = games.get(game_id);
+    public Map<String, String> nextTurn(Integer gameId) {
+        Game game = games.get(gameId);
         if (game != null) {
             game.startSimulation();
         }
