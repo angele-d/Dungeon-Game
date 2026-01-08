@@ -4,8 +4,6 @@
 
 import config from "./money_config.js";
 
-let money = config["initial-budget"];
-
 function updateMoneyDisplay() {
   /**
    * Updates the money display on the page
@@ -14,7 +12,7 @@ function updateMoneyDisplay() {
    */
   const elt = document.querySelector("p.bank:nth-child(2)");
   const span = elt.children[0];
-  elt.textContent = money;
+  elt.textContent = window.money;
   elt.prepend("$");
 
   const moneyBar = document.querySelector("div.moneybar");
@@ -28,17 +26,6 @@ function canAfford(cost) {
    * cost - The cost to check against the player's money
    * Returns: Boolean indicating if the player can afford the cost
    */
-  return money >= cost;
+  return window.money >= cost;
 }
-
-function deductMoney(cost) {
-  /**
-   * Deducts a certain cost from the player's money and updates the display
-   * Parameters:
-   * cost - The cost to deduct from the player's money
-   * Returns: None
-   */
-  money -= cost;
-  updateMoneyDisplay();
-}
-export { updateMoneyDisplay, canAfford, deductMoney };
+export { updateMoneyDisplay, canAfford };
