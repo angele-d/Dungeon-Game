@@ -1,7 +1,6 @@
 package dungeon.engine;
 
 import dungeon.engine.tiles.Empty;
-import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
