@@ -185,6 +185,7 @@ public class GameEngine {
         result = getGameStats(gameId);
         GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
         leaderboard.addResults(gameResult);
+        updateLeaderboard();
         game.endSimulation();
         return result;
     }
