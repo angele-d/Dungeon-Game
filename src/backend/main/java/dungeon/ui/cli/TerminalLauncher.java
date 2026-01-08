@@ -5,8 +5,9 @@ import dungeon.engine.HeroSquad;
 import dungeon.engine.SaveManager;
 import dungeon.engine.Hero;
 import dungeon.engine.GameEngine;
+import dungeon.engine.Observers.ScoreManager;
+import dungeon.engine.tiles.wall.StoneWall;
 import dungeon.engine.Game;
-import dungeon.engine.Grid;
 import dungeon.engine.Tile;
 import java.util.Scanner;
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class TerminalLauncher {
         int ID = game.getId();
         int startingPointPassage = 0;
         int treasurePointPassage = 0;
+        ScoreManager scoreManager = new ScoreManager();
+        scoreManager.setScore(0);
 
         int size_grid = game.getGrid().getSize();
         List<String> legend = List.of("S","T","#", "@", "W", "M");
@@ -38,10 +41,10 @@ public class TerminalLauncher {
             System.out.print("Give the indicated AI strategy : ");
             String strat = scanner.next();
             try {
-                strategy_AI = Integer.parseInt(strat); // Essaie de convertir en entier
+                strategy_AI = Integer.parseInt(strat);
             } catch (NumberFormatException e) {
                 System.out.println("Veuillez entrer un nombre entre 1 et 3 !");
-                continue; // recommence la boucle
+                continue;
             }
             if (strategy_AI > 0 && strategy_AI < 4){
                 strategy = 1;
@@ -70,12 +73,12 @@ public class TerminalLauncher {
             int action = 0;
             while (action == 0) {
                 System.out.print("Do an action : ");
-                String input = scanner.next();  // Lis n'importe quoi
+                String input = scanner.next();
                 try {
-                    action_player = Integer.parseInt(input); // Essaie de convertir en entier
+                    action_player = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
                     System.out.println("Veuillez entrer un nombre entre 1 et 6 !");
-                    continue; // recommence la boucle
+                    continue;
                 }
                 if (action_player > 0 && action_player < 7){
                     action = 1;
@@ -138,10 +141,15 @@ public class TerminalLauncher {
                         treasurePointPassage = 0;
                     }
                     
-                    // TODO: Money
-                    GameEngine.getInstance().placeTile(ID, new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y)) , getTypeObject(action_object));
+                    
+                    Coords coordTile = new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y));
+                    GameEngine.getInstance().placeTile(ID, coordTile , getTypeObject(action_object));
                     game = GameEngine.getInstance().getGame(game.getId());
-                    print_grid(game, size_grid);
+                    game.placementOnGrid(game.getGrid().getTile(coordTile));
+                    
+                    make_action(game, size_grid);
+                    System.out.println("\n");
+                    System.out.println("Coin : " + game.getMoney());
                     break;
                 case 2:
                     int choice_delete = 0;
@@ -157,10 +165,15 @@ public class TerminalLauncher {
                             pos_object_delete_y = convertButton(pos_object_delete_y);
                         }
                     }
-                    // TODO: Money
-                    GameEngine.getInstance().placeTile(ID, new Coords(Integer.parseInt(pos_object_delete_x),Integer.parseInt(pos_object_delete_y)) , "empty");
+                    
+                    Coords coordTileDelete = new Coords(Integer.parseInt(pos_object_delete_x),Integer.parseInt(pos_object_delete_y));
+                    GameEngine.getInstance().placeTile(ID, coordTileDelete , "empty");
                     game = GameEngine.getInstance().getGame(game.getId());
-                    print_grid(game, size_grid);
+                    game.placementOnGrid(game.getGrid().getTile(coordTileDelete));
+                    
+                    make_action(game, size_grid);
+                    System.out.println("\n");
+                    System.out.println("Coin : " + game.getMoney());
                     break;
                 case 3:
                     try {
@@ -184,7 +197,7 @@ public class TerminalLauncher {
                     
                     break; 
                 case 6:
-                    end_action = 1;
+                    end_action = 1; // TODO: save the game
                     break;       
                 default:
                     break;
@@ -194,10 +207,9 @@ public class TerminalLauncher {
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                execute_game(game,size_grid, new Coords(S_x,S_y));
+                execute_game(game,size_grid, new Coords(S_x,S_y), scoreManager);
                 break;
             case 6:
-                // TODO : Print Score
                 System.out.println("This is the end !");
                 break;
             default:
@@ -217,18 +229,17 @@ public class TerminalLauncher {
         System.out.println("   [5] Start the game");
         System.out.println("   [6] Leave");
         System.out.println("\n");
-        System.out.println("Coin :" + game.getMoney());
-        System.out.println("\n");
     }
 
     public static void print_grid(Game game, int size) {
-        System.out.println("Legend : S = Starting Point, T = Treasure, . = Empty tile, # = Stone Wall, @ = Wood Wall, E = Hero, W = Wall Trap, M = Mine");
+        System.out.println("Legend : S = Starting Point, T = Treasure, . = Empty tile, # = Stone Wall, @ = Wood Wall, E = Hero, W = Wall Trap, M = Mine"); // TODO: put prices
         System.out.println("\n");
         System.out.println("   0 1 2 3 4 5 6 7 8 9 A B C D E");
         String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E"};
         for (int i = 0; i < size; i++) {
             System.out.println(cases[i] + " " + print_grid_line(game, i, size));
         }
+        System.out.println("\n");
     }
 
     public static String print_grid_line(Game game, int line, int size){
@@ -260,22 +271,25 @@ public class TerminalLauncher {
         return line_completed;
     }
 
-    public static void execute_game(Game game, int size, Coords dep_hero) {
+    public static void execute_game(Game game, int size, Coords dep_hero, ScoreManager score) {
         int end = 0;
         int round = 1;
         GameEngine.getInstance().startSimulation(game.getId(),dep_hero);
 
         while (end == 0){
-            if(end == 0 && round == 3){ // TODO: Finish Game : Print score, print finish
+            if(GameEngine.getInstance().isGameTerminated(game.getId()) && round > 2){
                 end = 1;
+                System.out.println("\n");
                 System.out.println("This is the end !");
+                System.out.println("\n");
             } else {
                 System.out.println("===================== Round " + round + " ! =====================");
                 GameEngine.getInstance().nextTurn(game.getId());
                 game = GameEngine.getInstance().getGame(game.getId());
                 print_grid(game, size);
-                sleepHalfSecond();
             }
+            System.out.println("Your score : " + score.getScore());
+            sleepHalfSecond();
             round ++;
         }
     }
@@ -346,5 +360,6 @@ public class TerminalLauncher {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
+    }// TODO: leaderboard (affiche page par page les games)
+    // TODO: a la mort, afficher si nouvelle partie, si enregistrer, leaderboard, edition de sa partie
 }
