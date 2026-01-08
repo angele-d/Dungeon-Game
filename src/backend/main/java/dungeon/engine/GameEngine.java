@@ -185,14 +185,22 @@ public class GameEngine {
          }
     }
 
+    public void loadGame(int gameId, int loadId) {
+        Game game = games.get(gameId);
+        System.out.println("Loading game " + gameId);
+        try {
+            SaveManager.load(game, "save" + String.valueOf(loadId) + ".json");
+        } catch(IOException e) {
+            System.err.println("Error loading game" +  String.valueOf(loadId) + ".json");
+        }
+        game.setId(gameId);
+    }
+
     public Map<String, String> endGame(int gameId) {
         System.out.println("Ending game " + String.valueOf(gameId));
         Map<String, String> result;
         Game game = games.get(gameId);
         result = getGameStats(gameId);
-        GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
-        leaderboard.addResults(gameResult);
-        updateLeaderboard();
         game.endSimulation();
         return result;
     }
@@ -208,6 +216,9 @@ public class GameEngine {
                     System.out.println("Failed to save game" + String.valueOf(gameId));
                 }
             }
+            GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
+            leaderboard.addResults(gameResult);
+            updateLeaderboard();
             return terminated;
         }
         // Game not found

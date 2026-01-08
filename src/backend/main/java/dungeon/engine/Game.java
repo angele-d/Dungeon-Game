@@ -152,7 +152,6 @@ public class Game {
             hero.setCoords(startingPoint.getCoords());
         }
         this.scoreManager = new ScoreManager();
-        this.money = 500;
         this.turn = 0;
     }
 

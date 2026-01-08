@@ -29,7 +29,15 @@ function onConnect(stompClient, frame) {
     stompClient.subscribe(`/topic/leaderboard/${id}`, function (message) {
       let payload = JSON.parse(message.body);
       let leaderboard = payload["result"];
-      let parsedLeaderboard = JSON.parse(leaderboard);
+      let parsedLeaderboard;
+      if (leaderboard != "]") {
+        parsedLeaderboard = JSON.parse(leaderboard);
+      } else {
+        parsedLeaderboard = [];
+      }
+      parsedLeaderboard
+        .sort((score, id, remaining) => parseInt(score))
+        .reverse();
       updateLeaderboard(parsedLeaderboard);
     });
     sendGetLeaderboard(stompClient);
@@ -75,10 +83,4 @@ function updateLeaderboard(gameList) {
 document.addEventListener("DOMContentLoaded", () => {
   let stompClient = getClient();
   connectClient(stompClient);
-
-  let gameList = new Array(100).fill({
-    filename: "filename",
-    score: 1500,
-    money: 500,
-  });
 });
