@@ -22,7 +22,7 @@ public static void execute_game(Game game, int size, Coords dep_hero, ScoreManag
                 System.out.println("===================== Round " + round + " ! =====================");
                 GameEngine.getInstance().nextTurn(game.getId());
                 game = GameEngine.getInstance().getGame(game.getId());
-                PrintGrid.print_grid(game, size, legendString);
+                PrintGrid.print_grid(game, size, legendString, 0);
             }
             System.out.println("Your score : " + score.getScore());
             sleepHalfSecond();
