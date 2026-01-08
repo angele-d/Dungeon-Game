@@ -13,9 +13,13 @@ public class GameEngine {
 
     private Map<Integer, Game> games;
 
+    /* --- Constructor --- */
+
     private GameEngine() {
         games = new HashMap<Integer, Game>();
     }
+
+    /* --- Singleton --- */
 
     public static GameEngine getInstance() {
         if (gameEngine != null) {
@@ -26,13 +30,24 @@ public class GameEngine {
         }
     }
 
-    public boolean isGameTerminated(int gameId) {
+    /* --- Getters ---- */
+
+    public Game getGame(Integer gameId) {
         Game game = games.get(gameId);
-        if (game != null) {
-            return game.isTerminated();
-        }
-        return false;
+        return game;
     }
+
+    public Map<String, String> getGameStats(int gameId) {
+        Map<String, String> result = new HashMap<String, String>();
+        Game game = games.get(gameId);
+        result.put("grid", game.getGrid().serialized().toString());
+        result.put("heroes", game.getHeroSquad().serialized().toString());
+        result.put("money", Integer.toString(game.getMoney()));
+        result.put("score", Integer.toString(game.getScore()));
+        return result;
+    }
+
+    /* --- Game Initialization --- */
 
     public Map<String, String> placeTile(int gameId, Coords coords, String type) {
         Game game = games.get(gameId);
@@ -99,11 +114,6 @@ public class GameEngine {
         return Map.of("result", "true");
     }
 
-    public Game getGame(Integer gameId) {
-        Game game = games.get(gameId);
-        return game;
-    }
-
     public Map<String, String> isSimulationReady(Integer gameId) {
         Game game = games.get(gameId);
 
@@ -124,6 +134,8 @@ public class GameEngine {
         return result;
     }
 
+    /* --- Game Management --- */
+
     public Game newGame() {
         int id = 0;
         while (games.containsKey(id)) {
@@ -135,23 +147,19 @@ public class GameEngine {
         return game;
     }
 
+    public boolean isGameTerminated(int gameId) {
+        Game game = games.get(gameId);
+        if (game != null) {
+            return game.isTerminated();
+        }
+        return false;
+    }
+
     public Map<String, String> endGame(int gameId) {
         Map<String, String> result;
         Game game = games.get(gameId);
         result = getGameStats(gameId);
         game.endSimulation();
-        return result;
-    }
-
-
-
-    public Map<String, String> getGameStats(int gameId) {
-        Map<String, String> result = new HashMap<String, String>();
-        Game game = games.get(gameId);
-        result.put("grid", game.getGrid().serialized().toString());
-        result.put("heroes", game.getHeroSquad().serialized().toString());
-        result.put("money", Integer.toString(game.getMoney()));
-        result.put("score", Integer.toString(game.getScore()));
         return result;
     }
 
