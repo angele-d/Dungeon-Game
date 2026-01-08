@@ -6,7 +6,7 @@ import dungeon.engine.tiles.Wall;
 public class WoodWall extends Wall {
 
     private static final int PLACEMENT_COST = 50;
-    private static final int ASTAR_VALUE = 50;
+    private static final int ASTAR_VALUE = 150000;
 
     /* --- Constructor --- */
 

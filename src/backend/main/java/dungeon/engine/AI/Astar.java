@@ -2,6 +2,9 @@ package dungeon.engine.AI;
 
 import dungeon.engine.Coords;
 import dungeon.engine.Grid;
+import dungeon.engine.Hero;
+import dungeon.engine.HeroSquad;
+import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
 
 import java.util.*;
@@ -19,7 +22,24 @@ public class Astar {
 
     /* --- Functions --- */
 
-    public Coords search(Coords start) {
+    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
+        if(heroSquad == null) return false;
+
+        // Heroes can be more than one in Treasure and StartingPoint tiles
+        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+            return false;
+        }
+
+        for(Hero hero : heroSquad.getHeroes()){
+            if(hero.getCoords().equals(neighbor)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Coords search(Coords start, HeroSquad heroSquad) {
         PriorityQueue<NodeValue> value = new PriorityQueue<>(
             Comparator.comparingInt(NodeValue::getValue)
         );
@@ -41,8 +61,14 @@ public class Astar {
             // Explore neighbors
             for (Coords neighbor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
 
+                    int newCost;
+                    if(isOccupied(neighbor, heroSquad)){
+                        newCost = 200000;
+                    }
+                    else{
+                        newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
+                    }
                     Node neighborNode = new Node(neighbor, currNode);
-                    int newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
                     
                     if (!bestCost.containsKey(neighbor) || newCost < bestCost.get(neighbor)) {
                         bestCost.put(neighbor, newCost);

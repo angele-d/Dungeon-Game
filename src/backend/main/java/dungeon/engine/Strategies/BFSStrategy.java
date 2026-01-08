@@ -3,6 +3,7 @@ package dungeon.engine.Strategies;
 import dungeon.engine.Coords;
 import dungeon.engine.Game;
 import dungeon.engine.Hero;
+import dungeon.engine.HeroSquad;
 import dungeon.engine.AI.BFS;
 import dungeon.engine.Grid;
 
@@ -16,11 +17,11 @@ public class BFSStrategy extends Strategy {
     @Override
     public Coords move(Game game, Hero hero) {
         BFS bfs = createBFS(game.getGrid());
-        return bfs.search(hero.getCoords(), hero);
+        return bfs.search(hero.getCoords(), game.getHeroSquad());
     }
 
     // New: helper method for tests to call BFS directly without needing Game/Grid
-    public Coords moveWithBFS(BFS bfs, Hero hero) {
-        return bfs.search(hero.getCoords(), hero);
+    public Coords moveWithBFS(BFS bfs, HeroSquad heroSquad, Hero hero) {
+        return bfs.search(hero.getCoords(), heroSquad);
     }
 }
