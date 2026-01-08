@@ -1,5 +1,7 @@
-package dungeon.engine;
+package dungeon.engine.AI;
 import java.util.ArrayList;
+
+import dungeon.engine.Coords;
 
 
 public class Node {

@@ -2,8 +2,6 @@ package dungeon.engine.AI;
 
 import dungeon.engine.Coords;
 import dungeon.engine.Grid;
-import dungeon.engine.Node;
-import dungeon.engine.NodeValue;
 import dungeon.engine.tiles.Treasure;
 
 import java.util.*;

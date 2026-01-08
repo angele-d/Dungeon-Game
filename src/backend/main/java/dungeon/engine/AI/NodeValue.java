@@ -1,4 +1,4 @@
-package dungeon.engine;
+package dungeon.engine.AI;
 
 public class NodeValue {
 
