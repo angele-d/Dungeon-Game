@@ -1,7 +1,6 @@
 package dungeon.engine;
 
 import dungeon.engine.tiles.Empty;
-import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Map;
 
 
 public class Grid {
-    int SIZE = 8;
+    int SIZE = 10;
     private Map<Coords, Tile> grid;
 
     public Grid() {
@@ -35,6 +34,10 @@ public class Grid {
         this.grid.put(tile.getCoords(), tile);
     }
 
+    public int getSize() {
+        return SIZE;
+    }
+
     public Map<Coords, Tile> getGrid() {
         return this.grid;
     }
@@ -44,13 +47,13 @@ public class Grid {
         if (coords.x() > 0) {
             neighbors.add(new Coords(coords.x() - 1, coords.y()));
         }
-        if (coords.x() + 1 < SIZE - 1) {
+        if (coords.x() + 1 < SIZE) {
             neighbors.add(new Coords(coords.x() + 1, coords.y()));
         }
         if (coords.y() > 0) {
             neighbors.add(new Coords(coords.x(), coords.y() - 1));
         }
-        if (coords.y() + 1 < SIZE - 1) {
+        if (coords.y() + 1 < SIZE) {
             neighbors.add(new Coords(coords.x(), coords.y() + 1));
         }
         return neighbors;
@@ -64,13 +67,13 @@ public class Grid {
         return newGrid;
     }
 
-    public ArrayList serialized() {
+    public ArrayList<ArrayList<String>> serialized() {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (int col = 0; col < SIZE; col++) {
             ArrayList<String> grid_row = new ArrayList<>();
             for (int row = 0; row < SIZE; row++) {
                 Tile tile = this.grid.get(new Coords(col, row));
-                grid_row.add(tile.toString());
+                grid_row.add('"'+tile.toString()+'"');
             }
             result.add(grid_row);
         }

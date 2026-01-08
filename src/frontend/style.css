@@ -20,7 +20,7 @@
 .grid-cell:hover {
   border-color: #13a4ec;
   background-color: #1e3640;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 :root {
@@ -35,6 +35,31 @@ body {
   background-color: var(--background-light);
   color: #000;
   font-family: "Space Grotesk", sans-serif;
+}
+
+header {
+  min-height: 8vh;
+}
+
+#left-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 70%) 1fr; /* top row max 50%, bottom fills rest */
+  height: 92vh;
+}
+
+#party-status {
+  overflow-y: auto; /* scroll if content exceeds row */
+}
+
+#editor-panel {
+  min-height: 0; /* allows scrolling if content overflows */
+  overflow-y: auto;
+}
+
+#editor-panel.gray-out {
+  filter: grayscale(100%);
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 body.dark {
@@ -98,6 +123,8 @@ body.dark {
 
 .not-allowed-cell {
   border-color: red !important;
+  border-width: 1px !important;
+  border-style: solid !important;
 }
 
 .bank span {

@@ -1,4 +1,4 @@
-# Rétrospective du sprint #2
+# Rétrospective du sprint #3
 
 ### Tâches non terminées
 * Il ne reste plus qu'à merge la branche de fusion backend-frontend

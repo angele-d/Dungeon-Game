@@ -1,18 +1,29 @@
 package dungeon.engine;
 
+import java.util.ArrayList;
+
+import dungeon.engine.Observers.GameEvent;
+import dungeon.engine.Observers.GameEventType;
+import dungeon.engine.Observers.GameObserver;
+import dungeon.engine.Strategies.BFSStrategy;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
+import dungeon.engine.tiles.Treasure;
+import dungeon.engine.tiles.Wall;
 
 public abstract class Hero {
 
     public static final int MOVE_DISTANCE = 1;
-    public static final int POISON_DAMAGE_PER_TURN = 5;
     public boolean isPoisoned = false;
     public Coords coords;
     public Strategy strategy;
+    public ArrayList<GameObserver> gameObservers = new ArrayList<>();
+
+    /* --- Constructor --- */
 
     public Hero() {
         // Common initialization for all heroes
+        this.strategy = null;
     }
 
     /* --- Abstract Functions --- */
@@ -26,9 +37,6 @@ public abstract class Hero {
 
     public abstract boolean getActionAvailable();
     public abstract void setActionAvailable(boolean status);
-
-    // FIXME: Delete doAction (all in Visitors) (check Dwarf before deleting)
-    public abstract void doAction();
 
     public abstract void resetAction();
 
@@ -50,17 +58,29 @@ public abstract class Hero {
         return coords;
     }
 
+    public void setStrategy(Strategy strategy){
+        this.strategy = strategy;
+    }
+    public Strategy getStrategy(){
+        return this.strategy;
+    }
+
     /* --- Functions --- */
+
+    public void reachTreasure(){
+        notifyObservers(new GameEvent(GameEventType.TREASURE_REACHED, this, 0));
+    }
 
     public Coords basicMove(Game game) {
         // Basic movement logic for all heroes
-        Coords newCoords = strategy.move(game, this);
+        Coords newCoords;
+        do{
+            newCoords = strategy.move(game, this);
+        } while(game.getGrid().getTile(newCoords) instanceof Wall); // If Wall, try again
 
-        // Tick poison effect
-        for(Hero hero : game.getHeroSquad().getHeroes()){
-            if(hero.getIsPoisoned()){
-                hero.applyDamage(POISON_DAMAGE_PER_TURN);
-            }
+        // Check if newCoords is Treasure
+        if (game.getGrid().getTile(newCoords) instanceof Treasure) {
+            reachTreasure();
         }
         
         return newCoords;
@@ -68,5 +88,18 @@ public abstract class Hero {
 
     public Coords move(Game game) {
         return basicMove(game);
+    }
+
+    /* --- GameObserver methods --- */
+
+    public void addObserver(GameObserver observer) {
+        if(!gameObservers.contains(observer))
+            gameObservers.add(observer);
+    }
+
+    protected void notifyObservers(GameEvent event) {
+        for(GameObserver observer : gameObservers){
+            observer.update(event);
+        }
     }
 }

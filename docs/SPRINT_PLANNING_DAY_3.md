@@ -1,4 +1,4 @@
-# Planning du sprint #2
+# Planning du sprint #3
 
 ## Tâches prioritaires
 

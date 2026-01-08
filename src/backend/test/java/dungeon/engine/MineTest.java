@@ -63,54 +63,54 @@ class MineTest {
 
     @Test
     void testMineActivateTrapOnDirectHit() {
-        Dwarf dwarf = new Dwarf();
-        dwarf.setCoords(new Coords(5, 5));
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(5, 5));
 
         HeroSquad squad = new HeroSquad.Builder()
-            .addHero(dwarf)
+            .addHero(dragon)
             .build();
 
         Game game = new Game();
         game.setHeroSquad(squad);
 
         Mine mine = new Mine(new Coords(5, 5), 40, 1);
-        int initialHealth = dwarf.getHealth();
+        int initialHealth = dragon.getHealth();
         
         mine.activateTrap(game);
 
-        assertEquals(initialHealth - 40, dwarf.getHealth());
+        assertEquals(initialHealth - 40, dragon.getHealth());
     }
 
     @Test
     void testMineActivateTrapWithAreaDamage() {
-        Dwarf dwarf = new Dwarf();
-        dwarf.setCoords(new Coords(1, 0)); // distance 1 from mine
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(1, 0)); // distance 1 from mine
 
         HeroSquad squad = new HeroSquad.Builder()
-            .addHero(dwarf)
+            .addHero(dragon)
             .build();
 
         Game game = new Game();
         game.setHeroSquad(squad);
 
         Mine mine = new Mine(new Coords(0, 0), 100, 2);
-        int initialHealth = dwarf.getHealth();
+        int initialHealth = dragon.getHealth();
         
         mine.activateTrap(game);
 
-        assertEquals(initialHealth - 80, dwarf.getHealth());
+        assertEquals(initialHealth - 80, dragon.getHealth());
     }
 
     @Test
     void testMineActivateTrapMultipleHeroes() {
-        Dwarf dwarf = new Dwarf();
-        dwarf.setCoords(new Coords(5, 5)); // direct hit
+        Dragon dragon = new Dragon();
+        dragon.setCoords(new Coords(5, 5)); // direct hit
 
         Tank tank = new Tank();
         tank.setCoords(new Coords(6, 5)); // distance 1, within radius 2
 
         HeroSquad squad = new HeroSquad.Builder()
-            .addHero(dwarf)
+            .addHero(dragon)
             .addHero(tank)
             .build();
 
@@ -118,13 +118,13 @@ class MineTest {
         game.setHeroSquad(squad);
 
         Mine mine = new Mine(new Coords(5, 5), 50, 2);
-        int dwarfInitialHealth = dwarf.getHealth();
+        int dragonInitialHealth = dragon.getHealth();
         int tankInitialHealth = tank.getHealth();
         
         mine.activateTrap(game);
 
-        // Dwarf takes direct hit: 150 - 50 = 100
-        assertEquals(dwarfInitialHealth - 50, dwarf.getHealth());
+        // dragon takes direct hit: 150 - 50 = 100
+        assertEquals(dragonInitialHealth - 50, dragon.getHealth());
         
         // Tank takes reduced damage: 200 - 40 (50 * 80%)
         assertEquals(tankInitialHealth - 40, tank.getHealth());

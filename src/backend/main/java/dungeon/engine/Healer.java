@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Observers.GameEvent;
+import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HealVisitor;
 import dungeon.engine.Visitors.HeroVisitor;
 
@@ -8,6 +10,8 @@ public class Healer extends Hero {
     private int health;
     private static final int PERSONAL_HEAL_PERCENTAGE = 20;
     private static final int MAX_HEALTH = 150;
+
+    /* --- Constructor --- */
 
     public Healer() {
         super();
@@ -40,14 +44,11 @@ public class Healer extends Hero {
     @Override
     public void applyDamage(int damage) {
         health -= damage;
-        if(health < 0){
+        notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
+        if(health <= 0){
             health = 0;
+            notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
-    }
-
-    @Override
-    public void doAction() {
-        // Do nothing
     }
 
     @Override
@@ -76,5 +77,12 @@ public class Healer extends Hero {
         }
 
         return newCoords;
+    }
+
+    /* --- toString --- */
+    
+    @Override
+    public String toString() {
+        return "Healer";
     }
 }

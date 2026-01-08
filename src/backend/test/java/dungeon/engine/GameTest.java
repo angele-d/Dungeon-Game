@@ -1,11 +1,14 @@
 
 package dungeon.engine;
 
+import dungeon.engine.Strategies.BFSStrategy;
+import dungeon.engine.tiles.StartingPoint;
+import dungeon.engine.tiles.Treasure;
 import dungeon.engine.tiles.wall.StoneWall;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
  
@@ -42,17 +45,20 @@ public class GameTest {
     void testGameScoreManagement(){
         Game game = new Game();
         int initialScore = game.getScore();
-        game.addScore(10);
-        assertEquals(initialScore + 10, game.getScore());
+        assertEquals(0, initialScore);
+        game.setScore(10);
+        assertEquals(10, game.getScore());
     }
 
     @Test
     void testReinitializeGame(){
         Game game = new Game();
-        game.addScore(50);
+        game.setScore(50);
         game.subMoney(30);
         game.nextTurn();
-        game.startNewGame();
+        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
+        game.getGrid().setTile(new Treasure(new Coords(1, 1)));
+        game.startSimulation();
         assertEquals(500, game.getMoney());
         assertEquals(0, game.getScore());
         assertEquals(0, game.getTurn());
@@ -68,5 +74,21 @@ public class GameTest {
         game.placementOnGrid(tile);
         assertEquals(tile, grid.getTile(coords));
         assertEquals(initialMoney - tile.getPlacementCost(), game.getMoney());
+    }
+
+    @Test
+    void testIsSimulationReady(){
+        Game game = new Game();
+        Hero hero = new Muggle();
+        hero.setCoords(new Coords(0, 0));
+        game.getHeroSquad().addHero(hero);
+        game.getHeroSquad().setStrategy(new BFSStrategy());
+        game.setScore(50);
+        game.subMoney(30);
+        game.nextTurn();
+        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
+        assertFalse(game.isSimulationReady());
+        game.getGrid().setTile(new Treasure(new Coords(1, 1)));
+        assertTrue(game.isSimulationReady());
     }
 }

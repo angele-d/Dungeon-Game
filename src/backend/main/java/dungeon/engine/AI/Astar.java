@@ -2,8 +2,9 @@ package dungeon.engine.AI;
 
 import dungeon.engine.Coords;
 import dungeon.engine.Grid;
-import dungeon.engine.Node;
-import dungeon.engine.NodeValue;
+import dungeon.engine.Hero;
+import dungeon.engine.HeroSquad;
+import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
 
 import java.util.*;
@@ -12,12 +13,35 @@ public class Astar {
 
     private Grid grid;
 
+    /* --- Constructor --- */
+
     public Astar(Grid grid) {
         this.grid = grid;
 
     }
 
-    public Coords search(Coords start) {
+    /* --- Functions --- */
+
+    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
+        if(heroSquad == null) return false;
+
+        // Heroes can be more than one in Treasure and StartingPoint tiles
+        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+            return false;
+        }
+
+        for(Hero hero : heroSquad.getHeroes()){
+            if(hero.getCoords().equals(neighbor)){
+                // Check if the hero is alive
+                if(hero.getHealth() > 0)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Coords search(Coords start, HeroSquad heroSquad) {
         PriorityQueue<NodeValue> value = new PriorityQueue<>(
             Comparator.comparingInt(NodeValue::getValue)
         );
@@ -26,32 +50,49 @@ public class Astar {
         Node startNode = new Node(start, null);
         NodeValue startValue = new NodeValue(null, startNode, 0);
         value.add(startValue);
+
         while (!value.isEmpty()) {
             NodeValue currValue = value.poll();
             Node currNode = currValue.getNode();
+
+            // Treasure found
             if (grid.getTile(currNode.getCoords()) instanceof Treasure) {
-                return Treasure(currValue);
+                return treasureFound(currValue);
             }
-            for (Coords neighboor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
 
-                    Node neighborNode = new Node(neighboor, currNode);
-                    int newCost = currValue.getValue()
-                                + grid.getTile(neighboor).getAstarValue();
+            // Explore neighbors
+            for (Coords neighbor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
 
-                    if (!bestCost.containsKey(neighboor) || newCost < bestCost.get(neighboor)) {
-                        bestCost.put(neighboor, newCost);
+                    int newCost;
+                    if(isOccupied(neighbor, heroSquad)){
+                        newCost = 200000;
+                    }
+                    else{
+                        newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
+                    }
+                    Node neighborNode = new Node(neighbor, currNode);
+                    
+                    if (!bestCost.containsKey(neighbor) || newCost < bestCost.get(neighbor)) {
+                        bestCost.put(neighbor, newCost);
                         value.add(new NodeValue(currValue, neighborNode, newCost));
                     }
-
             }
         }
-        return null;
+        return start;
     }
 
-    public Coords Treasure(NodeValue curr){
+    public Coords treasureFound(NodeValue curr){
         while (curr.getParent() != null && curr.getParent().getParent() != null) {
             curr = curr.getParent();
         }
         return curr.getNode().getCoords();
     }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Astar";
+    }        
+       
 }

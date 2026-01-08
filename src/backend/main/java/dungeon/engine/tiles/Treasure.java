@@ -5,8 +5,8 @@ import dungeon.engine.Tile;
 
 public class Treasure extends Tile {
 
-    private int placementCost = 0;
-    private int aStarValue = 0;
+    private static final int PLACEMENT_COST = 0;
+    private static final int ASTAR_VALUE = 0;
 
     /* --- Constructor --- */
 
@@ -17,12 +17,14 @@ public class Treasure extends Tile {
     /* --- Getters and Setters --- */
 
     public int getAstarValue(){
-        return aStarValue;
+        return ASTAR_VALUE;
     }
 
     public int getPlacementCost(){
-        return placementCost;
+        return PLACEMENT_COST;
     }
+
+    /* --- ToString --- */
 
     @Override
     public String toString() {

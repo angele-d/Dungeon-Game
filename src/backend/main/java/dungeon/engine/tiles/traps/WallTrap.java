@@ -4,12 +4,13 @@ import dungeon.engine.*;
 import dungeon.engine.tiles.Trap;
 import dungeon.engine.tiles.wall.StoneWall;
 
-public class WallTrap extends Trap implements TurnListener {
+public class WallTrap extends Trap implements HeroTurnListener {
 
-    private int placementCost = 150; // #FIXME: Change placementCost value
-    private int aStarValue = 3;
+    private static final int PLACEMENT_COST = 150; // #FIXME: Change placementCost value
+    private static final int ASTAR_VALUE = 3;
 
     /* --- Constructor --- */
+
     public WallTrap(Coords coords) {
         super(coords,10, 1);
     }
@@ -18,29 +19,21 @@ public class WallTrap extends Trap implements TurnListener {
         super(coords,damage, area);
     }
 
-    @Override
-    public String toString() {
-        return "walltrap";
-    }
-
     /* --- Getters and Setters --- */
 
-    public int getAstarValue(){
-        return aStarValue;
-    }
-
     public int getPlacementCost(){
-        return placementCost;
+        return PLACEMENT_COST;
     }
-    public void setPlacementCost(int cost){
-        this.placementCost = cost;
+    
+    public int getAstarValue(){
+        return ASTAR_VALUE;
     }
 
     /* --- Functions --- */
 
     @Override
     public void activateTrap(Game game){
-        game.addTurnListener(this);
+        game.addHeroTurnListener(this);
     }
 
     @Override
@@ -55,8 +48,13 @@ public class WallTrap extends Trap implements TurnListener {
         if (available) {
             Tile tile = new StoneWall(this.getCoords());
             game.getGrid().setTile(tile);
-            game.removeTurnListener(this);
+            game.removeHeroTurnListener(this);
         }
     }
 
+    /* --- ToString --- */
+
+    public String toString() {
+        return "walltrap";
+    }
 }

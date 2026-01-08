@@ -1,5 +1,7 @@
 package dungeon.engine;
 
+import dungeon.engine.Observers.GameEvent;
+import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
 public class Tank extends Hero {
@@ -7,6 +9,8 @@ public class Tank extends Hero {
     private int health;
     private boolean actionAvailable;
     private static final int MAX_HEALTH = 200;
+
+    /* --- Constructor --- */
 
     public Tank() {
         super();
@@ -40,14 +44,11 @@ public class Tank extends Hero {
     @Override
     public void applyDamage(int damage) {
         health -= damage;
-        if(health < 0){
+        notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
+        if(health <= 0){
             health = 0;
+            notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
-    }
-
-    @Override
-    public void doAction() {
-        // Do Nothing, already implemented in PoisonVisitor
     }
 
     @Override
@@ -57,5 +58,12 @@ public class Tank extends Hero {
 
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Tank";
     }
 }

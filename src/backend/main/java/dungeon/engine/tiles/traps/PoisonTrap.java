@@ -8,8 +8,8 @@ import dungeon.engine.Visitors.PoisonVisitor;
 
 public class PoisonTrap extends Trap {
     
-    private int placementCost = 100; // FIXME: Change placementCost value 
-    private int aStarValue = 7;
+    private static final int PLACEMENT_COST = 100; // FIXME: Change placementCost value 
+    private static final int ASTAR_VALUE = 7;
 
     /* --- Constructor --- */
 
@@ -24,14 +24,11 @@ public class PoisonTrap extends Trap {
     /* --- Getters and Setters --- */
 
     public int getAstarValue() {
-        return aStarValue;
+        return ASTAR_VALUE;
     }
 
     public int getPlacementCost() {
-        return placementCost;
-    }
-    public void setPlacementCost(int cost) {
-        this.placementCost = cost;
+        return PLACEMENT_COST;
     }
 
     /* --- Functions --- */
@@ -47,5 +44,12 @@ public class PoisonTrap extends Trap {
             // Apply poison status effect
             hero.accept(poisonVisitor);
         }
+    }
+
+    /* --- ToString --- */
+
+    @Override
+    public String toString() {
+        return "poisontrap";
     }
 }
