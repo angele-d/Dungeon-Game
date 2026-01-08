@@ -17,6 +17,11 @@ public class Tank extends Hero {
         // Tank-specific initialization
     }
 
+    @Override
+    public String toString() {
+        return "Tank";
+    }
+
     /* --- Getters and Setters --- */
 
     public int getHealth() {

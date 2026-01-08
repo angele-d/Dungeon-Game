@@ -10,6 +10,6 @@ public class AstarStrategy extends Strategy {
     @Override
     public Coords move(Game game, Hero hero) {
         Astar astar = new Astar(game.getGrid());
-        return astar.search(hero.getCoords());
+        return astar.search(hero.getCoords(), game.getHeroSquad());
     }
 }

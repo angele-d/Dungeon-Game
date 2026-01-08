@@ -5,17 +5,31 @@ import dungeon.engine.tiles.wall.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameEngine {
     private static GameEngine gameEngine;
+    private final LeaderBoard leaderboard = new LeaderBoard();
 
     private Map<Integer, Game> games;
 
+
+    /* --- Constructor --- */
+
     private GameEngine() {
         games = new HashMap<Integer, Game>();
+        for (String saveFile: SaveManager.listSaveFiles()) {
+            Game game = new Game();
+            try {
+                SaveManager.load(game, saveFile);
+            } catch (IOException e) {}
+            games.put(game.getId(), game);
+        }
     }
+
+    /* --- Singleton --- */
 
     public static GameEngine getInstance() {
         if (gameEngine != null) {
@@ -26,13 +40,33 @@ public class GameEngine {
         }
     }
 
-    public boolean isGameTerminated(int gameId) {
-        Game game = games.get(gameId);
-        if (game != null) {
-            return game.isTerminated();
-        }
-        return false;
+    /* --- Getters ---- */
+
+    public LeaderBoard getLeaderBoard() {
+        return leaderboard;
     }
+
+    public Game getGame(Integer gameId) {
+        Game game;
+        if (games.containsKey(gameId)) {
+            game = games.get(gameId);
+        } else {
+            game = newGame(gameId);
+        }
+        return game;
+    }
+
+    public Map<String, String> getGameStats(int gameId) {
+        Map<String, String> result = new HashMap<String, String>();
+        Game game = games.get(gameId);
+        result.put("grid", game.getGrid().serialized().toString());
+        result.put("heroes", game.getHeroSquad().serialized().toString());
+        result.put("money", Integer.toString(game.getMoney()));
+        result.put("score", Integer.toString(game.getScore()));
+        return result;
+    }
+
+    /* --- Game Initialization --- */
 
     public Map<String, String> placeTile(int gameId, Coords coords, String type) {
         Game game = games.get(gameId);
@@ -99,11 +133,6 @@ public class GameEngine {
         return Map.of("result", "true");
     }
 
-    public Game getGame(Integer gameId) {
-        Game game = games.get(gameId);
-        return game;
-    }
-
     public Map<String, String> isSimulationReady(Integer gameId) {
         Game game = games.get(gameId);
 
@@ -124,40 +153,65 @@ public class GameEngine {
         return result;
     }
 
+    /* --- Game Management --- */
+
     public Game newGame() {
         int id = 0;
         while (games.containsKey(id)) {
             id++;
         }
-
-        Game game = new Game(id);
-        games.put(id, game);
-        return game;
+        return newGame(id);
     }
 
-    public void endGame(int gameId) {
-        Map<String, String> result = new HashMap<String, String>();
+    public Game newGame(int gameId) {
+         if (!games.containsKey(gameId)) {
+             Game game = new Game(gameId);
+             games.put(gameId, game);
+             return game;
+         } else {
+             return null;
+         }
+
+
+    }
+
+    public boolean isGameTerminated(int gameId) {
         Game game = games.get(gameId);
+        if (game != null) {
+            return game.isTerminated();
+        }
+        return false;
+    }
+
+    public Map<String, String> endGame(int gameId) {
+        Map<String, String> result;
+        Game game = games.get(gameId);
+        result = getGameStats(gameId);
+        GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
+        leaderboard.addResults(gameResult);
         game.endSimulation();
-    }
-
-    public Map<String, String> getGameStats(int gameId) {
-        Map<String, String> result = new HashMap<String, String>();
-        Game game = games.get(gameId);
-        result.put("grid", game.getGrid().serialized().toString());
-        result.put("heroes", game.getHeroSquad().serialized().toString());
-        result.put("money", Integer.toString(game.getMoney()));
         return result;
     }
 
     public Map<String, String> nextTurn(Integer gameId) {
         Game game = games.get(gameId);
         if (game != null) {
-            game.startSimulation();
+            game.nextTurn();
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heroes", game.getHeroSquad().serialized().toString());
+        return result;
+    }
+
+    public Map<String, String> getLeaderBoardString() {
+        String leaderboardString = "[";
+        for (GameResult gameResult: getLeaderBoard().getResults()) {
+            leaderboardString = leaderboardString + gameResult.toString()+",";
+        }
+        leaderboardString = leaderboardString.substring(0, leaderboardString.length()-1)+"]";
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("result", leaderboardString);
         return result;
     }
 }

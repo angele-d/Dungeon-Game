@@ -159,14 +159,15 @@ public class Game {
             for(TurnListener listener : turnListeners) {
                 listener.onNewTurn(this);
             }
-            // Movement
+
+            // Movement + Effects 
             Coords newCoords = hero.move(this);
             doMovement(hero, newCoords);
+
             //Trap Checking
             Tile currentTile = this.grid.getTile(hero.getCoords());
             if (currentTile instanceof Trap) {
-                //TODO: Implement trap processing
-                //((Trap) currentTile).process(heroSquad));
+                ((Trap) currentTile).activateTrap(this);
             }
         }
     }
@@ -176,17 +177,17 @@ public class Game {
     }
 
     public boolean isTerminated() {
-        boolean result = true;
         Tile treasure = getTreasure();
 
+        boolean isOneAlive = false;
         for (Hero hero: heroSquad.getHeroes()) {
-            if (hero.getCoords() != treasure.getCoords() && hero.getHealth() != 0) {
-                result = false;
-                break;
+            if (hero.getCoords().equals(treasure.getCoords())) {
+                return true;
             }
+            isOneAlive = isOneAlive || hero.getHealth() != 0;
         }
 
-        return result;
+        return !isOneAlive;
     }
 
     public boolean isSimulationReady() {

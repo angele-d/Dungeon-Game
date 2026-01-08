@@ -47,13 +47,13 @@ public class Grid {
         if (coords.x() > 0) {
             neighbors.add(new Coords(coords.x() - 1, coords.y()));
         }
-        if (coords.x() + 1 < SIZE - 1) {
+        if (coords.x() + 1 < SIZE) {
             neighbors.add(new Coords(coords.x() + 1, coords.y()));
         }
         if (coords.y() > 0) {
             neighbors.add(new Coords(coords.x(), coords.y() - 1));
         }
-        if (coords.y() + 1 < SIZE - 1) {
+        if (coords.y() + 1 < SIZE) {
             neighbors.add(new Coords(coords.x(), coords.y() + 1));
         }
         return neighbors;

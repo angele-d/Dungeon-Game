@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Observers.GameObserver;
+import dungeon.engine.Strategies.BFSStrategy;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
 import dungeon.engine.tiles.Treasure;
+import dungeon.engine.tiles.Wall;
 
 public abstract class Hero {
 
@@ -22,6 +24,7 @@ public abstract class Hero {
 
     public Hero() {
         // Common initialization for all heroes
+        this.strategy = new BFSStrategy();
     }
 
     /* --- Abstract Functions --- */
@@ -56,16 +59,22 @@ public abstract class Hero {
         return coords;
     }
 
+    public void setStrategy(Strategy strategy){
+        this.strategy = strategy;
+    }
+
     /* --- Functions --- */
 
-    // FIXME: Not sure it's the right place
     public void reachTreasure(){
         notifyObservers(new GameEvent(GameEventType.TREASURE_REACHED, this, 0));
     }
 
     public Coords basicMove(Game game) {
         // Basic movement logic for all heroes
-        Coords newCoords = strategy.move(game, this);
+        Coords newCoords;
+        do{
+            newCoords = strategy.move(game, this);
+        } while(game.getGrid().getTile(newCoords) instanceof Wall); // If Wall, try again
 
         // Tick poison effect
         for(Hero hero : game.getHeroSquad().getHeroes()){
