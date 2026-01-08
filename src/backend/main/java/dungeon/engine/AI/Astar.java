@@ -10,10 +10,14 @@ public class Astar {
 
     private Grid grid;
 
+    /* --- Constructor --- */
+
     public Astar(Grid grid) {
         this.grid = grid;
 
     }
+
+    /* --- Functions --- */
 
     public Coords search(Coords start) {
         PriorityQueue<NodeValue> value = new PriorityQueue<>(
@@ -24,29 +28,32 @@ public class Astar {
         Node startNode = new Node(start, null);
         NodeValue startValue = new NodeValue(null, startNode, 0);
         value.add(startValue);
+
         while (!value.isEmpty()) {
             NodeValue currValue = value.poll();
             Node currNode = currValue.getNode();
+
+            // Treasure found
             if (grid.getTile(currNode.getCoords()) instanceof Treasure) {
-                return Treasure(currValue);
+                return treasureFound(currValue);
             }
-            for (Coords neighboor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
 
-                    Node neighborNode = new Node(neighboor, currNode);
-                    int newCost = currValue.getValue()
-                                + grid.getTile(neighboor).getAstarValue();
+            // Explore neighbors
+            for (Coords neighbor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
 
-                    if (!bestCost.containsKey(neighboor) || newCost < bestCost.get(neighboor)) {
-                        bestCost.put(neighboor, newCost);
+                    Node neighborNode = new Node(neighbor, currNode);
+                    int newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
+                    
+                    if (!bestCost.containsKey(neighbor) || newCost < bestCost.get(neighbor)) {
+                        bestCost.put(neighbor, newCost);
                         value.add(new NodeValue(currValue, neighborNode, newCost));
                     }
-
             }
         }
         return null;
     }
 
-    public Coords Treasure(NodeValue curr){
+    public Coords treasureFound(NodeValue curr){
         while (curr.getParent() != null && curr.getParent().getParent() != null) {
             curr = curr.getParent();
         }
