@@ -14,16 +14,13 @@ public class Dragon extends Hero {
     private final int MAX_WALL_FIRE_USES = 5;
     private static final int MAX_HEALTH = 150;
 
+    /* --- Constructor --- */
+
     public Dragon() {
         super();
         health = MAX_HEALTH;
         wallFireUses = 0;
         // Dragon-specific initialization
-    }
-
-    @Override
-    public String toString() {
-        return "Dragon";
     }
 
     /* --- Getters and Setters --- */
@@ -90,5 +87,12 @@ public class Dragon extends Hero {
         }
 
         return newCoords;
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Dragon";
     }
 }

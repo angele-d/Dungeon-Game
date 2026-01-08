@@ -11,15 +11,12 @@ public class Healer extends Hero {
     private static final int PERSONAL_HEAL_PERCENTAGE = 20;
     private static final int MAX_HEALTH = 150;
 
+    /* --- Constructor --- */
+
     public Healer() {
         super();
         health = MAX_HEALTH;
         // Healer-specific initialization
-    }
-
-    @Override
-    public String toString() {
-        return "Healer";
     }
 
     /* --- Getters and Setters --- */
@@ -80,5 +77,12 @@ public class Healer extends Hero {
         }
 
         return newCoords;
+    }
+
+    /* --- toString --- */
+    
+    @Override
+    public String toString() {
+        return "Healer";
     }
 }
