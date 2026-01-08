@@ -59,7 +59,6 @@ public abstract class Hero {
 
     /* --- Functions --- */
 
-    // FIXME: Not sure it's the right place
     public void reachTreasure(){
         notifyObservers(new GameEvent(GameEventType.TREASURE_REACHED, this, 0));
     }
