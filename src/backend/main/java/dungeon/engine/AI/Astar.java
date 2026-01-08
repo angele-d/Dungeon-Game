@@ -4,6 +4,7 @@ import dungeon.engine.Coords;
 import dungeon.engine.Grid;
 import dungeon.engine.Hero;
 import dungeon.engine.HeroSquad;
+import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
 
 import java.util.*;
@@ -23,11 +24,18 @@ public class Astar {
 
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
         if(heroSquad == null) return false;
+
+        // Heroes can be more than one in Treasure and StartingPoint tiles
+        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+            return false;
+        }
+
         for(Hero hero : heroSquad.getHeroes()){
             if(hero.getCoords().equals(neighbor)){
                 return true;
             }
         }
+
         return false;
     }
 

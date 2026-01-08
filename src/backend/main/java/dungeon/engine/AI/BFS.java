@@ -1,6 +1,7 @@
 package dungeon.engine.AI;
 
 import dungeon.engine.*;
+import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
 import dungeon.engine.tiles.Wall;
 
@@ -21,11 +22,18 @@ public class BFS {
 
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
         if(heroSquad == null) return false;
+
+        // Heroes can be more than one in Treasure and StartingPoint tiles
+        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+            return false;
+        }
+
         for(Hero hero : heroSquad.getHeroes()){
             if(hero.getCoords().equals(neighbor)){
                 return true;
             }
         }
+
         return false;
     }
 
