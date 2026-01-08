@@ -1,6 +1,6 @@
 import { game_config } from "./game_config.js";
 let { size } = game_config;
-import { selectionPossible, selectGridCell } from "./script.js";
+import { selectionPossible, selectGridCell } from "./game.js";
 
 function updateGrid(gridData) {
   /**
