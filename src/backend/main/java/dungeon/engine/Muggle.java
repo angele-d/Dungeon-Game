@@ -4,14 +4,14 @@ import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
-public class TheMemeMaker extends Hero {
+public class Muggle extends Hero {
     
     private int health;
     private static final int MAX_HEALTH = 150;
 
     /* --- Constructor --- */
 
-    public TheMemeMaker() {
+    public Muggle() {
         super();
         health = MAX_HEALTH;
         // TheMemeMaker-specific initialization
@@ -62,6 +62,6 @@ public class TheMemeMaker extends Hero {
 
     @Override
     public String toString() {
-        return "TheMemeMaker";
+        return "Muggle";
     }
 }

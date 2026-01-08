@@ -22,7 +22,7 @@ class BFSStrategyTest {
 
     @Test
     void testMoveWhenPathFound() {
-        TheMemeMaker hero = new TheMemeMaker();
+        Muggle hero = new Muggle();
         hero.setCoords(startCoords);
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -42,7 +42,7 @@ class BFSStrategyTest {
 
     @Test
     void testMoveObstacleAvoidance() {
-        TheMemeMaker hero = new TheMemeMaker();
+        Muggle hero = new Muggle();
         hero.setCoords(startCoords);
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -63,7 +63,7 @@ class BFSStrategyTest {
 
     @Test
     void testMoveNoPathAvailable() {
-        TheMemeMaker hero = new TheMemeMaker();
+        Muggle hero = new Muggle();
         hero.setCoords(startCoords);
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -82,7 +82,7 @@ class BFSStrategyTest {
 
     @Test
     void testMoveAlreadyAtTarget() {
-        TheMemeMaker hero = new TheMemeMaker();
+        Muggle hero = new Muggle();
         hero.setCoords(targetCoords);
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -101,7 +101,7 @@ class BFSStrategyTest {
 
     @Test
     void testMoveBoundaryAndDataIntegrity() {
-        TheMemeMaker hero = new TheMemeMaker();
+        Muggle hero = new Muggle();
         hero.setCoords(startCoords);
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);

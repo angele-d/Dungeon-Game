@@ -11,7 +11,7 @@ class BFSTest {
 
     @Test
     void search() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
         hero.setCoords(new Coords(0, 0));
@@ -28,7 +28,7 @@ class BFSTest {
 
     @Test
     void searchWithWall() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -46,7 +46,7 @@ class BFSTest {
 
     @Test
     void searchNoTreasure() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -58,9 +58,9 @@ class BFSTest {
 
     @Test
     void searchWithHeroBlocking() {
-        Hero hero1 = new TheMemeMaker();
+        Hero hero1 = new Muggle();
         hero1.setCoords(new Coords(0, 2));
-        Hero hero2 = new TheMemeMaker();
+        Hero hero2 = new Muggle();
         hero2.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero1);
@@ -74,7 +74,7 @@ class BFSTest {
 
     @Test
     void isOccupied() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(1, 1));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -86,7 +86,7 @@ class BFSTest {
 
     @Test
     void isWalkable() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(1, 1));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);

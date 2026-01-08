@@ -12,11 +12,11 @@ public class HeroTest {
         Dragon dragon = new Dragon();
         Tank tank = new Tank();
         Healer healer = new Healer();
-        TheMemeMaker memeMarker = new TheMemeMaker();
+        Muggle muggle = new Muggle();
         assertEquals(150, dragon.getHealth());
         assertEquals(200, tank.getHealth());
         assertEquals(150, healer.getHealth());
-        assertEquals(150, memeMarker.getHealth());
+        assertEquals(150, muggle.getHealth());
     }
 
     @Test
