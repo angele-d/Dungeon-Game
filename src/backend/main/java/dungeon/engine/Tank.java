@@ -50,11 +50,6 @@ public class Tank extends Hero {
     }
 
     @Override
-    public void doAction() {
-        // Do Nothing, already implemented in PoisonVisitor
-    }
-
-    @Override
     public void resetAction() {
         actionAvailable = true;
     }

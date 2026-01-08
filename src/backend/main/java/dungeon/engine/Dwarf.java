@@ -5,6 +5,8 @@ import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
 public class Dwarf extends Hero {
+
+    //TODO: Implement Dwarf wall breaking ability
     
     private int health;
     private boolean actionAvailable;
@@ -47,14 +49,6 @@ public class Dwarf extends Hero {
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
-    }
-
-    @Override
-    public void doAction() {
-        if(getActionAvailable()){
-            // TODO: Implement Wall breaking action
-        }
-        setActionAvailable(false);
     }
 
     @Override

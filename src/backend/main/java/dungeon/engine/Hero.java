@@ -7,6 +7,7 @@ import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Observers.GameObserver;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
+import dungeon.engine.tiles.Treasure;
 
 public abstract class Hero {
 
@@ -34,9 +35,6 @@ public abstract class Hero {
 
     public abstract boolean getActionAvailable();
     public abstract void setActionAvailable(boolean status);
-
-    // FIXME: Delete doAction (all in Visitors) (check Dwarf before deleting)
-    public abstract void doAction();
 
     public abstract void resetAction();
 
@@ -74,6 +72,11 @@ public abstract class Hero {
             if(hero.getIsPoisoned()){
                 hero.applyDamage(POISON_DAMAGE_PER_TURN);
             }
+        }
+
+        // Check if newCoords is Treasure
+        if (game.getGrid().getTile(newCoords) instanceof Treasure) {
+            reachTreasure();
         }
         
         return newCoords;
