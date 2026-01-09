@@ -3,6 +3,7 @@ package dungeon.engine;
 import static org.junit.jupiter.api.Assertions.*;
 
 import dungeon.engine.Strategies.AstarStrategy;
+import dungeon.engine.Strategies.BFSStrategy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -93,12 +94,16 @@ public class StrategyTest {
 
         assertEquals(GameEngine.getInstance().isSimulationReady(game.getId()).get("result"), "true");
 
-
-        GameEngine.getInstance().startSimulation(game.getId());
         GameEngine.getInstance().changeAI(game.getId(), "Astar");
-
         for (Hero hero : GameEngine.getInstance().getGame(game.getId()).getHeroSquad().getHeroes()) {
             assertTrue(hero.strategy instanceof AstarStrategy);
+        }
+        GameEngine.getInstance().changeAI(game.getId(), "BFS");
+        GameEngine.getInstance().startSimulation(game.getId());
+
+
+        for (Hero hero : GameEngine.getInstance().getGame(game.getId()).getHeroSquad().getHeroes()) {
+            assertTrue(hero.strategy instanceof BFSStrategy);
         }
     }
 }

@@ -95,7 +95,7 @@ public class Game {
     }
 
     public void setStrategy(Strategy strategy) {
-        strategy = strategy;
+        this.strategy = strategy;
         heroSquad.setStrategy(strategy);
     }
 
@@ -189,6 +189,7 @@ public class Game {
         }
 
         this.heroSquad = builder.build();
+        System.out.println(strategy.toString());
         heroSquad.setStrategy(strategy);
         Tile startingPoint = getStartingPoint();
         this.scoreManager = new ScoreManager();
@@ -283,7 +284,7 @@ public class Game {
         Tile startingPoint = getStartingPoint();
         if (treasure != null && startingPoint != null) {
             BFS bfs = new BFS(getGrid());
-            return bfs.search(startingPoint.getCoords(), null) != null;
+            return bfs.search(startingPoint.getCoords(), null) != startingPoint.getCoords();
         }
         return false;
     }
