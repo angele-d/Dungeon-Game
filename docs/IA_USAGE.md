@@ -234,3 +234,70 @@ L'IA a fourni une maquette statique intéressante, manquant de certaines fonctio
 
 
 ---
+
+## Interaction #4
+
+### Contexte
+
+Création de deux diagrammes de séquence UML pour le projet.
+
+### Prompt
+
+```txt
+Tu es un expert UML et Java.
+
+Analyse l’intégralité du projet Java ouvert dans ce workspace (code source + tests si utiles).
+
+OBJECTIF :
+Générer automatiquement des diagrammes UML à partir du code existant.
+
+LIVRABLES ATTENDUS (OBLIGATOIRES) :
+Deux diagrammes de séquence distincts
+
+FORMAT :
+- Les diagrammes doivent être écrits en PlantUML
+- Chaque diagramme doit être généré dans un fichier séparé
+- Noms de fichiers attendus :
+  - Sequence_score_update.puml
+  - Sequence_game_flow.puml
+
+CONTENU DÉTAILLÉ :
+
+Diagramme de séquence : gestion du score
+- Scénario :
+  - Un héros subit des dégâts
+  - Le score est mis à jour
+  - Le score est enregistré ou consulté via le ScoreManager / LeaderBoard
+- Montrer clairement l’ordre des appels de méthodes
+- Inclure les objets impliqués
+
+Diagramme de séquence : déroulement d’une partie
+- Scénario :
+  - Démarrage d’une Game
+  - Interaction principale (héros, pièges, mort du héros)
+  - Fin de la partie
+- Mettre en évidence les responsabilités de chaque classe
+
+CONTRAINTES :
+- Le diagramme doit refléter strictement le code existant
+- Si une information est ambiguë, fais une hypothèse raisonnable et indique-la en commentaire PlantUML
+- Ne pas produire de texte explicatif hors des fichiers .puml
+
+ACTION :
+Crée directement les deux fichiers PlantUML dans le projet.
+```
+
+### Réponse IA
+
+Deux fichiers PlantUML ont été générés dans le projet:
+- `Sequence_score_update.puml`
+- `Sequence_game_flow.puml`
+
+### Décision
+
+**Gardé:**
+Les deux diagrammes générés correspondaient bien aux attentes et au code existant.
+
+### Remarques
+
+Les diagrammes ont été très utiles pour clarifier certains aspects du code et de son fonctionnement.
