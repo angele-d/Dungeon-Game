@@ -20,6 +20,12 @@ public class BFS {
 
     /* --- Functions --- */
 
+    /** 
+     * Check if a tile is occupied by a hero
+     * @param neighbor
+     * @param heroSquad
+     * @return boolean
+     */
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad) {
         if (heroSquad == null)
             return false;
@@ -40,6 +46,12 @@ public class BFS {
         return false;
     }
 
+    /** 
+     * Check if a tile is walkable
+     * @param neighbor
+     * @param heroSquad
+     * @return boolean
+     */
     public boolean isWalkable(Coords neighbor, HeroSquad heroSquad) {
         // Check if a wall is there
         if (grid.getTile(neighbor) instanceof Wall) {
@@ -53,6 +65,12 @@ public class BFS {
         return true;
     }
 
+    /** 
+     * Search for the best path to the treasure
+     * @param start
+     * @param heroSquad
+     * @return Coords
+     */
     public Coords search(Coords start, HeroSquad heroSquad) {
         Queue<Node> queue = new LinkedList<Node>();
         Set<Coords> visited = new HashSet<Coords>();
@@ -87,6 +105,10 @@ public class BFS {
 
     /* --- toString --- */
 
+    /** 
+     * toString method
+     * @return String
+     */
     @Override
     public String toString() {
         return "BFS";

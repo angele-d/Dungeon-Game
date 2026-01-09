@@ -23,6 +23,12 @@ public class Astar {
 
     /* --- Functions --- */
 
+    /** 
+     * Check if a tile is occupied by a hero
+     * @param neighbor
+     * @param heroSquad
+     * @return boolean
+     */
     public boolean isOccupied(Coords neighbor, HeroSquad heroSquad) {
         if (heroSquad == null)
             return false;
@@ -43,6 +49,12 @@ public class Astar {
         return false;
     }
 
+    /** 
+     * Check if a tile is walkable
+     * @param neighbor
+     * @param heroSquad
+     * @return boolean
+     */
     public boolean isWalkable(Coords neighbor, HeroSquad heroSquad) {
         // Check if a wall is there
         if (grid.getTile(neighbor) instanceof Wall) {
@@ -56,6 +68,12 @@ public class Astar {
         return true;
     }
 
+    /** 
+     * Search for the best path to the treasure
+     * @param start
+     * @param heroSquad
+     * @return Coords
+     */
     public Coords search(Coords start, HeroSquad heroSquad) {
 
         PriorityQueue<NodeValue> openList = new PriorityQueue<>(
@@ -105,6 +123,11 @@ public class Astar {
         return start;
     }
 
+    /** 
+     * Find the coordinates of the first step towards the treasure
+     * @param curr
+     * @return Coords
+     */
     public Coords treasureFound(NodeValue curr) {
         while (curr.getParent() != null && curr.getParent().getParent() != null) {
             curr = curr.getParent();
@@ -114,6 +137,10 @@ public class Astar {
 
     /* --- toString --- */
 
+    /** 
+     * toString method
+     * @return String
+     */
     @Override
     public String toString() {
         return "Astar";
