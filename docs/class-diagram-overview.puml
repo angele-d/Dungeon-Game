@@ -1,0 +1,138 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam classAttributeIconSize 0
+
+' --- STYLES ---
+skinparam package {
+    BackgroundColor White
+    BorderColor #444444
+    FontSize 13
+}
+skinparam class {
+    BackgroundColor White
+    BorderColor #2C3E50
+    ArrowColor #555555
+    HeaderBackgroundColor #F9F9F9
+}
+skinparam note {
+    BackgroundColor #FEFECE
+    BorderColor #D7D787
+}
+
+' COULEURS
+skinparam class {
+    BackgroundColor<<Core>> #E3F2FD
+    BackgroundColor<<Service>> #E8F5E9
+    BackgroundColor<<Pattern>> #F3E5F5
+    BackgroundColor<<Entity>> #FFF3E0
+    BackgroundColor<<Singleton>> #E3F2FD
+}
+
+' LÉGENDE
+legend top left
+    <size:14><b>Vue Architecturale Simplifiée</b></size>
+    |= Couleur |= Rôle |
+    | <back:#E3F2FD>   </back> | Core / Singleton |
+    | <back:#F3E5F5>   </back> | Interfaces (Patterns) |
+    | <back:#FFF3E0>   </back> | Entités Abstraites |
+    | <back:#E8F5E9>   </back> | Services |
+end legend
+
+' --- BLOC CORE ---
+package "Game Core" {
+    class GameEngine <<Singleton>> {
+        + instance: GameEngine
+        + newGame(): Game
+    }
+    
+    class Game <<Core>> {
+        + startSimulation()
+        + nextTurn()
+    }
+
+    class Grid <<Core>> {
+        + getTile(Coords): Tile
+    }
+    
+    class ScoreManager <<Service>> {
+        + update(GameEvent)
+        + score: int
+    }
+
+    GameEngine --> Game : manages
+    Game --> Grid : owns
+    Game --> ScoreManager : uses
+}
+
+' --- BLOC ACTEURS & FACTORY ---
+package "Heroes & Factory" {
+    interface HeroCreator <<Pattern>> {
+        + createHero(): Hero
+    }
+    note bottom of HeroCreator: Implémenté par:\nDragonCreator, TankCreator...
+
+    abstract class Hero <<Entity>> {
+        + move()
+        + accept(HeroVisitor)
+    }
+    
+    class HeroSquad <<Entity>> {
+        + addHero(Hero)
+    }
+
+    HeroCreator ..> Hero : creates
+    HeroSquad o--> "0..*" Hero : contains
+}
+
+' --- BLOC STRATEGY ---
+package "AI Strategy" {
+    abstract class Strategy <<Pattern>> {
+        + move(Game, Hero): Coords
+    }
+    note bottom of Strategy: Implémenté par:\nAstarStrategy, BFSStrategy...
+    
+    HeroSquad --> Strategy : utilise pour\ntout le groupe
+}
+
+' --- BLOC VISITOR ---
+package "Effect Visitor" {
+    interface HeroVisitor <<Pattern>> {
+        + visit(Hero)
+    }
+    note bottom of HeroVisitor: Implémenté par:\nHealVisitor, PoisonVisitor...
+
+    Hero ..> HeroVisitor : accepts
+}
+
+' --- BLOC OBSERVER ---
+package "Event System" {
+    interface GameObserver <<Pattern>> {
+        + update(GameEvent)
+    }
+    
+    interface HeroTurnListener <<Pattern>>
+    
+    GameObserver <|.. ScoreManager
+    Game ..> HeroTurnListener : notifies
+}
+
+' --- BLOC ENVIRONNEMENT ---
+package "Environment" {
+    class Tile <<Entity>>
+    class Trap <<Entity>> {
+        + activateTrap()
+    }
+    class Wall <<Entity>>
+    
+    Tile <|-- Trap
+    Tile <|-- Wall
+    Grid *--> "many" Tile
+    Trap ..|> HeroTurnListener : écoute les tours\npour s'activer
+}
+
+@enduml

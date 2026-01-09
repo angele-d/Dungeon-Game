@@ -1,0 +1,49 @@
+@startuml
+actor User
+participant GameEngine
+participant Game
+participant HeroSquad
+participant Hero
+participant Strategy
+participant Tile
+participant Trap
+participant ScoreManager
+participant SaveManager
+participant LeaderBoard
+
+' Assumption: one hero turn shown inside the loop; movement uses configured Strategy
+User -> GameEngine: startSimulation(gameId)
+GameEngine -> Game: startSimulation()
+Game -> HeroSquad: new Builder().addHero(*)...build()
+Game -> Hero: setCoords(startingPoint)
+Game -> Hero: addObserver(ScoreManager)
+GameEngine -> HeroSquad: setStrategy(strategy)
+
+loop turns until termination
+  User -> GameEngine: nextTurn(gameId)
+  GameEngine -> Game: nextTurn()
+  loop per hero
+    Game -> Hero: move()
+    Hero -> Strategy: move(game, hero)
+    Strategy --> Hero: nextCoords
+    Game -> Tile: doMovement(hero, nextCoords)
+    alt tile is Trap
+      Game -> Trap: activateTrap(game)
+      Trap -> Hero: applyDamage(damage)
+      Hero -> ScoreManager: update(GameEvent)
+    else tile is Treasure
+      Hero -> ScoreManager: update(GameEvent TREASURE_REACHED)
+    end
+  end
+  GameEngine -> Game: isTerminated()
+  alt terminated (treasure reached or all dead)
+    GameEngine -> SaveManager: save(game)
+    GameEngine -> LeaderBoard: addResults(new GameResult(score, id, money))
+    Game -> Game: endSimulation()
+    GameEngine <-- Game: terminated
+    break
+  else ongoing
+    GameEngine <-- Game: false
+  end
+end
+@enduml
