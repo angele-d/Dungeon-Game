@@ -283,7 +283,7 @@ public class Game {
         Tile startingPoint = getStartingPoint();
         if (treasure != null && startingPoint != null) {
             BFS bfs = new BFS(getGrid());
-            return bfs.search(startingPoint.getCoords(), null) != null;
+            return bfs.search(startingPoint.getCoords(), null) != startingPoint.getCoords();
         }
         return false;
     }

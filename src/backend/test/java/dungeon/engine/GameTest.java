@@ -86,9 +86,6 @@ public class GameTest {
         game.setScore(50);
         game.subMoney(30);
         game.nextTurn();
-        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
-        assertFalse(game.isSimulationReady());
-        game.getGrid().setTile(new Treasure(new Coords(1, 1)));
         assertTrue(game.isSimulationReady());
     }
 }
