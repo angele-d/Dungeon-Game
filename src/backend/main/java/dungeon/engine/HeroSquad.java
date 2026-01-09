@@ -7,35 +7,41 @@ import dungeon.engine.Strategies.Strategy;
 public class HeroSquad {
     private ArrayList<Hero> heroList;
 
+/* --- Constructor --- */
+
     public HeroSquad() {
         heroList = new ArrayList<Hero>();
     }
+    
+/* --- Getters and Setters --- */
 
-    public void addHero(Hero hero) {
-        heroList.add(hero);
-    }
-
-    public void removeHero(Hero hero) {
-        heroList.remove(hero);
-    }
-
-    /* --- Getters and Setters --- */
-
+    /** 
+     * Gets the list of heroes in the squad.
+     * @return ArrayList<Hero>
+     */
     public ArrayList<Hero> getHeroes() {
         return heroList;
     }
 
+    /** 
+     * Gets the size of the hero squad.
+     * @return int
+     */
     public int getSquadSize() {
         return heroList.size();
     }
 
+    /** 
+     * Sets the strategy for all heroes in the squad.
+     * @param strategy
+     */
     public void setStrategy(Strategy strategy) {
         for (Hero hero : heroList) {
             hero.setStrategy(strategy);
         }
     }
 
-    /* --- Builder --- */
+/* --- Builder --- */
 
     public static class Builder {
         private ArrayList<Hero> heroList = new ArrayList<>();
@@ -58,6 +64,27 @@ public class HeroSquad {
         }
     }
 
+/* --- Functions --- */
+
+    /** 
+     * Adds a hero to the squad.
+     * @param hero
+     */
+    public void addHero(Hero hero) {
+        heroList.add(hero);
+    }
+    /** 
+     * Removes a hero from the squad.
+     * @param hero
+     */
+    public void removeHero(Hero hero) {
+        heroList.remove(hero);
+    }
+
+    /** 
+     * Serializes the hero squad for saving.
+     * @return ArrayList<ArrayList<String>>
+     */
     public ArrayList<ArrayList<String>> serialized() {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (Hero hero : this.heroList) {
