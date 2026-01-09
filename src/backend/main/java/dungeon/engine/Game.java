@@ -179,7 +179,6 @@ public class Game {
         for (Hero hero : heroSquad.getHeroes()) {
             hero.addObserver(scoreManager);
         }
-        heroSquad.setStrategy(strategy);
         this.scoreManager = new ScoreManager();
         for (Hero hero : heroSquad.getHeroes()) {
             hero.addObserver(scoreManager);
@@ -212,12 +211,14 @@ public class Game {
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(startingPoint.getCoords());
         }
+        heroSquad.setStrategy(strategy);
         return heroSquad;
     }
 
     public void nextWave() {
         wave += 1;
         this.turn = 0;
+        this.grid = this.blueprint.clone();
         this.heroSquad = generateNewSquad();
     }
 
