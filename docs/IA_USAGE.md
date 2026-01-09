@@ -1,5 +1,5 @@
 
-## Interaction #1
+## Interaction 1
 
 ### Contexte
 
@@ -113,7 +113,7 @@ L'IA n'avait pas compris que le rôle "Meme Maker" est une fonctionnalité MVP, 
 
 
 ---
-## Interaction #2
+## Interaction 2
 
 ### Contexte
 
@@ -191,12 +191,12 @@ Voir dans `Archives/mockups/proposition_1` pour:
 - Deuxième prompt envoyé à Stitch (voir [Interaction #3](#interaction-3))
 - Mix des 2 propositions et retraitement pour dynamiser la page
 
-### Remarques
+### Remarques
 
 L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Un mix avec un deuxième prompt a permis d'avoir un résultat plus satisfaisant.
 
 ---
-## Interaction #3
+## Interaction 3
 
 ### Contexte
 
@@ -228,13 +228,13 @@ Voir dans `Archives/mockups/proposition_2` pour:
 - Premier prompt envoyé à Stitch (voir [Interaction #2](#interaction-2))
 - Mix des 2 propositions et retraitement pour dynamiser la page
 
-### Remarques
+### Remarques
 
 L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Un mix avec un premier prompt a permis d'avoir un résultat plus satisfaisant.
 
 
 ---
-## Interaction #4
+## Interaction 4
 
 ### Contexte
 
@@ -247,7 +247,6 @@ Il y a des cases où un hero ne peut pas aller avec la fonction iswalkable, je v
 
 
 Utilise le code que je te fournis et réécrit entièrement la fonction search.
-
 
 
 Code :
@@ -488,15 +487,14 @@ Si tu veux, dis-moi et je t’améliore ça sans changer ton API 👌
 Vérification et utilisation de cette version.
 Essaie avec des tests.
 
-### Remarques
+### Remarques
 
 L'IA a bien adapté l'algorithme souhaité. Le code est utilisable.
 
 
 ---
 
-
-## Interaction #5
+## Interaction 5
 
 ### Contexte
 
@@ -556,9 +554,9 @@ Deux fichiers PlantUML ont été générés dans le projet:
 
 ### Décision
 
-**Gardé:**
+**Gardé:**  
 Les deux diagrammes générés correspondaient bien aux attentes et au code existant.
 
-### Remarques
+### Remarques
 
 Les diagrammes ont été très utiles pour clarifier certains aspects du code et de son fonctionnement.
