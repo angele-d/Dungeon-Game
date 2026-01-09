@@ -107,6 +107,7 @@
 | :--- | :--- | :--- | :--- | :---: |
 | **TECH-14** | Tech | Implémentation des vagues | P. Musial | Moyenne |
 | **TECH-15** | Tech | Génération automatique de la grille | P. Musial | Moyenne |
+| **TECH-16** | Tech | Création d'une pipeline pour les tests java | A. Denys | Faible |
 | **DOC-05** | Doc | Rédaction de la ROADMAP | A. Denys | Moyenne |
 | **DOC-06** | Doc | Création des diagrammes de séquence | A. Denys | **Haute** |
 | **DOC-07** | Doc | Création du diagramme de classe | P. Musial & A. Denys | **Critique** |
