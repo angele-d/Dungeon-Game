@@ -11,6 +11,8 @@ import java.util.function.Function;
 
 
 import dungeon.engine.tiles.*;
+import dungeon.engine.tiles.traps.*;
+import dungeon.engine.tiles.wall.*;
 
 public class SaveManager {
 
@@ -28,8 +30,8 @@ public class SaveManager {
 
     
 
-    private record DataToSave(int size, Map<Coords, NamedTiles> grid, int score, int money) {}
-    private record DataToGet(int size, Map<String, NamedTiles> grid, int score, int money) {}
+    private record DataToSave(int id, int size, Map<Coords, NamedTiles> grid, int score, int money) {}
+    private record DataToGet(int id, int size, Map<String, NamedTiles> grid, int score, int money) {}
 
     static public void save(Game game) throws IOException {
 
@@ -37,6 +39,7 @@ public class SaveManager {
 
         Map<Coords, NamedTiles> detailedGrid = new HashMap<>();
 
+        int id = game.getId();
         int size = grid.SIZE;
 
         for(int i = 0; i < size; i++) {
@@ -47,7 +50,7 @@ public class SaveManager {
             }
         }
 
-        DataToSave save = new DataToSave(size, detailedGrid, game.getScore(), game.getMoney());
+        DataToSave save = new DataToSave(id, size, detailedGrid, game.getScore(), game.getMoney());
 
         Gson gson = new Gson();
         String json = gson.toJson(save);
@@ -55,7 +58,7 @@ public class SaveManager {
         Path dir = Path.of("saves");
         Files.createDirectories(dir);
 
-        Path path = dir.resolve("save1.json");
+        Path path = dir.resolve("save" + String.valueOf(id) + ".json");
         Files.writeString(path, json, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
@@ -78,13 +81,20 @@ public class SaveManager {
         Map<String, NamedTiles> gridString = data.grid;
 
 
+        int id = data.id;
         int SIZE = data.size;
         int score = data.score;
         int money = data.money;
 
         Map<String, Function<Coords, ? extends Tile>> tileRegistry = Map.of(
                 "Empty", Empty::new,
-                "Treasure", Treasure::new
+                "Treasure", Treasure::new,
+                "StartingPoint", StartingPoint::new,
+                "WoodWall", WoodWall::new,
+                "StoneWall", StoneWall::new,
+                "Mine", Mine::new,
+                "PoisonTrap", PoisonTrap::new,
+                "WallTrap", WallTrap::new
         );
 
         Grid grid = new Grid();
@@ -98,6 +108,7 @@ public class SaveManager {
         game.setGrid(grid);
         game.setScore(score);
         game.setMoney(money);
+        game.setId(id);
 
 
 
@@ -117,6 +128,7 @@ public class SaveManager {
                     .toList();
         } catch (IOException e) {
 //            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }

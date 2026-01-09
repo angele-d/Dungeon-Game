@@ -1,0 +1,49 @@
+#leaderboard {
+  width: 40vw;
+  height: 92vh;
+}
+
+#leaderboard-header {
+  text-align: center;
+  margin-bottom: 2vh;
+}
+
+#leaderboard-content {
+  width: 95%;
+  height: 95%;
+  background-color: #192b33;
+  border-radius: 5vh;
+  padding: 2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+  overflow-y: auto;
+}
+
+#leaderboard-title {
+  font-size: 4vh;
+  color: #ffffff;
+}
+
+#leaderboard-content thead {
+  margin-bottom: 2vh;
+}
+
+.leaderboard-entry {
+  width: 90%;
+  border: #223b48 2px solid;
+  padding: 1vh;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+}
+
+.leaderboard-entry td.filename {
+  width: 40%;
+  text-align: center;
+}
+
+.leaderboard-entry td.filename a {
+  text-decoration: underline;
+}

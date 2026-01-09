@@ -1,12 +1,13 @@
 package dungeon.engine;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LeaderBoard {
-
-
-    private final List<GameResult> results = new ArrayList<>();
+    
+    private final Set<GameResult> results = new HashSet<>();
 
     public void addResults(GameResult result) {
         results.add(result);
@@ -15,7 +16,7 @@ public class LeaderBoard {
     /* --- Getters --- */
 
     public List<GameResult> getResults() {
-        return List.copyOf(results);
+        return new ArrayList<>(results);
     }
 
 }

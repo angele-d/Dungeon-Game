@@ -4,24 +4,17 @@ import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
-public class Dwarf extends Hero {
-
-    //TODO: Implement Dwarf wall breaking ability
+public class Muggle extends Hero {
     
     private int health;
-    private boolean actionAvailable;
     private static final int MAX_HEALTH = 150;
 
-    public Dwarf() {
+    /* --- Constructor --- */
+
+    public Muggle() {
         super();
         health = MAX_HEALTH;
-        actionAvailable = true;
-        // Dwarf-specific initialization
-    }
-
-    @Override
-    public String toString() {
-        return "Dwarf";
+        // TheMemeMaker-specific initialization
     }
 
     /* --- Getters and Setters --- */
@@ -38,10 +31,10 @@ public class Dwarf extends Hero {
     }
 
     public boolean getActionAvailable() {
-        return actionAvailable;
+        return false;
     }
     public void setActionAvailable(boolean status) {
-        actionAvailable = status;
+        // Do nothing
     }
 
     /* --- Functions --- */
@@ -50,7 +43,7 @@ public class Dwarf extends Hero {
     public void applyDamage(int damage) {
         health -= damage;
         notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
-        if (health <= 0) {
+        if(health <= 0){
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
@@ -58,10 +51,17 @@ public class Dwarf extends Hero {
 
     @Override
     public void resetAction() {
-        setActionAvailable(true);
+        // No action to reset
     }
 
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Muggle";
     }
 }

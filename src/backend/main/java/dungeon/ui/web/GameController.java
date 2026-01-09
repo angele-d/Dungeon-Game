@@ -23,7 +23,7 @@ public class GameController {
     @MessageMapping("/test")
     @SendTo("/topic/messages")
     public Map<String, String> hello(Map<String, String> payload) {
-        String message = payload.get("message");
+        payload.get("message");
         return Map.of("message", "Hello World!");
     }
 
@@ -33,9 +33,22 @@ public class GameController {
         Game new_game = GameEngine.getInstance().newGame();
         Map<String, String> result = GameEngine.getInstance().getGameStats(new_game.getId());
         result.put("id", String.valueOf(new_game.getId()));
-        System.out.println(new_game.getId());
 
-        String destination = "/topic/get-id/" + tmpId;
+        String destination = "/topic/get_id/" + tmpId;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    @MessageMapping("/copy_game")
+    public void copyGame(Map<String, String> payload) {
+        String tmpId = payload.get("id");
+        String loadId = payload.get("copy_id");
+        Game new_game = GameEngine.getInstance().newGame();
+        int id = new_game.getId();
+        GameEngine.getInstance().loadGame(id, Integer.parseInt(loadId));
+        Map<String, String> result = GameEngine.getInstance().getGameStats(id);
+        result.put("id", String.valueOf(new_game.getId()));
+
+        String destination = "/topic/get_id/" + tmpId;
         messagingTemplate.convertAndSend(destination, result);
     }
 
@@ -102,16 +115,6 @@ public class GameController {
         Map<String, String> result = Map.of("result", String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
 
         String destination = "/topic/game_terminated/" + id;
-        messagingTemplate.convertAndSend(destination, result);
-    }
-
-    @MessageMapping("/end_game")
-    public void endGame(Map<String, String> payload) {
-        String id = payload.get("id");
-        Map<String, String> result = GameEngine.getInstance().getGameStats(Integer.parseInt(id));
-        GameEngine.getInstance().endGame(Integer.parseInt(id));
-
-        String destination = "/topic/game_ended/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 

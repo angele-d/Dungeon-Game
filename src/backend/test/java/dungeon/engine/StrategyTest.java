@@ -20,7 +20,7 @@ public class StrategyTest {
     
     @Test
     void testBFSFindsDirectPath() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -38,21 +38,21 @@ public class StrategyTest {
     }
     
     @Test
-    void testBFSReturnsNullWhenNoTreasure() {
-        Hero hero = new TheMemeMaker();
+    void testBFSReturnsStartWhenNoTreasure() {
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
         BFS bfs = new BFS(grid);
         
         Coords next = bfs.search(new Coords(0, 0), heroSquad);
-        assertNull(next);
+        assertEquals(next, new Coords(0, 0));
     }
 
     
     @Test
     void testBFSFromTreasureLocation() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
         Coords treasureCoords = new Coords(3, 3);
@@ -66,7 +66,7 @@ public class StrategyTest {
     
     @Test
     void testBFSConsistency() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(2, 2));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -84,7 +84,7 @@ public class StrategyTest {
     @Test
     void testStrategySwitch() {
         Game game = GameEngine.getInstance().newGame();
-        Hero hero1 = new TheMemeMaker();
+        Hero hero1 = new Muggle();
         hero1.setCoords(new Coords(0, 0));
         game.getHeroSquad().addHero(hero1);
 

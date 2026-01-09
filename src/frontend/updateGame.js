@@ -1,6 +1,6 @@
 import { game_config } from "./game_config.js";
 let { size } = game_config;
-import { selectionPossible, selectGridCell } from "./script.js";
+import { selectionPossible, selectGridCell } from "./game.js";
 
 function updateGrid(gridData) {
   /**
@@ -282,13 +282,21 @@ function updateHeroes(heroesData) {
             </div>`;
     infoPanel.appendChild(heroDiv);
 
-    // Update on the grid
-    const targetCell =
-      document.querySelectorAll(".grid-cell")[
-        parseInt(hero[1]) * size + parseInt(hero[2])
-      ];
-    targetCell.classList.add("relative");
-    targetCell.innerHTML = heroPawns[hero[0]];
+    if (
+      hero[1] != null &&
+      hero[2] != null &&
+      !isNaN(hero[1]) &&
+      !isNaN(hero[2]) &&
+      hero[3] > 0
+    ) {
+      // Update on the grid
+      const targetCell =
+        document.querySelectorAll(".grid-cell")[
+          parseInt(hero[1]) * size + parseInt(hero[2])
+        ];
+      targetCell.classList.add("relative");
+      targetCell.innerHTML = heroPawns[hero[0]];
+    }
   });
 }
 

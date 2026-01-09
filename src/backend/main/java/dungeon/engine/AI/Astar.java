@@ -6,6 +6,7 @@ import dungeon.engine.Hero;
 import dungeon.engine.HeroSquad;
 import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
+import dungeon.engine.tiles.Wall;
 
 import java.util.*;
 
@@ -32,52 +33,78 @@ public class Astar {
 
         for(Hero hero : heroSquad.getHeroes()){
             if(hero.getCoords().equals(neighbor)){
-                return true;
+                // Check if the hero is alive
+                if(hero.getHealth() > 0)
+                    return true;
             }
         }
 
         return false;
     }
 
+    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad){
+        // Check if a wall is there
+        if (grid.getTile(neighbor) instanceof Wall){
+            return false;
+        }
+        // Check if an other hero is there
+        if(isOccupied(neighbor, heroSquad)){
+            return false;
+        }
+        
+        return true;
+    }
+
     public Coords search(Coords start, HeroSquad heroSquad) {
-        PriorityQueue<NodeValue> value = new PriorityQueue<>(
+
+        PriorityQueue<NodeValue> openList = new PriorityQueue<>(
             Comparator.comparingInt(NodeValue::getValue)
         );
+
         Map<Coords, Integer> bestCost = new HashMap<>();
-        bestCost.put(start, 0);
+
         Node startNode = new Node(start, null);
         NodeValue startValue = new NodeValue(null, startNode, 0);
-        value.add(startValue);
 
-        while (!value.isEmpty()) {
-            NodeValue currValue = value.poll();
-            Node currNode = currValue.getNode();
+        openList.add(startValue);
+        bestCost.put(start, 0);
 
-            // Treasure found
-            if (grid.getTile(currNode.getCoords()) instanceof Treasure) {
-                return treasureFound(currValue);
+        while (!openList.isEmpty()) {
+
+            NodeValue currentValue = openList.poll();
+            Node currentNode = currentValue.getNode();
+            Coords currentCoords = currentNode.getCoords();
+
+            if (grid.getTile(currentCoords) instanceof Treasure) {
+                return treasureFound(currentValue);
             }
 
-            // Explore neighbors
-            for (Coords neighbor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
+            for (Coords neighbor : grid.getNeighborsCoords(currentCoords)) {
 
-                    int newCost;
-                    if(isOccupied(neighbor, heroSquad)){
-                        newCost = 200000;
-                    }
-                    else{
-                        newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
-                    }
-                    Node neighborNode = new Node(neighbor, currNode);
-                    
-                    if (!bestCost.containsKey(neighbor) || newCost < bestCost.get(neighbor)) {
-                        bestCost.put(neighbor, newCost);
-                        value.add(new NodeValue(currValue, neighborNode, newCost));
-                    }
+                if (!isWalkable(neighbor, heroSquad)) {
+                    continue;
+                }
+
+                int newCost = currentValue.getValue()
+                            + grid.getTile(neighbor).getAstarValue();
+
+                if (bestCost.containsKey(neighbor)
+                    && newCost >= bestCost.get(neighbor)) {
+                    continue;
+                }
+
+                bestCost.put(neighbor, newCost);
+
+                Node neighborNode = new Node(neighbor, currentNode);
+                NodeValue neighborValue = new NodeValue(currentValue, neighborNode, newCost);
+
+                openList.add(neighborValue);
             }
         }
-        return null;
+
+        return start;
     }
+
 
     public Coords treasureFound(NodeValue curr){
         while (curr.getParent() != null && curr.getParent().getParent() != null) {
@@ -85,4 +112,12 @@ public class Astar {
         }
         return curr.getNode().getCoords();
     }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Astar";
+    }        
+       
 }

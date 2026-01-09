@@ -27,8 +27,11 @@ function onConnect(stompClient, frame) {
   console.log("Connected: " + frame);
 
   let id = new URLSearchParams(window.location.search).get("id");
-  if (!id) {
+  let loadId = new URLSearchParams(window.location.search).get("load");
+  if (!id && !loadId) {
     sendCreateGame(stompClient);
+  } else if (!id) {
+    sendCopyGame(stompClient, loadId);
   } else {
     window.id = id;
     sendGetGameStats(stompClient);
@@ -58,7 +61,12 @@ function onConnect(stompClient, frame) {
       window.money = parseInt(payload["money"]);
       updateMoneyDisplay(payload["money"]);
       let heroes = payload["heroes"];
-      let heroesData = JSON.parse(heroes);
+      let heroesData;
+      if (heroes) {
+        heroesData = JSON.parse(heroes);
+      } else {
+        heroesData = [];
+      }
       updateHeroes(heroesData);
       document.querySelector("#next-button").textContent = "Next Turn";
       window.gameLaunched = true;
@@ -107,13 +115,21 @@ function sendCreateGame(stompClient) {
   window.gameLaunched = false;
   let tmpId = randomString(LENGTH);
   let subscription = stompClient.subscribe(
-    `/topic/get-id/${tmpId}`,
+    `/topic/get_id/${tmpId}`,
     function (message) {
       let payload = JSON.parse(message.body);
       let id = payload["id"];
 
       window.id = id;
 
+      stompClient.subscribe(`/topic/ai_changed/${id}`, function (message) {
+        let payload = JSON.parse(message.body);
+        if (payload["result"] == "false") {
+          alert("AI change failed on server.");
+        } else {
+          document.querySelector("#ai-menu").value = window.ai;
+        }
+      });
       sendChangeAI(stompClient, "BFS"); // Default AI
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -126,6 +142,41 @@ function sendCreateGame(stompClient) {
     id: tmpId,
   };
   stompClient.send("/app/new_game", {}, JSON.stringify(message));
+}
+
+function sendCopyGame(stompClient, loadId) {
+  window.gameLaunched = false;
+  let tmpId = randomString(LENGTH);
+  let subscription = stompClient.subscribe(
+    `/topic/get_id/${tmpId}`,
+    function (message) {
+      let payload = JSON.parse(message.body);
+      let id = payload["id"];
+
+      window.id = id;
+
+      stompClient.subscribe(`/topic/ai_changed/${id}`, function (message) {
+        let payload = JSON.parse(message.body);
+        if (payload["result"] == "false") {
+          alert("AI change failed on server.");
+        } else {
+          document.querySelector("#ai-menu").value = window.ai;
+        }
+      });
+      sendChangeAI(stompClient, "BFS"); // Default AI
+
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.delete("load");
+      urlParams.set("id", id);
+      window.location.search = urlParams;
+      subscription.unsubscribe();
+    }
+  );
+  let message = {
+    id: tmpId,
+    copy_id: loadId,
+  };
+  stompClient.send("/app/copy_game", {}, JSON.stringify(message));
 }
 
 function sendGetGameStats(stompClient) {
@@ -202,7 +253,7 @@ function sendNextStepIfPossible(stompClient) {
         const url = new URL(window.location.href);
 
         // Replace filename
-        url.pathname = url.pathname.replace("code.html", "leaderboard.html");
+        url.pathname = url.pathname.replace("game.html", "leaderboard.html");
 
         // Add query param
         url.searchParams.set("id", window.id);

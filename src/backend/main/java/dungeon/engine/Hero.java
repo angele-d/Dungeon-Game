@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import dungeon.engine.Observers.GameEvent;
 import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Observers.GameObserver;
-import dungeon.engine.Strategies.BFSStrategy;
 import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.Visitors.HeroVisitor;
 import dungeon.engine.tiles.Treasure;
@@ -14,7 +13,6 @@ import dungeon.engine.tiles.Wall;
 public abstract class Hero {
 
     public static final int MOVE_DISTANCE = 1;
-    public static final int POISON_DAMAGE_PER_TURN = 5;
     public boolean isPoisoned = false;
     public Coords coords;
     public Strategy strategy;
@@ -62,6 +60,9 @@ public abstract class Hero {
     public void setStrategy(Strategy strategy){
         this.strategy = strategy;
     }
+    public Strategy getStrategy(){
+        return this.strategy;
+    }
 
     /* --- Functions --- */
 
@@ -75,13 +76,6 @@ public abstract class Hero {
         do{
             newCoords = strategy.move(game, this);
         } while(game.getGrid().getTile(newCoords) instanceof Wall); // If Wall, try again
-
-        // Tick poison effect
-        for(Hero hero : game.getHeroSquad().getHeroes()){
-            if(hero.getIsPoisoned()){
-                hero.applyDamage(POISON_DAMAGE_PER_TURN);
-            }
-        }
 
         // Check if newCoords is Treasure
         if (game.getGrid().getTile(newCoords) instanceof Treasure) {

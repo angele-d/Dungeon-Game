@@ -1,17 +1,10 @@
 package dungeon.engine;
 
-public class GameResult {
-    private final int score;
-    private final int gameId;
-    private final int money;
-    
-    /* --- Constructor --- */
-
-    public GameResult(int score, int gameId, int money) {
-        this.score = score;
-        this.gameId = gameId;
-        this.money = money;
-    }
+public record GameResult (
+    int score,
+    int gameId,
+    int money
+) {
 
     /* --- Getters --- */
 
@@ -33,7 +26,11 @@ public class GameResult {
 
     @Override
     public String toString() {
-        return "["+String.valueOf(score)+String.valueOf(gameId)+String.valueOf(money)+"]";
+        return String.valueOf(score)+" "+String.valueOf(gameId)+" "+String.valueOf(money);
+    }
+
+    public String serialized() {
+        return "["+String.valueOf(score)+","+String.valueOf(gameId)+","+String.valueOf(money)+"]";
     }
 
 }

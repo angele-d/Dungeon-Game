@@ -59,7 +59,6 @@ function selectionPossible(elt) {
    * Returns: None
    */
   if (!elt) return;
-  console.log(window.gameLaunched);
   if (window.gameLaunched) {
     elt.classList.add("not-allowed-cell");
     return;

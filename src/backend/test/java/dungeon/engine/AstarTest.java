@@ -15,7 +15,7 @@ public class AstarTest {
         HeroSquad heroSquad = new HeroSquad();
 
         Coords result = astar.search(new Coords(0, 0), heroSquad);
-        assertNull(result);
+        assertEquals(result, new Coords(0, 0));
     }
 
     @Test
@@ -100,9 +100,9 @@ public class AstarTest {
     @Test
     void avoidsHeroBlocking() {
         Grid grid = new Grid();
-        Hero hero1 = new TheMemeMaker();
+        Hero hero1 = new Muggle();
         hero1.setCoords(new Coords(1, 0));
-        Hero hero2 = new TheMemeMaker();
+        Hero hero2 = new Muggle();
         hero2.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero1);
@@ -119,7 +119,7 @@ public class AstarTest {
 
     @Test
     void isOccupied() {
-        Hero hero = new TheMemeMaker();
+        Hero hero = new Muggle();
         hero.setCoords(new Coords(2, 2));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
@@ -128,5 +128,25 @@ public class AstarTest {
 
         assertTrue(astar.isOccupied(new Coords(2, 2), heroSquad));
         assertFalse(astar.isOccupied(new Coords(0, 0), heroSquad));
+    }
+
+    @Test
+    void searchWithDeadHero() {
+        Hero deadHero = new Muggle();
+        deadHero.setCoords(new Coords(1, 0));
+        deadHero.setHealth(0); // Dead hero
+        Hero aliveHero = new Muggle();
+        aliveHero.setCoords(new Coords(0, 0));
+        HeroSquad heroSquad = new HeroSquad();
+        heroSquad.addHero(deadHero);
+        heroSquad.addHero(aliveHero);
+        Grid grid = new Grid();
+        Treasure t = new Treasure(new Coords(2, 0));
+        grid.setTile(t);
+
+        Astar astar = new Astar(grid);
+        // Hero should be able to walk through dead hero
+        Coords nextMove = astar.search(new Coords(0, 0), heroSquad);
+        assertEquals(new Coords(1, 0), nextMove); // Can walk on dead hero's position
     }
 }
