@@ -32,7 +32,7 @@ public class LeaderBoard {
             System.out.print("Choose an action:\n(p)revious (n)ext (c)lose\nOr write a game id");
             System.out.print("\n");
             System.out.print("\n");
-            String action = scanner.next();
+            String action = scanner.next().trim();
             System.out.print("\n");
             switch (action) {
                 case "p":

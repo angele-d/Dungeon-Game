@@ -154,7 +154,7 @@ public class TerminalLauncher {
                         T_y = Integer.parseInt(pos_object_y);
                     }
                     if ((new Coords(S_x, S_y))
-                            .equals(new Coords(Integer.parseInt(pos_object_x), Integer.parseInt(pos_object_y)))
+                        .equals(new Coords(Integer.parseInt(pos_object_x), Integer.parseInt(pos_object_y)))
                             && !(action_object.equals("S"))) {
                         startingPointPassage = 0;
                     }
@@ -197,7 +197,7 @@ public class TerminalLauncher {
                     game.placementOnGrid(game.getGrid().getTile(coordTileDelete));
 
                     if ((new Coords(S_x, S_y)).equals(
-                            new Coords(Integer.parseInt(pos_object_delete_x), Integer.parseInt(pos_object_delete_y)))) {
+                        new Coords(Integer.parseInt(pos_object_delete_x), Integer.parseInt(pos_object_delete_y)))) {
                         startingPointPassage = 0;
                     }
                     if ((new Coords(T_x, T_y)).equals(
@@ -228,20 +228,13 @@ public class TerminalLauncher {
                     }
                     break;
                 case 5:
-                    if (startingPointPassage > 0 && treasurePointPassage > 0) {
-                        if (game.isSimulationReady()) {
-                            end_action = 1;
-
-                        } else {
-                            System.out.println("At least one accessible path is needed...");
-                            System.out.println("\n");
-                        }
+                    if (game.isSimulationReady()) {
+                        end_action = 1;
 
                     } else {
-                        System.out.print("You must have a starting point and a treasure...");
+                        System.out.println("At least one accessible path is needed...");
                         System.out.println("\n");
                     }
-
                     break;
                 case 6:
                     System.out.print("Would you save your game ? (yes/no) ");
@@ -274,24 +267,25 @@ public class TerminalLauncher {
                 ExecuteGame.execute_game(game, size_grid, new Coords(S_x, S_y), scoreManager, legendString,
                         strategy_AI);
 
-                int action = 0;
-                int action_player_game = 1;
-                while (action == 0) {
-                    PrintGrid.manage_end_game();
-                    String input = scanner.next();
-                    try {
-                        action_player_game = Integer.parseInt(input);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please enter a number between 1 and 5 !");
-                        System.out.println("\n");
-                        continue;
-                    }
-                    if (action_player_game > 0 && action_player_game < 6) {
-                        action = 1;
-                    }
-                }
                 int lead_option = 0;
                 while (lead_option == 0) {
+                    int action = 0;
+                    int action_player_game = 1;
+                    while (action == 0) {
+                        PrintGrid.manage_end_game();
+                        String input = scanner.next();
+                        try {
+                            action_player_game = Integer.parseInt(input);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Please enter a number between 1 and 5 !");
+                            System.out.println("\n");
+                            continue;
+                        }
+                        if (action_player_game > 0 && action_player_game < 6) {
+                            action = 1;
+                        }
+                    }
+                
                     switch (action_player_game) {
                         case 1:
                             gameGenerator(0, 0, -1, -1, -1, -1);
