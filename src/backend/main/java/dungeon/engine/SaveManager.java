@@ -101,7 +101,8 @@ public class SaveManager {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 Coords coords = new Coords(i, j);
-                grid.setTile(tileRegistry.get(gridString.get(coords.toString()).getType()).apply(coords));
+                Tile tile = tileRegistry.get(gridString.get(coords.toString()).getType()).apply(coords);
+                grid.putTile(tile);
             }
         }
 

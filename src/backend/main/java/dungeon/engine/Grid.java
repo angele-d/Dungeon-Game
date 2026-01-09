@@ -18,7 +18,7 @@ public class Grid {
     }
 
     public Grid(Grid grid) {
-        this.grid = Map.copyOf(grid.getGrid());
+        this.grid = new HashMap<>(grid.getGrid());
     }
 
     public Grid(int seed) {
@@ -73,6 +73,10 @@ public class Grid {
         }
         this.grid.put(tile.getCoords(), tile);
         return true;
+    }
+
+    public void putTile(Tile tile) {
+        this.grid.put(tile.getCoords(), tile);
     }
 
     public int getSize() {

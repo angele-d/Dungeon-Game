@@ -236,26 +236,53 @@ function sendNextStepIfPossible(stompClient) {
   let message = {
     id: window.id,
   };
-  stompClient.send("/app/is_game_terminated", {}, JSON.stringify(message));
 
   let subscription = stompClient.subscribe(
-    `/topic/game_terminated/${window.id}`,
+    `/topic/wave_terminated/${window.id}`,
     function (message) {
       let payload = JSON.parse(message.body);
       if (payload["result"] == "false") {
-        sendNextStep(stompClient);
+        let subscription2 = stompClient.subscribe(
+          `/topic/game_terminated/${window.id}`,
+          function (message) {
+            let payload = JSON.parse(message.body);
+            if (payload["result"] == "false") {
+              // If game is not terminated
+              sendNextStep(stompClient);
+            } else {
+              // If the game is terminated => go to leaderboard
+              const url = new URL(window.location.href);
+
+              url.pathname = url.pathname.replace(
+                "game.html",
+                "leaderboard.html"
+              );
+
+              url.searchParams.set("id", window.id);
+
+              window.location.href = url.toString();
+            }
+            subscription2.unsubscribe();
+          }
+        );
+        message = {
+          id: window.id,
+        };
+        stompClient.send(
+          "/app/is_game_terminated",
+          {},
+          JSON.stringify(message)
+        );
       } else {
-        const url = new URL(window.location.href);
-
-        url.pathname = url.pathname.replace("game.html", "leaderboard.html");
-
-        url.searchParams.set("id", window.id);
-
-        window.location.href = url.toString();
+        message = {
+          id: window.id,
+        };
+        stompClient.send("/app/next_step", {}, JSON.stringify(message));
       }
       subscription.unsubscribe();
     }
   );
+  stompClient.send("/app/is_wave_terminated", {}, JSON.stringify(message));
 }
 
 function sendNextStep(stompClient) {

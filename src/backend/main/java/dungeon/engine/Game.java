@@ -175,14 +175,8 @@ public class Game {
 
     public void startSimulation() {
         blueprint = grid.clone();
-        this.heroSquad = generateNewSquad();
-        for (Hero hero : heroSquad.getHeroes()) {
-            hero.addObserver(scoreManager);
-        }
         this.scoreManager = new ScoreManager();
-        for (Hero hero : heroSquad.getHeroes()) {
-            hero.addObserver(scoreManager);
-        }
+        this.heroSquad = generateNewSquad();
         this.turn = 0;
     }
 
@@ -211,6 +205,7 @@ public class Game {
         heroSquad = builder.build();
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(startingPoint.getCoords());
+            hero.addObserver(this.scoreManager);
         }
         heroSquad.setStrategy(strategy);
         return heroSquad;
@@ -221,6 +216,8 @@ public class Game {
         this.turn = 0;
         this.grid = this.blueprint.clone();
         this.heroSquad = generateNewSquad();
+        System.out.println("Wave " + wave);
+        System.out.println("heros" + heroSquad.serialized());
     }
 
     public void endSimulation() {
