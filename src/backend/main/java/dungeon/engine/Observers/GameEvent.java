@@ -21,7 +21,7 @@ public class GameEvent {
     public GameEventType getType() {
         return type;
     }
-    
+
     public Hero getHero() {
         return hero;
     }

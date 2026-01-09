@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import dungeon.engine.tiles.traps.PoisonTrap;
 import org.junit.jupiter.api.Test;
 
-
 public class PoisonTrapTest {
 
 	@Test
@@ -38,8 +37,8 @@ public class PoisonTrapTest {
 		dragon.setCoords(new Coords(5, 5));
 
 		HeroSquad squad = new HeroSquad.Builder()
-			.addHero(dragon)
-			.build();
+				.addHero(dragon)
+				.build();
 
 		Game game = new Game();
 		game.setHeroSquad(squad);
@@ -66,9 +65,9 @@ public class PoisonTrapTest {
 		outOfRange.setCoords(new Coords(3, 0)); // distance 3
 
 		HeroSquad squad = new HeroSquad.Builder()
-			.addHero(inRange)
-			.addHero(outOfRange)
-			.build();
+				.addHero(inRange)
+				.addHero(outOfRange)
+				.build();
 
 		Game game = new Game();
 		game.setHeroSquad(squad);
@@ -95,8 +94,8 @@ public class PoisonTrapTest {
 		tank.setCoords(new Coords(0, 0));
 
 		HeroSquad squad = new HeroSquad.Builder()
-			.addHero(tank)
-			.build();
+				.addHero(tank)
+				.build();
 
 		Game game = new Game();
 		game.setHeroSquad(squad);
@@ -107,7 +106,8 @@ public class PoisonTrapTest {
 		assertTrue(tank.getActionAvailable());
 		assertFalse(tank.getIsPoisoned());
 
-		// First activation: Tank within radius, has action available -> lose action but not poisoned
+		// First activation: Tank within radius, has action available -> lose action but
+		// not poisoned
 		poisonTrap.activateTrap(game);
 		assertEquals(initialHealth - 20, tank.getHealth());
 		assertFalse(tank.getActionAvailable());

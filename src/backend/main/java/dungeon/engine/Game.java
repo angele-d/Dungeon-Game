@@ -2,9 +2,7 @@ package dungeon.engine;
 
 import dungeon.engine.AI.BFS;
 import dungeon.engine.Observers.ScoreManager;
-import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Trap;
-import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.Random;
 public class Game {
 
     public static final int POISON_DAMAGE_PER_TURN = 5;
-    private int id; //TODO: implement unique ID generation
+    private int id; // TODO: implement unique ID generation
     private Grid grid;
     private Grid blueprint;
     private HeroSquad heroSquad;
@@ -77,6 +75,7 @@ public class Game {
     public Grid getGrid() {
         return grid;
     }
+
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
@@ -96,6 +95,7 @@ public class Game {
     public HeroSquad getHeroSquad() {
         return heroSquad;
     }
+
     public void setHeroSquad(HeroSquad heroSquad) {
         this.heroSquad = heroSquad;
     }
@@ -103,6 +103,7 @@ public class Game {
     public int getMoney() {
         return money;
     }
+
     public void setMoney(int money) {
         this.money = money;
     }
@@ -114,9 +115,11 @@ public class Game {
     public ScoreManager getScoreManager() {
         return scoreManager;
     }
+
     public int getScore() {
         return scoreManager.getScore();
     }
+
     public void setScore(int score) {
         scoreManager.setScore(score);
     }
@@ -126,6 +129,7 @@ public class Game {
     public void addHeroTurnListener(HeroTurnListener turnListener) {
         this.heroTurnListeners.add(turnListener);
     }
+
     public void removeHeroTurnListener(HeroTurnListener turnListener) {
         this.heroTurnListeners.remove(turnListener);
     }
@@ -139,6 +143,7 @@ public class Game {
     public void addFireTurnListener(FireTurnListener turnListener) {
         this.fireTurnListeners.add(turnListener);
     }
+
     public void removeFireTurnListener(FireTurnListener turnListener) {
         this.fireTurnListeners.remove(turnListener);
     }
@@ -151,9 +156,9 @@ public class Game {
 
     public void startSimulation() {
         blueprint = grid.clone();
-        Random randomGenerator = new Random(this.seed*this.wave);
+        Random randomGenerator = new Random(this.seed * this.wave);
         HeroSquad.Builder builder = new HeroSquad.Builder();
-        for (int i = 0; i < wave+1; i++) {
+        for (int i = 0; i < wave + 1; i++) {
             Hero randomHero;
             switch (randomGenerator.nextInt(3)) {
                 case 0:
@@ -185,7 +190,7 @@ public class Game {
         wave += 1;
     }
 
-    public void endSimulation(){
+    public void endSimulation() {
         this.grid = blueprint.clone();
     }
 
@@ -195,7 +200,7 @@ public class Game {
         int currentTileCost = currentTile.getPlacementCost();
         int totalCost = tileCost - currentTileCost; // Cost difference
 
-        if(this.money >= totalCost) {
+        if (this.money >= totalCost) {
             this.subMoney(totalCost);
             this.grid.setTile(tile);
         }
@@ -210,15 +215,15 @@ public class Game {
         for (Hero hero : heroSquad.getHeroes()) {
 
             // Notify hero turn listeners for WallTrap
-            for(HeroTurnListener listener : heroTurnListeners) {
+            for (HeroTurnListener listener : heroTurnListeners) {
                 listener.onNewTurn(this);
             }
 
-            // Movement + Effects 
+            // Movement + Effects
             Coords newCoords = hero.move(this);
             doMovement(hero, newCoords);
 
-            //Trap Checking
+            // Trap Checking
             Tile currentTile = this.grid.getTile(hero.getCoords());
             if (currentTile instanceof Trap) {
                 ((Trap) currentTile).activateTrap(this);
@@ -226,13 +231,13 @@ public class Game {
         }
 
         // Notify fire turn listeners for WoodWall
-        for(FireTurnListener listener : fireTurnListeners) {
+        for (FireTurnListener listener : fireTurnListeners) {
             listener.onNewTurn(this);
         }
 
         // Tick poison effect
-        for(Hero hero : this.getHeroSquad().getHeroes()){
-            if(hero.getIsPoisoned()){
+        for (Hero hero : this.getHeroSquad().getHeroes()) {
+            if (hero.getIsPoisoned()) {
                 hero.applyDamage(POISON_DAMAGE_PER_TURN);
             }
         }
@@ -246,10 +251,10 @@ public class Game {
         Tile treasure = getTreasure();
 
         boolean isOneAlive = false;
-        for (Hero hero: heroSquad.getHeroes()) {
+        for (Hero hero : heroSquad.getHeroes()) {
 
             // Stop when one hero reaches the treasure
-            if(hero.getCoords().equals(treasure.getCoords())) {
+            if (hero.getCoords().equals(treasure.getCoords())) {
                 return true;
             }
 

@@ -14,19 +14,18 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.util.List;
 
-
 public class TerminalLauncher {
     public static void main(String[] args) {
-        gameGenerator(0,0,-1,-1,-1,-1);
+        gameGenerator(0, 0, -1, -1, -1, -1);
     }
 
-    public static void gameGenerator(int edit, int game_id_load, int S_x,int S_y,int T_x,int T_y){
+    public static void gameGenerator(int edit, int game_id_load, int S_x, int S_y, int T_x, int T_y) {
         int DISPLAY_SIZE = 10;
         Scanner scanner = new Scanner(System.in);
         Game game;
         int startingPointPassage = 0;
         int treasurePointPassage = 0;
-        if (edit == 0){
+        if (edit == 0) {
             game = GameEngine.getInstance().newGame();
         } else {
             game = GameEngine.getInstance().getGame(game_id_load);
@@ -41,7 +40,7 @@ public class TerminalLauncher {
         System.out.println("   [1] BFS");
         System.out.println("   [2] A*");
         System.out.println("\n");
-        
+
         int strategy_AI = 0;
         int strategy = 0;
         while (strategy == 0) {
@@ -54,7 +53,7 @@ public class TerminalLauncher {
                 System.out.println("\n");
                 continue;
             }
-            if (strategy_AI > 0 && strategy_AI < 3){
+            if (strategy_AI > 0 && strategy_AI < 3) {
                 strategy = 1;
             } else {
                 System.out.println("Please enter a number between 1 and 2 !");
@@ -62,32 +61,25 @@ public class TerminalLauncher {
             }
         }
 
-
         System.out.println("\n");
         System.out.print("Thank you !");
         System.out.println("\n");
-        
-        
+
         ScoreManager scoreManager = new ScoreManager();
         String legendString = legendString();
         scoreManager.setScore(0);
 
         int size_grid = game.getGrid().getSize();
-        List<String> legend = List.of("S","T","#", "@", "W", "M","P");
-        List<String> name_cases = List.of("0","1","2","3","4","5","6","7","8","9");
-        
+        List<String> legend = List.of("S", "T", "#", "@", "W", "M", "P");
+        List<String> name_cases = List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 
-        
-
-        PrintGrid.make_action(game,size_grid, legendString);
+        PrintGrid.make_action(game, size_grid, legendString);
 
         int action_player = 3;
 
         int end_action = 0;
-        
-        
 
-        while (end_action == 0){
+        while (end_action == 0) {
 
             game = GameEngine.getInstance().getGame(game.getId());
             int action = 0;
@@ -101,7 +93,7 @@ public class TerminalLauncher {
                     System.out.println("\n");
                     continue;
                 }
-                if (action_player > 0 && action_player < 7){
+                if (action_player > 0 && action_player < 7) {
                     action = 1;
                 } else {
                     System.out.println("Please enter a number between 1 and 6 !");
@@ -118,16 +110,17 @@ public class TerminalLauncher {
                     int choice = 0;
                     int choice_coord = 0;
                     String action_object = "";
-    
+
                     while (choice == 0) {
                         System.out.print("What do you want to place ? ");
                         action_object = scanner.next();
-                        if (legend.contains(action_object)){
-                            if (!(startingPointPassage == 1 && action_object.equals("S")) && !(treasurePointPassage == 1 && action_object.equals("T"))){
-                                if(action_object.equals("S")){
+                        if (legend.contains(action_object)) {
+                            if (!(startingPointPassage == 1 && action_object.equals("S"))
+                                    && !(treasurePointPassage == 1 && action_object.equals("T"))) {
+                                if (action_object.equals("S")) {
                                     startingPointPassage = 1;
                                 }
-                                if(action_object.equals("T")){
+                                if (action_object.equals("T")) {
                                     treasurePointPassage = 1;
                                 }
                                 choice = 1;
@@ -135,7 +128,7 @@ public class TerminalLauncher {
                                 System.out.print("You cannot place two treasures or two starting points...");
                                 System.out.println("\n");
                             }
-                            
+
                         }
                     }
                     String pos_object_x = "";
@@ -144,35 +137,39 @@ public class TerminalLauncher {
                         System.out.print("Where do you want to place ? ");
                         pos_object_x = scanner.next();
                         pos_object_y = scanner.next();
-                        if (name_cases.contains(pos_object_x) && name_cases.contains(pos_object_y)){
+                        if (name_cases.contains(pos_object_x) && name_cases.contains(pos_object_y)) {
                             choice_coord = 1;
                         } else {
                             System.out.print("Please choose a available tile...");
                             System.out.println("\n");
                         }
-                        
+
                     }
-                    if(action_object.equals("S")){
+                    if (action_object.equals("S")) {
                         S_x = Integer.parseInt(pos_object_x);
                         S_y = Integer.parseInt(pos_object_y);
                     }
-                    if(action_object.equals("T")){
+                    if (action_object.equals("T")) {
                         T_x = Integer.parseInt(pos_object_x);
                         T_y = Integer.parseInt(pos_object_y);
                     }
-                    if((new Coords(S_x,S_y)).equals(new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y))) && !(action_object.equals("S"))){
+                    if ((new Coords(S_x, S_y))
+                            .equals(new Coords(Integer.parseInt(pos_object_x), Integer.parseInt(pos_object_y)))
+                            && !(action_object.equals("S"))) {
                         startingPointPassage = 0;
                     }
-                    if((new Coords(T_x,T_y)).equals(new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y))) && !(action_object.equals("T"))){
+                    if ((new Coords(T_x, T_y))
+                            .equals(new Coords(Integer.parseInt(pos_object_x), Integer.parseInt(pos_object_y)))
+                            && !(action_object.equals("T"))) {
                         treasurePointPassage = 0;
                     }
-                    
-                    
-                    Coords coordTile = new Coords(Integer.parseInt(pos_object_x),Integer.parseInt(pos_object_y));
-                    GameEngine.getInstance().placeTile(game.getId(), coordTile , TerminalLauncher.getTypeObject(action_object));
+
+                    Coords coordTile = new Coords(Integer.parseInt(pos_object_x), Integer.parseInt(pos_object_y));
+                    GameEngine.getInstance().placeTile(game.getId(), coordTile,
+                            TerminalLauncher.getTypeObject(action_object));
                     game = GameEngine.getInstance().getGame(game.getId());
                     game.placementOnGrid(game.getGrid().getTile(coordTile));
-                    
+
                     PrintGrid.make_action(game, size_grid, legendString);
                     System.out.println("\n");
                     System.out.println("Coin : " + game.getMoney());
@@ -185,24 +182,26 @@ public class TerminalLauncher {
                         System.out.print("Where do you want to delete ? ");
                         pos_object_delete_x = scanner.next();
                         pos_object_delete_y = scanner.next();
-                        if (name_cases.contains(pos_object_delete_x) && name_cases.contains(pos_object_delete_y)){
+                        if (name_cases.contains(pos_object_delete_x) && name_cases.contains(pos_object_delete_y)) {
                             choice_delete = 1;
                         } else {
                             System.out.print("Please choose a case...");
                             System.out.println("\n");
                         }
                     }
-                    
-                    Coords coordTileDelete = new Coords(Integer.parseInt(pos_object_delete_x),Integer.parseInt(pos_object_delete_y));
-                    GameEngine.getInstance().placeTile(game.getId(), coordTileDelete , "empty");
+
+                    Coords coordTileDelete = new Coords(Integer.parseInt(pos_object_delete_x),
+                            Integer.parseInt(pos_object_delete_y));
+                    GameEngine.getInstance().placeTile(game.getId(), coordTileDelete, "empty");
                     game = GameEngine.getInstance().getGame(game.getId());
                     game.placementOnGrid(game.getGrid().getTile(coordTileDelete));
-                    
 
-                    if((new Coords(S_x,S_y)).equals(new Coords(Integer.parseInt(pos_object_delete_x),Integer.parseInt(pos_object_delete_y)))){
+                    if ((new Coords(S_x, S_y)).equals(
+                            new Coords(Integer.parseInt(pos_object_delete_x), Integer.parseInt(pos_object_delete_y)))) {
                         startingPointPassage = 0;
                     }
-                    if((new Coords(T_x,T_y)).equals(new Coords(Integer.parseInt(pos_object_delete_x),Integer.parseInt(pos_object_delete_y)))){
+                    if ((new Coords(T_x, T_y)).equals(
+                            new Coords(Integer.parseInt(pos_object_delete_x), Integer.parseInt(pos_object_delete_y)))) {
                         treasurePointPassage = 0;
                     }
                     PrintGrid.make_action(game, size_grid, legendString);
@@ -222,28 +221,28 @@ public class TerminalLauncher {
                     break;
                 case 4:
                     int optionLead = LeaderBoard.showLeaderBoard(scanner, DISPLAY_SIZE);
-                    if (optionLead != -1){
+                    if (optionLead != -1) {
                         game = GameEngine.getInstance().getGame(optionLead);
                         System.out.println("Your game is ready ! ");
                         System.out.println("\n");
                     }
                     break;
                 case 5:
-                    if (startingPointPassage > 0 && treasurePointPassage > 0){
-                        if (game.isSimulationReady()){
+                    if (startingPointPassage > 0 && treasurePointPassage > 0) {
+                        if (game.isSimulationReady()) {
                             end_action = 1;
-                            
+
                         } else {
                             System.out.println("At least one accessible path is needed...");
                             System.out.println("\n");
                         }
-                        
+
                     } else {
                         System.out.print("You must have a starting point and a treasure...");
                         System.out.println("\n");
                     }
-                    
-                    break; 
+
+                    break;
                 case 6:
                     System.out.print("Would you save your game ? (yes/no) ");
                     String save_game = scanner.next();
@@ -254,26 +253,27 @@ public class TerminalLauncher {
                             System.out.println("I save your game !");
                             System.out.println("\n");
                             System.out.println("\n");
-                            end_action = 1; 
+                            end_action = 1;
                         } catch (IOException e) {
                             System.err.println("Error during backup : " + e.getMessage());
                             System.out.println("\n");
                             System.out.println("\n");
                         }
                     } else {
-                        end_action = 1; 
+                        end_action = 1;
                     }
-                    break;       
+                    break;
                 default:
                     break;
-            } 
+            }
         }
 
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                ExecuteGame.execute_game(game,size_grid, new Coords(S_x,S_y), scoreManager, legendString, strategy_AI);
-                
+                ExecuteGame.execute_game(game, size_grid, new Coords(S_x, S_y), scoreManager, legendString,
+                        strategy_AI);
+
                 int action = 0;
                 int action_player_game = 1;
                 while (action == 0) {
@@ -286,7 +286,7 @@ public class TerminalLauncher {
                         System.out.println("\n");
                         continue;
                     }
-                    if (action_player_game > 0 && action_player_game < 6){
+                    if (action_player_game > 0 && action_player_game < 6) {
                         action = 1;
                     }
                 }
@@ -294,11 +294,11 @@ public class TerminalLauncher {
                 while (lead_option == 0) {
                     switch (action_player_game) {
                         case 1:
-                            gameGenerator(0,0,-1,-1,-1,-1);
+                            gameGenerator(0, 0, -1, -1, -1, -1);
                             lead_option = 1;
                             break;
                         case 2:
-                            gameGenerator(1,game.getId(), S_x,S_y,T_x,T_y);
+                            gameGenerator(1, game.getId(), S_x, S_y, T_x, T_y);
                             lead_option = 1;
                             break;
                         case 3:
@@ -313,9 +313,9 @@ public class TerminalLauncher {
                             break;
                         case 4:
                             int optionLead = LeaderBoard.showLeaderBoard(scanner, DISPLAY_SIZE);
-                            if (optionLead != -1){
+                            if (optionLead != -1) {
                                 game = GameEngine.getInstance().getGame(optionLead);
-                                gameGenerator(1,game.getId(), S_x,S_y,T_x,T_y);
+                                gameGenerator(1, game.getId(), S_x, S_y, T_x, T_y);
                                 lead_option = 1;
                             }
                             break;
@@ -335,14 +335,13 @@ public class TerminalLauncher {
                 break;
             default:
                 break;
-            
+
         }
-            
+
         scanner.close();
     }
-    
 
-    public static String getTypeObject(String action_object){
+    public static String getTypeObject(String action_object) {
         switch (action_object) {
             case "S":
                 return "startingpoint";
@@ -362,9 +361,13 @@ public class TerminalLauncher {
                 return "empty";
         }
     }
-    
-    public static String legendString(){
-        String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - " + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - " + (new WoodWall(null)).getPlacementCost() + ", W = Wall Trap - " + (new WallTrap(null)).getPlacementCost() + ", M = Mine - " + (new Mine(null)).getPlacementCost() + ", P = Poison Trap - " + (new PoisonTrap(null)).getPlacementCost();
+
+    public static String legendString() {
+        String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - "
+                + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - "
+                + (new WoodWall(null)).getPlacementCost() + ", W = Wall Trap - "
+                + (new WallTrap(null)).getPlacementCost() + ", M = Mine - " + (new Mine(null)).getPlacementCost()
+                + ", P = Poison Trap - " + (new PoisonTrap(null)).getPlacementCost();
         return legend;
     }
 }

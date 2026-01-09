@@ -16,7 +16,7 @@ public class NodeValue {
         return value;
     }
 
-    public NodeValue getParent(){
+    public NodeValue getParent() {
         return parent;
     }
 

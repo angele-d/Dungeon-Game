@@ -6,7 +6,7 @@ import dungeon.engine.Visitors.HealVisitor;
 import dungeon.engine.Visitors.HeroVisitor;
 
 public class Healer extends Hero {
-    
+
     private int health;
     private static final int PERSONAL_HEAL_PERCENTAGE = 20;
     private static final int MAX_HEALTH = 150;
@@ -20,10 +20,11 @@ public class Healer extends Hero {
     }
 
     /* --- Getters and Setters --- */
-    
+
     public int getHealth() {
         return health;
     }
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -35,8 +36,9 @@ public class Healer extends Hero {
     public boolean getActionAvailable() {
         return false;
     }
+
     public void setActionAvailable(boolean status) {
-        // Do nothing   
+        // Do nothing
     }
 
     /* --- Functions --- */
@@ -45,7 +47,7 @@ public class Healer extends Hero {
     public void applyDamage(int damage) {
         health -= damage;
         notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
-        if(health <= 0){
+        if (health <= 0) {
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }
@@ -69,10 +71,10 @@ public class Healer extends Hero {
 
         // Personal healing ability
         health = Math.min(MAX_HEALTH, health + (health * PERSONAL_HEAL_PERCENTAGE) / 100);
-        
+
         // Zone healing ability
         HealVisitor healVisitor = new HealVisitor();
-        for(Hero ally : game.getHeroSquad().getHeroes()){
+        for (Hero ally : game.getHeroSquad().getHeroes()) {
             ally.accept(healVisitor);
         }
 
@@ -80,7 +82,7 @@ public class Healer extends Hero {
     }
 
     /* --- toString --- */
-    
+
     @Override
     public String toString() {
         return "Healer";

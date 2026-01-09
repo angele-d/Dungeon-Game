@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScoreManagerTest {
-    
+
     private ScoreManager scoreManager;
     private Dragon dragon;
 
@@ -35,7 +35,7 @@ public class ScoreManagerTest {
         assertEquals(0, initialScore);
         dragon.applyDamage(200); // Assuming this will kill the dragon
         int updatedScore = scoreManager.getScore();
-        assertEquals(updatedScore,200 + 150);
+        assertEquals(updatedScore, 200 + 150);
     }
 
     @Test

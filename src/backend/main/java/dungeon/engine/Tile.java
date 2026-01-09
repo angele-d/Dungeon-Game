@@ -12,6 +12,7 @@ public abstract class Tile {
     public Coords getCoords() {
         return coords;
     }
+
     public void setCoords(Coords coords) {
         this.coords = coords;
     }

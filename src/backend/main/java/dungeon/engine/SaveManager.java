@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
 import dungeon.engine.tiles.*;
 import dungeon.engine.tiles.traps.*;
 import dungeon.engine.tiles.wall.*;
@@ -28,10 +27,11 @@ public class SaveManager {
         }
     }
 
-    
+    private record DataToSave(int id, int size, Map<Coords, NamedTiles> grid, int score, int money) {
+    }
 
-    private record DataToSave(int id, int size, Map<Coords, NamedTiles> grid, int score, int money) {}
-    private record DataToGet(int id, int size, Map<String, NamedTiles> grid, int score, int money) {}
+    private record DataToGet(int id, int size, Map<String, NamedTiles> grid, int score, int money) {
+    }
 
     static public void save(Game game) throws IOException {
 
@@ -42,8 +42,8 @@ public class SaveManager {
         int id = game.getId();
         int size = grid.SIZE;
 
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 Coords coords = new Coords(i, j);
                 Tile tile = grid.getTile(coords);
                 detailedGrid.put(coords, new NamedTiles(tile));
@@ -64,12 +64,12 @@ public class SaveManager {
 
     static public void load(Game game, String filename) throws IOException {
         Path dir = Path.of("saves");
-        if(!Files.exists(dir)) {
+        if (!Files.exists(dir)) {
             return;
         }
 
-        Path save =  dir.resolve(filename);
-        if(!save.toFile().exists()) {
+        Path save = dir.resolve(filename);
+        if (!save.toFile().exists()) {
             return;
         }
 
@@ -79,7 +79,6 @@ public class SaveManager {
         DataToGet data = gson.fromJson(json, DataToGet.class);
 
         Map<String, NamedTiles> gridString = data.grid;
-
 
         int id = data.id;
         int SIZE = data.size;
@@ -94,12 +93,11 @@ public class SaveManager {
                 "StoneWall", StoneWall::new,
                 "Mine", Mine::new,
                 "PoisonTrap", PoisonTrap::new,
-                "WallTrap", WallTrap::new
-        );
+                "WallTrap", WallTrap::new);
 
         Grid grid = new Grid();
-        for(int i = 0; i < SIZE; i++) {
-            for(int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 Coords coords = new Coords(i, j);
                 grid.setTile(tileRegistry.get(gridString.get(coords.toString()).getType()).apply(coords));
             }
@@ -110,11 +108,10 @@ public class SaveManager {
         game.setMoney(money);
         game.setId(id);
 
-
-
     }
 
-    // List all files in the "saves" directory (file names only). Returns an empty list if the directory doesn't exist.
+    // List all files in the "saves" directory (file names only). Returns an empty
+    // list if the directory doesn't exist.
     public static java.util.List<String> listSaveFiles() {
         Path dir = Path.of("saves");
         if (!Files.exists(dir) || !Files.isDirectory(dir)) {
@@ -127,10 +124,9 @@ public class SaveManager {
                     .sorted()
                     .toList();
         } catch (IOException e) {
-//            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
             System.out.println(e.getMessage());
         }
         return null;
     }
 }
-

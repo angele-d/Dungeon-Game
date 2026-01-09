@@ -10,7 +10,7 @@ public abstract class Trap extends Tile {
 
     /* --- Constructor --- */
 
-    public Trap(Coords coords,int damage,int areaRadius) {
+    public Trap(Coords coords, int damage, int areaRadius) {
         super(coords);
         this.damage = damage;
         this.areaRadius = areaRadius;
@@ -21,6 +21,7 @@ public abstract class Trap extends Tile {
     public int getDamage() {
         return damage;
     }
+
     public void setDamage(int damage) {
         this.damage = damage;
     }
@@ -28,6 +29,7 @@ public abstract class Trap extends Tile {
     public int getAreaRadius() {
         return areaRadius;
     }
+
     public void setAreaRadius(int areaRadius) {
         this.areaRadius = areaRadius;
     }
@@ -35,6 +37,7 @@ public abstract class Trap extends Tile {
     public Coords getTrapCoords() {
         return this.getCoords();
     }
+
     public void setTrapCoords(Coords coords) {
         this.setCoords(coords);
     }

@@ -43,13 +43,12 @@ class SaveManagerTest {
         tile = new WoodWall(coords);
         game.placementOnGrid(tile);
 
-
         SaveManager.save(game);
 
         Game game2 = new Game();
         SaveManager.load(game2, "save1.json");
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 coords = new Coords(i, j);
                 assertEquals(game.getGrid().getTile(coords).getClass(), game2.getGrid().getTile(coords).getClass());
             }

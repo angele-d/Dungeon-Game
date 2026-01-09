@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests sans framework de mocking pour vérifier le changement dynamique de stratégie d'un héros.
+ * Tests sans framework de mocking pour vérifier le changement dynamique de
+ * stratégie d'un héros.
  * On utilise des "stubs" de Strategy pour contrôler le déplacement retourné.
  */
 class HeroStrategySwitchTest {
@@ -72,9 +73,12 @@ class HeroStrategySwitchTest {
         Coords resDown = hero.move(game);
         assertEquals(new Coords(3, 4), resDown, "Le déplacement avec la stratégie 'Down' doit renvoyer (3,4)");
 
-        // Intégrité: ni la position interne, ni la vie ne doivent être modifiées par le simple choix de stratégie
-        // (Le déplacement effectif est appliqué par Game.doMovement dans la boucle de tour, pas par Hero.move)
-        assertEquals(new Coords(3, 3), hero.getCoords(), "Le héros ne doit pas changer de position tant que Game.doMovement n'est pas appelé");
+        // Intégrité: ni la position interne, ni la vie ne doivent être modifiées par le
+        // simple choix de stratégie
+        // (Le déplacement effectif est appliqué par Game.doMovement dans la boucle de
+        // tour, pas par Hero.move)
+        assertEquals(new Coords(3, 3), hero.getCoords(),
+                "Le héros ne doit pas changer de position tant que Game.doMovement n'est pas appelé");
         assertEquals(hero.getMaxHealth(), hero.getHealth(), "Changer de stratégie ne doit pas impacter les PV");
     }
 }

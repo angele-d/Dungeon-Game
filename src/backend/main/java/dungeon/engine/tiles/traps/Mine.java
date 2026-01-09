@@ -17,17 +17,17 @@ public class Mine extends Trap {
         super(coords, 50, 2);
     }
 
-    public Mine(Coords coords,int damage,int areaRadius) {
+    public Mine(Coords coords, int damage, int areaRadius) {
         super(coords, damage, areaRadius);
     }
 
     /* --- Getters and Setters --- */
 
-    public int getAstarValue(){
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    public int getPlacementCost(){
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 
@@ -35,7 +35,8 @@ public class Mine extends Trap {
 
     @Override
     public void activateTrap(Game game) {
-        AreaDamageVisitor areaDamageVisitor = new AreaDamageVisitor(this.getCoords(), this.getDamage(), this.getAreaRadius());
+        AreaDamageVisitor areaDamageVisitor = new AreaDamageVisitor(this.getCoords(), this.getDamage(),
+                this.getAreaRadius());
         for (Hero hero : game.getHeroSquad().getHeroes()) {
             hero.accept(areaDamageVisitor);
         }

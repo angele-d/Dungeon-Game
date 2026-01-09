@@ -1,10 +1,9 @@
 package dungeon.engine;
 
-public record GameResult (
-    int score,
-    int gameId,
-    int money
-) {
+public record GameResult(
+        int score,
+        int gameId,
+        int money) {
 
     /* --- Getters --- */
 
@@ -26,11 +25,11 @@ public record GameResult (
 
     @Override
     public String toString() {
-        return String.valueOf(score)+" "+String.valueOf(gameId)+" "+String.valueOf(money);
+        return String.valueOf(score) + " " + String.valueOf(gameId) + " " + String.valueOf(money);
     }
 
     public String serialized() {
-        return "["+String.valueOf(score)+","+String.valueOf(gameId)+","+String.valueOf(money)+"]";
+        return "[" + String.valueOf(score) + "," + String.valueOf(gameId) + "," + String.valueOf(money) + "]";
     }
 
 }

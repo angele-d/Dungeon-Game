@@ -23,18 +23,19 @@ public class Astar {
 
     /* --- Functions --- */
 
-    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
-        if(heroSquad == null) return false;
+    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad) {
+        if (heroSquad == null)
+            return false;
 
         // Heroes can be more than one in Treasure and StartingPoint tiles
-        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+        if (grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint) {
             return false;
         }
 
-        for(Hero hero : heroSquad.getHeroes()){
-            if(hero.getCoords().equals(neighbor)){
+        for (Hero hero : heroSquad.getHeroes()) {
+            if (hero.getCoords().equals(neighbor)) {
                 // Check if the hero is alive
-                if(hero.getHealth() > 0)
+                if (hero.getHealth() > 0)
                     return true;
             }
         }
@@ -42,24 +43,23 @@ public class Astar {
         return false;
     }
 
-    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad){
+    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad) {
         // Check if a wall is there
-        if (grid.getTile(neighbor) instanceof Wall){
+        if (grid.getTile(neighbor) instanceof Wall) {
             return false;
         }
         // Check if an other hero is there
-        if(isOccupied(neighbor, heroSquad)){
+        if (isOccupied(neighbor, heroSquad)) {
             return false;
         }
-        
+
         return true;
     }
 
     public Coords search(Coords start, HeroSquad heroSquad) {
 
         PriorityQueue<NodeValue> openList = new PriorityQueue<>(
-            Comparator.comparingInt(NodeValue::getValue)
-        );
+                Comparator.comparingInt(NodeValue::getValue));
 
         Map<Coords, Integer> bestCost = new HashMap<>();
 
@@ -86,10 +86,10 @@ public class Astar {
                 }
 
                 int newCost = currentValue.getValue()
-                            + grid.getTile(neighbor).getAstarValue();
+                        + grid.getTile(neighbor).getAstarValue();
 
                 if (bestCost.containsKey(neighbor)
-                    && newCost >= bestCost.get(neighbor)) {
+                        && newCost >= bestCost.get(neighbor)) {
                     continue;
                 }
 
@@ -105,8 +105,7 @@ public class Astar {
         return start;
     }
 
-
-    public Coords treasureFound(NodeValue curr){
+    public Coords treasureFound(NodeValue curr) {
         while (curr.getParent() != null && curr.getParent().getParent() != null) {
             curr = curr.getParent();
         }
@@ -118,6 +117,6 @@ public class Astar {
     @Override
     public String toString() {
         return "Astar";
-    }        
-       
+    }
+
 }
