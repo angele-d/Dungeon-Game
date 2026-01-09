@@ -116,7 +116,9 @@
 | **WEB-09** | Web | Affichage du leaderboard | K. Bui | Moyenne |
 | **WEB-10** | Web | Affichage du score | K. Bui | Moyenne |
 | **WEB-11** | Web | Empêcher de modifier la position du trésor et du point de départ | K. Bui | Faible |
+| **WEB-12** | Web | Page d'accueil | A. Denys | Faible |
 | **CLI-07** | CLI | Gestion des vagues | E. Girres | Moyenne |
+| **CLI-08** | CLI | Nommage des héros | E. Girres | Moyenne |
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
 | **CORR-03** | Correctif | Correction affichage des héros dans le WEB | K. Bui | **Critique** |
 | **CORR-04** | Correctif | Correction Hero non affiché | P. Musial | Moyenne |
