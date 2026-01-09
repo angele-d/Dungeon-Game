@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dungeon Crawler - Home Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ca2ed",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0b1216",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .radial-grid {
+            background-image: radial-gradient(circle at 50% 50%, rgba(12, 162, 237, 0.05) 0%, transparent 80%),
+                              linear-gradient(rgba(20, 30, 40, 0.2) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(20, 30, 40, 0.2) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(12, 162, 237, 0.4);
+        }
+        .glow-btn {
+            box-shadow: 0 0 15px rgba(12, 162, 237, 0.3);
+            transition: all 0.3s ease;
+        }
+        .glow-btn:hover {
+            box-shadow: 0 0 25px rgba(12, 162, 237, 0.5);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen relative overflow-hidden selection:bg-primary selection:text-white">
+<!-- Decorative Floating Elements -->
+<div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+<div class="absolute top-20 left-[10%] text-primary/40 text-4xl material-symbols-outlined">auto_awesome</div>
+<div class="absolute bottom-40 right-[15%] text-primary/30 text-6xl material-symbols-outlined">deployed_code</div>
+<div class="absolute top-1/2 left-10 text-primary/20 text-3xl material-symbols-outlined">hexagon</div>
+<div class="absolute bottom-20 left-1/4 text-primary/40 text-2xl material-symbols-outlined">grid_view</div>
+<div class="absolute top-40 right-20 text-primary/50 text-5xl material-symbols-outlined">hub</div>
+</div>
+<!-- Main Content Container -->
+<div class="relative z-10 radial-grid min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="w-full px-8 py-6 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 group cursor-pointer">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="font-display font-bold tracking-widest text-lg uppercase dark:text-white">Dungeon Crawler</span>
+</div>
+</div>
+<div class="flex items-center gap-8 font-bold uppercase dark:text-white text-slate-900">
+Created by: K. Bui, A. Denys, E. Girres, P. Musial
+</div>
+</header>
+<!-- Hero Section -->
+<main class="flex-1 flex flex-col items-center justify-center px-4 -mt-20">
+<div class="text-center max-w-4xl">
+<div class="mb-2 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Servers Online</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-bold tracking-tighter dark:text-white mb-8 glow-text">
+                    DUNGEON<br/>CRAWLER
+                </h1>
+<p class="text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-12 text-lg font-light leading-relaxed">
+                    Navigate the digital abyss. Confront ancient protocols. Secure the mainframe or vanish into the data stream.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<a href="game.html"
+   class="glow-btn group relative flex min-w-[240px] items-center justify-center overflow-hidden rounded-lg h-14 px-8 bg-primary text-white text-lg font-bold tracking-widest uppercase transition-all">
+  <span class="relative z-10 flex items-center gap-3">
+    Enter the Dungeon
+    <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">bolt</span>
+  </span>
+</a>
+<a href="leaderboard.html"
+   class="flex min-w-[240px] items-center justify-center rounded-lg h-14 px-8 bg-transparent border-2 border-slate-300 dark:border-white/10 hover:border-primary/50 text-slate-700 dark:text-white text-lg font-bold tracking-widest uppercase transition-all">
+  <span class="flex items-center gap-3">
+    Hall of Fame
+    <span class="material-symbols-outlined text-xl">military_tech</span>
+  </span>
+</a>
+</div>
+</div>
+</main>
+</div>
+</body></html>
