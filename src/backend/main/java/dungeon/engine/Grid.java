@@ -17,6 +17,10 @@ public class Grid {
         this(1);
     }
 
+    public Grid(Grid grid) {
+        this.grid = Map.copyOf(grid.getGrid());
+    }
+
     public Grid(int seed) {
         this.grid = new HashMap<>();
         Random generator = new Random(seed);
@@ -97,10 +101,7 @@ public class Grid {
     }
 
     public Grid clone() {
-        Grid newGrid = new Grid();
-        for (Map.Entry<Coords, Tile> entry : this.grid.entrySet()) {
-            newGrid.setTile(entry.getValue());
-        }
+        Grid newGrid = new Grid(this);
         return newGrid;
     }
 
