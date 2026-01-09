@@ -604,3 +604,33 @@ Correction de quelques mauvaises utilisations de méthodes
 
 ### Remarques
 Le résultat était bien pertinent avec les bons contextes pour l'ordre d'appel.
+
+---
+
+## Interaction 7
+
+### Contexte
+
+Ajout d'une page d'accueil pour le site web
+
+### Prompt
+
+```txt
+Peux tu me créer une page d'accueil me permettant d'accéder à la partie ou au leaderboard, avec la même DA que ce code source que je te fournis
+```
+
+### Réponse IA
+
+Le code source HTML/CSS/JS généré en 1 fichier:
+Voir dans `src/frontend/landing_page.html`
+
+### Décision
+
+**Modifié:**
+- Retirer le footer
+- Modifier la partie droite du header pour y décrire les noms des collaborateurs au lieu de la navigation
+- Retirer une div inutile
+
+### Remarques
+
+L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Quelques modifications ont permis d'avoir un résultat plus satisfaisant, notamment au sujet des boutons à implémenter.

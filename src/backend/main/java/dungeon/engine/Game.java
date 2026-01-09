@@ -359,7 +359,7 @@ public class Game {
         for (Hero hero : heroSquad.getHeroes()) {
 
             // Notify hero turn listeners for WallTrap
-            ArrayList<HeroTurnListener> heroTurnListenerCopy = new ArrayList(heroTurnListeners);
+            ArrayList<HeroTurnListener> heroTurnListenerCopy = new ArrayList<HeroTurnListener>(heroTurnListeners);
             for (HeroTurnListener listener : heroTurnListenerCopy) {
                 listener.onNewTurn(this);
             }
@@ -376,7 +376,7 @@ public class Game {
         }
 
         // Notify fire turn listeners for WoodWall
-        ArrayList<FireTurnListener> fireTurnListenerCopy = new ArrayList(fireTurnListeners);
+        ArrayList<FireTurnListener> fireTurnListenerCopy = new ArrayList<FireTurnListener>(fireTurnListeners);
         for (FireTurnListener listener : fireTurnListenerCopy) {
             listener.onNewTurn(this);
         }

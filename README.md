@@ -75,19 +75,16 @@ Le serveur démarrera sur `http://localhost:8080`
 
 ### Accès à l'Interface Web
 
-Ouvrez votre navigateur et accédez à :
-```
-file:///chemin/vers/grp05/src/frontend/game.html
-```
+Par défaut, le serveur écoute les requêtes sur le port `5500`. Pour une configuration locale, lancer le serveur http à l'adresse suivante:
 
-**OU**
-
-utilisez un serveur HTTP local :
-```bash
-cd src/frontend
-python3 -m http.server 8000
+Le chemin vers la page d'accueil est :
 ```
-Puis accédez à : `http://localhost:8000/game.html`
+127.0.0.1:5500/src/frontend/landing_page.html
+```
+L'adresse complète est donc :
+```
+http://localhost:5500/src/frontend/landing_page.html
+```
 
 ---
 
