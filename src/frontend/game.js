@@ -64,10 +64,13 @@ function selectionPossible(elt) {
     return;
   }
 
+  console.log(elt.classList);
   if (
     (Array.from(elt.classList).indexOf("empty") == -1 &&
       selectedElement != "eraser") ||
-    (Array.from(elt.classList).indexOf("empty") != -1 &&
+    ((Array.from(elt.classList).indexOf("empty") != -1 ||
+      Array.from(elt.classList).indexOf("startingpoint") == -1 ||
+      Array.from(elt.classList).indexOf("treasure") == -1) &&
       selectedElement == "eraser") ||
     !canAfford(config[selectedElement]) ||
     (selectedElement == "treasure" && window.treasurePlaced) ||

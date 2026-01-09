@@ -137,6 +137,11 @@ body.dark {
   color: rgb(19 164 236 / var(--tw-text-opacity, 1));
 }
 
+#treasure,
+#startingpoint {
+  pointer-events: none;
+}
+
 .cell span,
 .grid-cell span {
   -webkit-touch-callout: none; /* iOS Safari */
