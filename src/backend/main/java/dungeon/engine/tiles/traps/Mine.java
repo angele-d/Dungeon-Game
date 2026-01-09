@@ -15,7 +15,7 @@ public class Mine extends Trap {
 /* --- Constructor --- */
 
     public Mine(Coords coords) {
-        super(coords, 50, 2);
+        super(coords, 500000000, 2);
     }
 
     public Mine(Coords coords, int damage, int areaRadius) {

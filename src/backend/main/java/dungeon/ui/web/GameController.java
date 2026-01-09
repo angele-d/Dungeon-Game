@@ -109,6 +109,16 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    @MessageMapping("/is_wave_terminated")
+    public void isWaveTerminated(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isWaveTerminated(Integer.parseInt(id))));
+
+        String destination = "/topic/wave_terminated/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
     @MessageMapping("/is_game_terminated")
     public void isGameTerminated(Map<String, String> payload) {
         String id = payload.get("id");
@@ -125,6 +135,16 @@ public class GameController {
         Map<String, String> result = GameEngine.getInstance().getLeaderBoardString();
 
         String destination = "/topic/leaderboard/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    @MessageMapping("next_wave")
+    public void nextWave(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
+
+        String destination = "/topic/game_terminated/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 }
