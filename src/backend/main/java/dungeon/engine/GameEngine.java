@@ -297,15 +297,16 @@ public class GameEngine {
         if (game != null) {
             boolean terminated = game.isGameTerminated();
             if (terminated) {
+                GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
+                leaderboard.addResults(gameResult);
+                updateLeaderboard();
+
                 try {
                     SaveManager.save(game);
                 } catch (IOException e) {
                     System.out.println("Failed to save game" + String.valueOf(gameId));
                 }
             }
-            GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
-            leaderboard.addResults(gameResult);
-            updateLeaderboard();
             return terminated;
         }
         // Game not found

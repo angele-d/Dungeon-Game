@@ -35,9 +35,8 @@ function onConnect(stompClient, frame) {
       } else {
         parsedLeaderboard = [];
       }
-      parsedLeaderboard
-        .sort((score, id, remaining) => parseInt(score))
-        .reverse();
+      parsedLeaderboard.sort((a, b) => parseInt(b[0]) - parseInt(a[0]));
+      console.log(parsedLeaderboard);
       updateLeaderboard(parsedLeaderboard);
     });
     sendGetLeaderboard(stompClient);
