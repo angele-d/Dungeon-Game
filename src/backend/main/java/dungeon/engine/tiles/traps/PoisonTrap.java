@@ -1,6 +1,7 @@
 package dungeon.engine.tiles.traps;
 
 import dungeon.engine.tiles.Trap;
+import dungeon.engine.tiles.Empty;
 import dungeon.engine.Coords;
 import dungeon.engine.Game;
 import dungeon.engine.Visitors.AreaDamageVisitor;
@@ -44,6 +45,10 @@ public class PoisonTrap extends Trap {
             // Apply poison status effect
             hero.accept(poisonVisitor);
         }
+
+        // Remove the poison trap from the game grid after activation
+        Empty emptyTile = new Empty(this.getCoords());
+        game.getGrid().setTile(emptyTile);
     }
 
     /* --- ToString --- */

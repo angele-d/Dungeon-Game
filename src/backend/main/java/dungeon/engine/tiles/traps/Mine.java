@@ -3,6 +3,7 @@ package dungeon.engine.tiles.traps;
 import dungeon.engine.Coords;
 import dungeon.engine.Visitors.AreaDamageVisitor;
 import dungeon.engine.tiles.Trap;
+import dungeon.engine.tiles.Empty;
 import dungeon.engine.Game;
 import dungeon.engine.Hero;
 
@@ -39,6 +40,10 @@ public class Mine extends Trap {
         for (Hero hero : game.getHeroSquad().getHeroes()) {
             hero.accept(areaDamageVisitor);
         }
+
+        // Remove the mine from the game grid after activation
+        Empty emptyTile = new Empty(this.getCoords());
+        game.getGrid().setTile(emptyTile);
     }
 
     /* --- ToString --- */

@@ -34,6 +34,8 @@ public class WallTrap extends Trap implements HeroTurnListener {
     @Override
     public void activateTrap(Game game){
         game.addHeroTurnListener(this);
+
+        // WallTrap already changed into StoneWall on onNewTurn
     }
 
     @Override
