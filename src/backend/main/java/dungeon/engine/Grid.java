@@ -18,7 +18,7 @@ public class Grid {
     }
 
     public Grid(Grid grid) {
-        this.grid = Map.copyOf(grid.getGrid());
+        this.grid = new HashMap<Coords, Tile>(grid.getGrid());
     }
 
     public Grid(int seed) {
@@ -38,6 +38,16 @@ public class Grid {
                 }
             }
         }
+    }
+
+    public static Grid emptyGrid() {
+        Grid grid = new Grid(1);
+        for (int x = 0; x < grid.getSize(); x++) {
+            for (int y = 0; y < grid.getSize(); y++) {
+                grid.setTile(new Empty(new Coords(x, y)));
+            }
+        }
+        return grid;
     }
 
     // @Override
