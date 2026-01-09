@@ -63,7 +63,6 @@ public class GameEngine {
         if (games.containsKey(gameId)) {
             game = games.get(gameId);
             game.nextWave();
-
             return game;
         } else {
             throw new Exception("Game doesn't exist");
@@ -77,6 +76,7 @@ public class GameEngine {
         result.put("heroes", game.getHeroSquad().serialized().toString());
         result.put("money", Integer.toString(game.getMoney()));
         result.put("score", Integer.toString(game.getScore()));
+        result.put("wave", Integer.toString(game.getWave()));
         return result;
     }
 
@@ -221,7 +221,7 @@ public class GameEngine {
     public boolean isGameTerminated(int gameId) {
         Game game = games.get(gameId);
         if (game != null) {
-            boolean terminated = game.isTerminated();
+            boolean terminated = game.isGameTerminated();
             if (terminated) {
                 try {
                     SaveManager.save(game);
@@ -233,6 +233,22 @@ public class GameEngine {
             leaderboard.addResults(gameResult);
             updateLeaderboard();
             return terminated;
+        }
+        // Game not found
+        return false;
+    }
+
+    public boolean isWaveTerminated(int gameId) {
+        Game game = games.get(gameId);
+        if (game != null) {
+            boolean terminated = game.isWaveTerminated();
+            if (terminated) {
+                try {
+                    nextWave(game.getId());
+                } catch (Exception e) {
+                    System.out.println("Failed to go next wave" + String.valueOf(gameId));
+                }
+            }
         }
         // Game not found
         return false;
