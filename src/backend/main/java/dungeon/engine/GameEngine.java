@@ -245,6 +245,7 @@ public class GameEngine {
             if (terminated) {
                 try {
                     nextWave(game.getId());
+                    return true;
                 } catch (Exception e) {
                     System.out.println("Failed to go next wave" + String.valueOf(gameId));
                 }
