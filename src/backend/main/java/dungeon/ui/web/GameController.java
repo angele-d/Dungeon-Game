@@ -129,6 +129,15 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    @MessageMapping("/is_simulation_running")
+    public void isSimulationRunning(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isSimulationRunning(Integer.parseInt(id))));
+        String destination = "/topic/is_simulation_running/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
     @MessageMapping("/get_leaderboard")
     public void getLeaderBoard(Map<String, String> payload) {
         String id = payload.get("id");

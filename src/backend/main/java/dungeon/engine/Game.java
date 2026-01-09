@@ -25,6 +25,7 @@ public class Game {
     private int wave;
     private int seed;
     private Strategy strategy;
+    private boolean simulationRunning;
 
 /* --- Constructor --- */
 
@@ -129,6 +130,14 @@ public class Game {
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
         heroSquad.setStrategy(strategy);
+    }
+
+    /**
+     * Returns if the simulation is currently running
+     * @return bool
+     */
+    public boolean isSimulationRunning() {
+        return isSimulationRunning();
     }
 
     /** 
@@ -259,6 +268,7 @@ public class Game {
         this.scoreManager = new ScoreManager();
         this.heroSquad = generateNewSquad();
         this.turn = 0;
+        this.simulationRunning = true;
     }
 
     /** 
@@ -311,6 +321,7 @@ public class Game {
      */
     public void endSimulation() {
         this.grid = blueprint.clone();
+        this.simulationRunning = false;
     }
 
     /** 
