@@ -19,6 +19,7 @@
 | CLI      | Interface Terminal (CLI) |
 | CORR     | Corrections        |
 | CLEAN    | Nettoyage de code  |
+| VIDEO    | Vidéo de présentation |
 
 ## Historique des Tâches Terminées
 
@@ -116,7 +117,9 @@
 | **WEB-09** | Web | Affichage du leaderboard | K. Bui | Moyenne |
 | **WEB-10** | Web | Affichage du score | K. Bui | Moyenne |
 | **WEB-11** | Web | Empêcher de modifier la position du trésor et du point de départ | K. Bui | Faible |
+| **WEB-12** | Web | Page d'accueil | A. Denys | Faible |
 | **CLI-07** | CLI | Gestion des vagues | E. Girres | Moyenne |
+| **CLI-08** | CLI | Nommage des héros | E. Girres | Moyenne |
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
 | **CORR-03** | Correctif | Correction affichage des héros dans le WEB | K. Bui | **Critique** |
 | **CORR-04** | Correctif | Correction Hero non affiché | P. Musial | Moyenne |
@@ -124,3 +127,4 @@
 | **CORR-06** | Correctif | Leaderboard dans terminal | P. Musial & E. Girres | Moyenne |
 | **CORR-07** | Correctif | Modifie les dégâts, money.. | A. Denys | Moyenne |
 | **CLEAN-01** | Nettoyage | Nettoyage du code | Toute l'équipe | Moyenne |
+| **VIDEO-01** | Vidéo | Enregistrement des parties | Toute l'équipe | **Haute** |
