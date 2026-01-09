@@ -129,6 +129,12 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    @MessageMapping("/endGame")
+    public void endGame(Map<String, String> payload) {
+        String id = payload.get("id");
+        GameEngine.getInstance().isGameTerminated(Integer.parseInt(id));
+    }
+
     @MessageMapping("/get_leaderboard")
     public void getLeaderBoard(Map<String, String> payload) {
         String id = payload.get("id");
