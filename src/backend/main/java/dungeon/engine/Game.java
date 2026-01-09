@@ -289,8 +289,6 @@ public class Game {
     }
 
     public boolean isWaveTerminated() {
-        Tile treasure = getTreasure();
-
         // We need to verify if everyone is dead
         for (Hero hero : heroSquad.getHeroes()) {
             if (hero.getHealth() > 0) {
