@@ -8,10 +8,11 @@ import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
-    private int id; //TODO: implement unique ID generation
+    private int id;
     private Grid grid;
     private Grid blueprint;
     private HeroSquad heroSquad;
@@ -19,7 +20,21 @@ public class Game {
     private int turn;
     private ArrayList<TurnListener> turnListeners;
     private ScoreManager scoreManager;
+    private int wave;
+    private int seed;
     /* --- Constructor --- */
+
+    public Game(int id, int seed) {
+        this.grid = new Grid(getId());
+        this.blueprint = grid.clone();
+        this.id = id;
+        this.heroSquad = new HeroSquad();
+        this.money = 500;
+        this.turn = 0;
+        this.turnListeners = new ArrayList<TurnListener>();
+        this.scoreManager = new ScoreManager();
+        this.seed = seed;
+    }
 
     public Game(int id) {
         this.grid = new Grid(getId());
@@ -30,6 +45,7 @@ public class Game {
         this.turn = 0;
         this.turnListeners = new ArrayList<TurnListener>();
         this.scoreManager = new ScoreManager();
+        this.seed = id;
     }
 
     public Game() {
@@ -44,24 +60,6 @@ public class Game {
     }
 
     /* --- Getters and Setters --- */
-
-    private Tile getTreasure() {
-        for (Coords coords: grid.getGrid().keySet()) {
-            if (grid.getTile(coords) instanceof Treasure) {
-                return grid.getTile(coords);
-            }
-        }
-        return null;
-    }
-
-    private Tile getStartingPoint() {
-        for (Coords coords: grid.getGrid().keySet()) {
-            if (grid.getTile(coords) instanceof StartingPoint) {
-                return grid.getTile(coords);
-            }
-        }
-        return null;
-    }
 
     public void addTurnListener(TurnListener turnListener) {
         this.turnListeners.add(turnListener);
@@ -83,6 +81,18 @@ public class Game {
 
     public int getId() {
         return id;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    private Tile getTreasure() {
+        return grid.getTreasure();
+    }
+
+    private Tile getStartingPoint() {
+        return grid.getStartingPoint();
     }
 
     public HeroSquad getHeroSquad() {
@@ -117,11 +127,28 @@ public class Game {
 
     public void startSimulation() {
         blueprint = grid.clone();
+        Random randomGenerator = new Random(this.seed*this.wave);
         HeroSquad.Builder builder = new HeroSquad.Builder();
-        builder.addHero(new Dwarf())
-                .addHero(new Healer())
-                .addHero(new Tank())
-                .addHero(new TheMemeMaker());
+        for (int i = 0; i < wave+1; i++) {
+            Hero randomHero;
+            //TODO à compléter
+            switch (randomGenerator.nextInt(3)) {
+                case 0:
+                    randomHero = new Tank();
+                    break;
+                case 1:
+                    randomHero = new Tank();
+                    break;
+                case 2:
+                    randomHero = new Tank();
+                    break;
+                default:
+                    randomHero = new Tank();
+                    break;
+            }
+            builder.addHero(randomHero);
+        }
+
         this.heroSquad = builder.build();
         Tile startingPoint = getStartingPoint();
         for (Hero hero : heroSquad.getHeroes()) {
@@ -130,6 +157,10 @@ public class Game {
         this.scoreManager = new ScoreManager();
         this.money = 500;
         this.turn = 0;
+    }
+
+    public void nextWave() {
+        wave += 1;
     }
 
     public void endSimulation(){

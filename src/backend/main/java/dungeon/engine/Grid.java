@@ -23,7 +23,7 @@ public class Grid {
         Random generator = new Random(seed);
         Coords treasure = new Coords(generator.nextInt(SIZE), generator.nextInt(SIZE));
         Coords startPosition = new Coords(generator.nextInt(SIZE), generator.nextInt(SIZE));
-        while (startPosition.equals(grid.get(treasure))) {
+        while (Math.abs(startPosition.x() - treasure.x()) < 2 || Math.abs(startPosition.y() - treasure.y()) < 2) {
             startPosition = new Coords(generator.nextInt(SIZE), generator.nextInt(SIZE));
         }
         grid.put(treasure, new Treasure(treasure));
@@ -45,6 +45,24 @@ public class Grid {
 
     public Tile getTile(Coords coords) {
         return this.grid.get(coords);
+    }
+
+    public Tile getTreasure() {
+        for (Coords coords: grid.keySet()) {
+            if (getTile(coords) instanceof Treasure) {
+                return getTile(coords);
+            }
+        }
+        return null;
+    }
+
+    public Tile getStartingPoint() {
+        for (Coords coords: getGrid().keySet()) {
+            if (getTile(coords) instanceof StartingPoint) {
+                return getTile(coords);
+            }
+        }
+        return null;
     }
 
     public void setTile(Tile tile) {

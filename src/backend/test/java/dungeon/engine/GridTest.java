@@ -1,11 +1,10 @@
 package dungeon.engine;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GridTest {
     
@@ -68,6 +67,20 @@ public class GridTest {
         }
         assertTrue(startPositionFound);
         assertTrue(treasureFound);
+    }
+
+    @Test
+    void testDifferentGridSameSeed() {
+        Grid oldGrid = new Grid(1);
+        Tile oldTreasure = oldGrid.getTreasure();
+        Tile oldStartingPoint = oldGrid.getStartingPoint();
+
+        Grid newGrid = new Grid(1);
+        Tile newTreasure = newGrid.getTreasure();
+        Tile newStartingPoint = newGrid.getStartingPoint();
+
+        assertEquals(oldTreasure.getCoords(), newTreasure.getCoords());
+        assertEquals(oldStartingPoint.getCoords(), newStartingPoint.getCoords());
     }
 
     @Test

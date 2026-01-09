@@ -56,6 +56,18 @@ public class GameEngine {
         return game;
     }
 
+    public Game nextWave(Integer gameId) throws Exception {
+        Game game;
+        if (games.containsKey(gameId)) {
+            game = games.get(gameId);
+            game.nextWave();
+
+            return game;
+        } else {
+            throw new Exception("Game doesn't exist");
+        }
+    }
+
     public Map<String, String> getGameStats(int gameId) {
         Map<String, String> result = new HashMap<String, String>();
         Game game = games.get(gameId);
