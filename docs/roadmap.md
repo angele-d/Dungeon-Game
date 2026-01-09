@@ -27,7 +27,6 @@
 
 | ID | Catégorie | Description de la Tâche | Assigné à | Priorité |
 | :--- | :--- | :--- | :--- | :---: |
-
 | **DOC-01** | Doc | Rédaction du Cahier des Charges initial | A. Denys | **Haute** |
 | **DOC-02** | Doc | Création du Diagramme de Classe initial | E. Girres | Moyenne |
 | **DOC-03** | Doc | Git Conventions | P. Musial | Moyenne |
@@ -110,6 +109,7 @@
 | **TECH-15** | Tech | Génération automatique de la grille | P. Musial | Moyenne |
 | **DOC-05** | Doc | Rédaction de la ROADMAP | A. Denys | Moyenne |
 | **DOC-06** | Doc | Création des diagrammes de séquence | A. Denys | **Haute** |
+| **DOC-07** | Doc | Rédaction du README | A. Denys | **Critique** |
 | **WEB-09** | Web | Affichage du leaderboard | K. Bui | Moyenne |
 | **WEB-10** | Web | Affichage du score | K. Bui | Moyenne |
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
