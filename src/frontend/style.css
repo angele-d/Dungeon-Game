@@ -13,6 +13,12 @@
   background: #325567;
 }
 
+#score-display {
+  display: inline-block;
+  min-width: 10vw;
+  text-align: center;
+}
+
 .grid-cell {
   background-color: #192b33;
   transition: all 0.2s ease;

@@ -300,4 +300,8 @@ function updateHeroes(heroesData) {
   });
 }
 
-export { updateGrid, updateHeroes };
+function updateScore(score) {
+  document.querySelector("#score-display").textContent = score;
+}
+
+export { updateGrid, updateHeroes, updateScore };
