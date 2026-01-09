@@ -15,7 +15,7 @@ public class GameTest {
     @Test
     void testGameInitialization() {
         Game game = new Game();
-        assertEquals(500, game.getMoney());    
+        assertEquals(Game.INITIAL_MONEY, game.getMoney());    
     }
 
     @Test
@@ -59,7 +59,7 @@ public class GameTest {
         game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
         game.getGrid().setTile(new Treasure(new Coords(1, 1)));
         game.startSimulation();
-        assertEquals(470, game.getMoney()); // Money persists through simulation start
+        assertEquals(Game.INITIAL_MONEY - 30, game.getMoney()); // Money persists through simulation start
         assertEquals(0, game.getScore()); // Score resets
         assertEquals(0, game.getTurn()); // Turn resets
     }

@@ -122,4 +122,5 @@
 | **CORR-04** | Correctif | Correction Hero non affiché | P. Musial | Moyenne |
 | **CORR-05** | Correctif | Correction score dans Terminal | E. Girres | Moyenne |
 | **CORR-06** | Correctif | Leaderboard dans terminal | P. Musial & E. Girres | Moyenne |
+| **CORR-07** | Correctif | Modifie les dégâts, money.. | A. Denys | Moyenne |
 | **CLEAN-01** | Nettoyage | Nettoyage du code | Toute l'équipe | Moyenne |

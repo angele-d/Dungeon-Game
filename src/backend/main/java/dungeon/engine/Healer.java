@@ -100,6 +100,9 @@ public class Healer extends Hero {
      */
     @Override
     public Coords move(Game game) {
+        if(health <= 0) {
+            return this.getCoords(); // Dead heroes don't move
+        }
         // Healer-specific movement logic
 
         // Basic movement
