@@ -19,7 +19,7 @@ public class GameController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    /** 
+    /**
      * Respond to test message
      * @param payload
      * @return Map<String, String>
@@ -31,7 +31,7 @@ public class GameController {
         return Map.of("message", "Hello World!");
     }
 
-    /** 
+    /**
      * Creates a new game
      * @param payload
      */
@@ -46,7 +46,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Copies an existing game to a new game
      * @param payload
      */
@@ -64,7 +64,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Changes the AI strategy for all heroes in the game.
      * @param payload
      */
@@ -78,7 +78,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Place a tile in the game grid
      * @param payload
      */
@@ -95,7 +95,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Checks if the simulation is ready to start.
      * @param payload
      */
@@ -108,7 +108,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Launch the game simulation
      * @param payload
      */
@@ -121,7 +121,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Gets the statistics of a game.
      * @param payload
      */
@@ -133,7 +133,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Advance to the next step in the game simulation.
      * @param payload
      */
@@ -146,7 +146,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Checks if the current wave is terminated.
      * @param payload
      */
@@ -160,7 +160,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Checks if the game is terminated.
      * @param payload
      */
@@ -174,7 +174,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Checks if the simulation is currently running.
      * @param payload
      */
@@ -187,7 +187,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Get the leaderboard
      * @param payload
      */
@@ -200,7 +200,7 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    /** 
+    /**
      * Advance to the next wave in the game simulation.
      * @param payload
      */

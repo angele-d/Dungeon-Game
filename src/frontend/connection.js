@@ -35,6 +35,7 @@ function onConnect(stompClient, frame) {
   } else {
     window.id = id;
     sendGetGameStats(stompClient);
+    sendIsSimulationRunning(stompClient);
     stompClient.subscribe(`/topic/tile_placed/${id}`, function (message) {
       let payload = JSON.parse(message.body);
       let grid = payload["grid"];
@@ -205,6 +206,28 @@ function sendGetGameStats(stompClient) {
       subscription.unsubscribe();
     }
   );
+}
+
+function sendIsSimulationRunning(stompClient) {
+  let message = {
+    id: window.id,
+  };
+
+  let subscription = stompClient.subscribe(
+    `/topic/is_simulation_running/${window.id}`,
+    function (message) {
+      let payload = JSON.parse(message.body);
+      if (payload["result"] == "true") {
+        window.gameLaunched = true;
+        document.querySelector("#next-button").textContent = "Next Turn";
+        document.querySelector("#editor-panel").classList.add("gray-out");
+        document.querySelector("#editor-panel").scrollTop = 0;
+      }
+      subscription.unsubscribe();
+    }
+  );
+
+  stompClient.send("/app/is_simulation_running", {}, JSON.stringify(message));
 }
 
 function sendAddElement(stompClient, elementType, x, y) {
