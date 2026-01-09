@@ -26,6 +26,12 @@ public class LeaderBoard {
      * @param result
      */
     public void addResults(GameResult result) {
+
+        int key = result.getGameId();
+        for (GameResult game: this.results) {
+            if (game.getGameId() == key) return;
+        }
         results.add(result);
+
     }
 }
