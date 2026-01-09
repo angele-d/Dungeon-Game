@@ -14,7 +14,7 @@ public class Dragon extends Hero {
     private final int MAX_WALL_FIRE_USES = 5;
     private static final int MAX_HEALTH = 150;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Dragon() {
         super();
@@ -23,24 +23,42 @@ public class Dragon extends Hero {
         // Dragon-specific initialization
     }
 
-    /* --- Getters and Setters --- */
+/* --- Getters and Setters --- */
 
+    /** 
+     * Gets the current health of the Dragon.
+     * @return int
+     */
     public int getHealth() {
         return health;
     }
-
+    /** 
+     * Sets the current health of the Dragon.
+     * @param health
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
+    /** 
+     * Gets the maximum health of the Dragon.
+     * @return int
+     */
     public int getMaxHealth() {
         return MAX_HEALTH;
     }
 
+    /** 
+     * Checks if the Dragon can use its wall fire ability.
+     * @return boolean
+     */
     public boolean getActionAvailable() {
         return wallFireUses < MAX_WALL_FIRE_USES;
     }
-
+    /** 
+     * Sets the availability of the Dragon's wall fire ability.
+     * @param status
+     */
     public void setActionAvailable(boolean status) {
         if (status == false) { // use wall fire
             wallFireUses++;
@@ -49,8 +67,12 @@ public class Dragon extends Hero {
         }
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Applies damage to the Dragon and notifies observers of damage taken and death.
+     * @param damage
+     */
     @Override
     public void applyDamage(int damage) {
         health -= damage;
@@ -61,15 +83,27 @@ public class Dragon extends Hero {
         }
     }
 
+    /** 
+     * Resets the Dragon's wall fire ability usage.
+     */
     @Override
     public void resetAction() {
         setActionAvailable(true);
     }
 
+    /** 
+     * Accepts a visitor for the Dragon.
+     * @param visitor
+     */
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
     }
 
+    /** 
+     * Moves the Dragon and interacts with neighboring wood walls.
+     * @param game
+     * @return Coords
+     */
     @Override
     public Coords move(Game game) {
         // Dragon-specific movement logic
@@ -90,8 +124,12 @@ public class Dragon extends Hero {
         return newCoords;
     }
 
-    /* --- toString --- */
+/* --- toString --- */
 
+    /** 
+     * Returns the string representation of the Dragon.
+     * @return String
+     */
     @Override
     public String toString() {
         return "Dragon";
