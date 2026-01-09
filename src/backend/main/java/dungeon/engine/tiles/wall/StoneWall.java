@@ -5,7 +5,7 @@ import dungeon.engine.tiles.Wall;
 
 public class StoneWall extends Wall {
 
-    private static final int PLACEMENT_COST = 75;
+    private static final int PLACEMENT_COST = 300;
     private static final int ASTAR_VALUE = 200000;
 
 /* --- Constructor --- */
