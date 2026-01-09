@@ -107,6 +107,7 @@ public class TerminalLauncher {
                     while (choice == 0) {
                         System.out.print("What do you want to place ? ");
                         action_object = scanner.next();
+                        System.out.println("\n");
                         if (legend.contains(action_object)) {
                             choice = 1;
                         }
@@ -118,8 +119,10 @@ public class TerminalLauncher {
                         String pos_object_y = "";
                         while (choice_coord == 0) {
                             System.out.print("Where do you want to place ? ");
+                            
                             pos_object_x = scanner.next();
                             pos_object_y = scanner.next();
+                            System.out.println("\n");
                             if (name_cases.contains(pos_object_x) && name_cases.contains(pos_object_y)) {
                                 choice_coord = 1;
                             } else {
