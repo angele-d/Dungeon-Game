@@ -95,7 +95,7 @@ public class Game {
     }
 
     public void setStrategy(Strategy strategy) {
-        strategy = strategy;
+        this.strategy = strategy;
         heroSquad.setStrategy(strategy);
     }
 
@@ -189,6 +189,7 @@ public class Game {
         }
 
         this.heroSquad = builder.build();
+        System.out.println(strategy.toString());
         heroSquad.setStrategy(strategy);
         Tile startingPoint = getStartingPoint();
         for (Hero hero : heroSquad.getHeroes()) {

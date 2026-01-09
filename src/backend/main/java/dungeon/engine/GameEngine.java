@@ -19,7 +19,6 @@ public class GameEngine {
 
     private GameEngine() {
         games = new HashMap<Integer, Game>();
-        System.out.println(SaveManager.listSaveFiles().toString());
         for (String saveFile : Objects.requireNonNull(SaveManager.listSaveFiles())) {
             Game game = new Game();
             try {
@@ -139,7 +138,7 @@ public class GameEngine {
                 strategy = new BFSStrategy();
                 break;
         }
-        game.getHeroSquad().setStrategy(strategy);
+        game.setStrategy(strategy);
         String result = "true";
         for (Hero hero: game.getHeroSquad().getHeroes()) {
             if (!hero.getStrategy().equals(strategy)) {
