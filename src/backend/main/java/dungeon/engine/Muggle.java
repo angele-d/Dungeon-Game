@@ -5,7 +5,7 @@ import dungeon.engine.Observers.GameEventType;
 import dungeon.engine.Visitors.HeroVisitor;
 
 public class Muggle extends Hero {
-    
+
     private int health;
     private static final int MAX_HEALTH = 150;
 
@@ -22,6 +22,7 @@ public class Muggle extends Hero {
     public int getHealth() {
         return health;
     }
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -33,6 +34,7 @@ public class Muggle extends Hero {
     public boolean getActionAvailable() {
         return false;
     }
+
     public void setActionAvailable(boolean status) {
         // Do nothing
     }
@@ -43,7 +45,7 @@ public class Muggle extends Hero {
     public void applyDamage(int damage) {
         health -= damage;
         notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
-        if(health <= 0){
+        if (health <= 0) {
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));
         }

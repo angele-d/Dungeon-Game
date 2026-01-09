@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class HeroTest {
     @Test
-    public void testCreateHero(){
+    public void testCreateHero() {
         Dragon dragon = new Dragon();
         Tank tank = new Tank();
         Healer healer = new Healer();
@@ -20,7 +20,7 @@ public class HeroTest {
     }
 
     @Test
-    public void testHeroTakeDamage(){
+    public void testHeroTakeDamage() {
         Dragon dragon = new Dragon();
         dragon.applyDamage(50);
         assertEquals(100, dragon.getHealth());
@@ -29,7 +29,7 @@ public class HeroTest {
     }
 
     @Test
-    public void testPoisonedStatus(){
+    public void testPoisonedStatus() {
         Tank tank = new Tank();
         assertEquals(false, tank.getIsPoisoned());
         tank.setIsPoisoned(true);
@@ -39,10 +39,10 @@ public class HeroTest {
     }
 
     @Test
-    public void testDragonWallFireUses(){
+    public void testDragonWallFireUses() {
         Dragon dragon = new Dragon();
         // Dragon should have 5 uses of wall fire
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             assertTrue(dragon.getActionAvailable());
             dragon.setActionAvailable(false);
         }
@@ -50,9 +50,9 @@ public class HeroTest {
     }
 
     @Test
-    public void testDragonResetAction(){
+    public void testDragonResetAction() {
         Dragon dragon = new Dragon();
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             dragon.setActionAvailable(false);
         }
         assertFalse(dragon.getActionAvailable());
@@ -61,14 +61,14 @@ public class HeroTest {
     }
 
     @Test
-    public void testDragonHealthCannotGoNegative(){
+    public void testDragonHealthCannotGoNegative() {
         Dragon dragon = new Dragon();
         dragon.applyDamage(300);
         assertEquals(0, dragon.getHealth());
     }
 
     @Test
-    public void testDragonPartialDamage(){
+    public void testDragonPartialDamage() {
         Dragon dragon = new Dragon();
         dragon.applyDamage(30);
         assertEquals(120, dragon.getHealth());

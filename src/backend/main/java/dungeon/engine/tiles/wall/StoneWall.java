@@ -16,11 +16,11 @@ public class StoneWall extends Wall {
 
     /* --- Getters and Setters --- */
 
-    public int getAstarValue(){
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    public int getPlacementCost(){
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 

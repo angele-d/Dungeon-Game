@@ -7,8 +7,8 @@ import dungeon.engine.Visitors.AreaDamageVisitor;
 import dungeon.engine.Visitors.PoisonVisitor;
 
 public class PoisonTrap extends Trap {
-    
-    private static final int PLACEMENT_COST = 100; // FIXME: Change placementCost value 
+
+    private static final int PLACEMENT_COST = 100; // FIXME: Change placementCost value
     private static final int ASTAR_VALUE = 7;
 
     /* --- Constructor --- */
@@ -16,7 +16,7 @@ public class PoisonTrap extends Trap {
     public PoisonTrap(Coords coords, int damage, int areaRadius) {
         super(coords, damage, areaRadius);
     }
-    
+
     public PoisonTrap(Coords coords) {
         super(coords, 0, 0);
     }
@@ -35,8 +35,9 @@ public class PoisonTrap extends Trap {
 
     @Override
     public void activateTrap(Game game) {
-        // Implementation for poison effect can be added here  
-        AreaDamageVisitor areaDamageVisitor = new AreaDamageVisitor(this.getCoords(), this.getDamage(), this.getAreaRadius());
+        // Implementation for poison effect can be added here
+        AreaDamageVisitor areaDamageVisitor = new AreaDamageVisitor(this.getCoords(), this.getDamage(),
+                this.getAreaRadius());
         PoisonVisitor poisonVisitor = new PoisonVisitor(this.getCoords(), this.getAreaRadius());
         for (var hero : game.getHeroSquad().getHeroes()) {
             // Apply area damage

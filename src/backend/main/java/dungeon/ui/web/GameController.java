@@ -10,10 +10,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:5500", "http://127.0.0.1:5500"})
+@CrossOrigin(origins = { "http://localhost:5500", "http://127.0.0.1:5500" })
 @Controller
 public class GameController {
 
@@ -68,7 +67,8 @@ public class GameController {
         String type = payload.get("tile_type");
         String col = payload.get("col");
         String row = payload.get("row");
-        Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id), new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
+        Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id),
+                new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
 
         String destination = "/topic/tile_placed/" + id;
         messagingTemplate.convertAndSend(destination, result);
@@ -112,7 +112,8 @@ public class GameController {
     @MessageMapping("/is_game_terminated")
     public void isGameTerminated(Map<String, String> payload) {
         String id = payload.get("id");
-        Map<String, String> result = Map.of("result", String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
 
         String destination = "/topic/game_terminated/" + id;
         messagingTemplate.convertAndSend(destination, result);

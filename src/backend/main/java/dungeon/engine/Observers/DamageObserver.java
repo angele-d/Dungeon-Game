@@ -1,3 +1,4 @@
 package dungeon.engine.Observers;
 
-public interface DamageObserver extends GameObserver {}
+public interface DamageObserver extends GameObserver {
+}

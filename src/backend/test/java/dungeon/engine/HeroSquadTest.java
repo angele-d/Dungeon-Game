@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;;
 
 public class HeroSquadTest {
-    
+
     @Test
     void testCreateSquad() {
         HeroSquad squad = new HeroSquad();
@@ -26,7 +26,7 @@ public class HeroSquadTest {
         Dragon dragon = new Dragon();
         squad.addHero(dragon);
         squad.removeHero(dragon);
-        assertEquals(0, squad.getSquadSize()); 
+        assertEquals(0, squad.getSquadSize());
     }
 
     @Test

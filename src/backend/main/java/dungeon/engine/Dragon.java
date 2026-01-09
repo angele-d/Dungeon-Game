@@ -8,7 +8,7 @@ import dungeon.engine.tiles.wall.WoodWall;
 import java.util.ArrayList;
 
 public class Dragon extends Hero {
-    
+
     private int health;
     private int wallFireUses;
     private final int MAX_WALL_FIRE_USES = 5;
@@ -28,6 +28,7 @@ public class Dragon extends Hero {
     public int getHealth() {
         return health;
     }
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -39,11 +40,11 @@ public class Dragon extends Hero {
     public boolean getActionAvailable() {
         return wallFireUses < MAX_WALL_FIRE_USES;
     }
+
     public void setActionAvailable(boolean status) {
-        if(status == false){ // use wall fire
+        if (status == false) { // use wall fire
             wallFireUses++;
-        }
-        else{ // reset uses
+        } else { // reset uses
             wallFireUses = 0;
         }
     }
@@ -70,7 +71,7 @@ public class Dragon extends Hero {
     }
 
     @Override
-    public Coords move(Game game){
+    public Coords move(Game game) {
         // Dragon-specific movement logic
 
         // Basic movement
@@ -78,9 +79,9 @@ public class Dragon extends Hero {
 
         // Fire neighbor wood walls if action available
         ArrayList<Coords> neighbors = game.getGrid().getNeighborsCoords(newCoords);
-        for(Coords coord : neighbors){
+        for (Coords coord : neighbors) {
             Tile tile = game.getGrid().getTile(coord);
-            if(tile instanceof WoodWall && getActionAvailable()){
+            if (tile instanceof WoodWall && getActionAvailable()) {
                 game.addFireTurnListener((FireTurnListener) tile);
                 setActionAvailable(false); // increase uses
             }

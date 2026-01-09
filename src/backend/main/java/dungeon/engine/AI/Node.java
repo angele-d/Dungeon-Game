@@ -1,8 +1,8 @@
 package dungeon.engine.AI;
+
 import java.util.ArrayList;
 
 import dungeon.engine.Coords;
-
 
 public class Node {
     private ArrayList<Node> children;

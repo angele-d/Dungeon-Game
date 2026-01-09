@@ -16,11 +16,11 @@ public class Treasure extends Tile {
 
     /* --- Getters and Setters --- */
 
-    public int getAstarValue(){
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    public int getPlacementCost(){
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 

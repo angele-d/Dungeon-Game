@@ -20,18 +20,19 @@ public class BFS {
 
     /* --- Functions --- */
 
-    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
-        if(heroSquad == null) return false;
+    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad) {
+        if (heroSquad == null)
+            return false;
 
         // Heroes can be more than one in Treasure and StartingPoint tiles
-        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+        if (grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint) {
             return false;
         }
 
-        for(Hero hero : heroSquad.getHeroes()){
-            if(hero.getCoords().equals(neighbor)){
+        for (Hero hero : heroSquad.getHeroes()) {
+            if (hero.getCoords().equals(neighbor)) {
                 // Check if the hero is alive
-                if(hero.getHealth() > 0) 
+                if (hero.getHealth() > 0)
                     return true;
             }
         }
@@ -39,16 +40,16 @@ public class BFS {
         return false;
     }
 
-    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad){
+    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad) {
         // Check if a wall is there
-        if (grid.getTile(neighbor) instanceof Wall){
+        if (grid.getTile(neighbor) instanceof Wall) {
             return false;
         }
         // Check if an other hero is there
-        if(isOccupied(neighbor, heroSquad)){
+        if (isOccupied(neighbor, heroSquad)) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -57,7 +58,7 @@ public class BFS {
         Set<Coords> visited = new HashSet<Coords>();
         queue.add(new Node(start, null));
         visited.add(start);
-        
+
         while (!queue.isEmpty()) {
             Node curr = queue.poll();
 
@@ -71,10 +72,10 @@ public class BFS {
             }
 
             // Explore neighbors
-            for (Coords neighbor: grid.getNeighborsCoords(curr.getCoords())) {
+            for (Coords neighbor : grid.getNeighborsCoords(curr.getCoords())) {
                 if (!visited.contains(neighbor)) {
                     // Check if the tile is walkable
-                    if (isWalkable(neighbor, heroSquad)){
+                    if (isWalkable(neighbor, heroSquad)) {
                         visited.add(neighbor);
                         queue.add(new Node(neighbor, curr));
                     }

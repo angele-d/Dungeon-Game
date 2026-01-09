@@ -17,13 +17,12 @@ public class GameEngine {
 
     public Map<Integer, Game> games;
 
-
     /* --- Constructor --- */
 
     private GameEngine() {
         games = new HashMap<Integer, Game>();
         System.out.println(SaveManager.listSaveFiles().toString());
-        for (String saveFile: Objects.requireNonNull(SaveManager.listSaveFiles())) {
+        for (String saveFile : Objects.requireNonNull(SaveManager.listSaveFiles())) {
             Game game = new Game();
             try {
                 SaveManager.load(game, saveFile);
@@ -129,9 +128,7 @@ public class GameEngine {
     }
 
     public Map<String, String> changeAI(Integer gameId, String type) {
-        Game game = games.get(gameId);
-
-        Strategy strategy;
+        games.get(gameId);
         switch (type) {
             case "BFS":
                 strategy = new BFSStrategy();
@@ -188,13 +185,13 @@ public class GameEngine {
     }
 
     public Game newGame(int gameId) {
-         if (!games.containsKey(gameId)) {
-             Game game = new Game(gameId);
-             games.put(gameId, game);
-             return game;
-         } else {
-             return null;
-         }
+        if (!games.containsKey(gameId)) {
+            Game game = new Game(gameId);
+            games.put(gameId, game);
+            return game;
+        } else {
+            return null;
+        }
     }
 
     public void loadGame(int gameId, int loadId) {
@@ -202,8 +199,8 @@ public class GameEngine {
         System.out.println("Loading game " + gameId);
         try {
             SaveManager.load(game, "save" + String.valueOf(loadId) + ".json");
-        } catch(IOException e) {
-            System.err.println("Error loading game" +  String.valueOf(loadId) + ".json");
+        } catch (IOException e) {
+            System.err.println("Error loading game" + String.valueOf(loadId) + ".json");
         }
         game.setId(gameId);
     }
@@ -220,7 +217,7 @@ public class GameEngine {
         Game game = games.get(gameId);
         if (game != null) {
             boolean terminated = game.isTerminated();
-            if(terminated) {
+            if (terminated) {
                 try {
                     SaveManager.save(game);
                 } catch (IOException e) {
@@ -249,10 +246,10 @@ public class GameEngine {
 
     public Map<String, String> getLeaderBoardString() {
         String leaderboardString = "[";
-        for (GameResult gameResult: getLeaderBoard().getResults()) {
-            leaderboardString = leaderboardString + gameResult.serialized()+",";
+        for (GameResult gameResult : getLeaderBoard().getResults()) {
+            leaderboardString = leaderboardString + gameResult.serialized() + ",";
         }
-        leaderboardString = leaderboardString.substring(0, leaderboardString.length()-1)+"]";
+        leaderboardString = leaderboardString.substring(0, leaderboardString.length() - 1) + "]";
         Map<String, String> result = new HashMap<String, String>();
         result.put("result", leaderboardString);
         return result;

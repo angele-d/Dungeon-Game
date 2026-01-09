@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-
 public class Grid {
     int SIZE = 10;
     private Map<Coords, Tile> grid;
@@ -37,18 +36,17 @@ public class Grid {
         }
     }
 
-
-//    @Override
-//    public String toString() {
-//        return "";
-//    }
+    // @Override
+    // public String toString() {
+    // return "";
+    // }
 
     public Tile getTile(Coords coords) {
         return this.grid.get(coords);
     }
 
     public Tile getTreasure() {
-        for (Coords coords: grid.keySet()) {
+        for (Coords coords : grid.keySet()) {
             if (getTile(coords) instanceof Treasure) {
                 return getTile(coords);
             }
@@ -57,7 +55,7 @@ public class Grid {
     }
 
     public Tile getStartingPoint() {
-        for (Coords coords: getGrid().keySet()) {
+        for (Coords coords : getGrid().keySet()) {
             if (getTile(coords) instanceof StartingPoint) {
                 return getTile(coords);
             }
@@ -108,7 +106,7 @@ public class Grid {
             ArrayList<String> grid_row = new ArrayList<>();
             for (int row = 0; row < SIZE; row++) {
                 Tile tile = this.grid.get(new Coords(col, row));
-                grid_row.add('"'+tile.toString()+'"');
+                grid_row.add('"' + tile.toString() + '"');
             }
             result.add(grid_row);
         }

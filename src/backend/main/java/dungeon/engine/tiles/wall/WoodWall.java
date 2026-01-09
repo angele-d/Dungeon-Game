@@ -21,11 +21,11 @@ public class WoodWall extends Wall implements FireTurnListener {
 
     /* --- Getters and Setters --- */
 
-    public int getAstarValue(){
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    public int getPlacementCost(){
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 
@@ -34,7 +34,7 @@ public class WoodWall extends Wall implements FireTurnListener {
     @Override
     public void onNewTurn(Game game) {
         turnBeforeFlames--;
-        if(turnBeforeFlames <= 0) {
+        if (turnBeforeFlames <= 0) {
             // Replace wood wall with empty tile
             Tile tile = new Empty(this.getCoords());
             game.getGrid().setTile(tile);
@@ -43,7 +43,7 @@ public class WoodWall extends Wall implements FireTurnListener {
     }
 
     /* --- ToString --- */
-    
+
     @Override
     public String toString() {
         return "woodwall";

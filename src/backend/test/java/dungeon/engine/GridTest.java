@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GridTest {
-    
+
     @Test
     void testSetAndGetTile() {
         Grid grid = new Grid();
@@ -16,6 +16,7 @@ public class GridTest {
             public int getAstarValue() {
                 return 0;
             }
+
             public int getPlacementCost() {
                 return 0;
             }
@@ -58,7 +59,7 @@ public class GridTest {
         Grid grid = new Grid();
         boolean treasureFound = false;
         boolean startPositionFound = false;
-        for (Tile tile: grid.getGrid().values()) {
+        for (Tile tile : grid.getGrid().values()) {
             if (tile instanceof Treasure) {
                 treasureFound = true;
             } else if (tile instanceof StartingPoint) {
@@ -85,7 +86,7 @@ public class GridTest {
 
     @Test
     void testMultipleGridGeneration() {
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             Grid grid = new Grid(i);
             boolean treasureFound = false;
             boolean startPositionFound = false;

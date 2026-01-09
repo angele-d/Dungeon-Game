@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class BuilderTest {
-    
+
     @Test
     void testBuilderCreatesEmptyHeroList() {
         HeroSquad.Builder builder = new HeroSquad.Builder();
@@ -38,10 +38,10 @@ public class BuilderTest {
     void testBuilderSupportsMethodChaining() {
         HeroSquad.Builder builder = new HeroSquad.Builder();
         HeroSquad squad = builder
-            .addHero(new Healer())
-            .addHero(new Dragon())
-            .addHero(new Tank())
-            .build();
+                .addHero(new Healer())
+                .addHero(new Dragon())
+                .addHero(new Tank())
+                .build();
         assertEquals(3, squad.getSquadSize());
     }
 

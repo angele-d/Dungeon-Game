@@ -12,34 +12,34 @@ public class WallTrap extends Trap implements HeroTurnListener {
     /* --- Constructor --- */
 
     public WallTrap(Coords coords) {
-        super(coords,10, 1);
+        super(coords, 10, 1);
     }
 
-    public WallTrap(Coords coords,int damage,int area) {
-        super(coords,damage, area);
+    public WallTrap(Coords coords, int damage, int area) {
+        super(coords, damage, area);
     }
 
     /* --- Getters and Setters --- */
 
-    public int getPlacementCost(){
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
-    
-    public int getAstarValue(){
+
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
     /* --- Functions --- */
 
     @Override
-    public void activateTrap(Game game){
+    public void activateTrap(Game game) {
         game.addHeroTurnListener(this);
     }
 
     @Override
     public void onNewTurn(Game game) {
         boolean available = true;
-        for (Hero hero: game.getHeroSquad().getHeroes()) {
+        for (Hero hero : game.getHeroSquad().getHeroes()) {
             if (hero.getCoords().equals(getCoords())) {
                 available = false;
                 break;

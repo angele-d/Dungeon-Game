@@ -1,3 +1,4 @@
 package dungeon.engine.Observers;
 
-public interface TreasureReachedObserver extends GameObserver {}
+public interface TreasureReachedObserver extends GameObserver {
+}

@@ -28,6 +28,7 @@ public abstract class Hero {
     /* --- Abstract Functions --- */
 
     public abstract int getHealth();
+
     public abstract void setHealth(int health);
 
     public abstract int getMaxHealth();
@@ -35,6 +36,7 @@ public abstract class Hero {
     public abstract void applyDamage(int damage);
 
     public abstract boolean getActionAvailable();
+
     public abstract void setActionAvailable(boolean status);
 
     public abstract void resetAction();
@@ -46,6 +48,7 @@ public abstract class Hero {
     public boolean getIsPoisoned() {
         return isPoisoned;
     }
+
     public void setIsPoisoned(boolean status) {
         isPoisoned = status;
     }
@@ -53,35 +56,37 @@ public abstract class Hero {
     public void setCoords(Coords coords) {
         this.coords = coords;
     }
+
     public Coords getCoords() {
         return coords;
     }
 
-    public void setStrategy(Strategy strategy){
+    public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
-    public Strategy getStrategy(){
+
+    public Strategy getStrategy() {
         return this.strategy;
     }
 
     /* --- Functions --- */
 
-    public void reachTreasure(){
+    public void reachTreasure() {
         notifyObservers(new GameEvent(GameEventType.TREASURE_REACHED, this, 0));
     }
 
     public Coords basicMove(Game game) {
         // Basic movement logic for all heroes
         Coords newCoords;
-        do{
+        do {
             newCoords = strategy.move(game, this);
-        } while(game.getGrid().getTile(newCoords) instanceof Wall); // If Wall, try again
+        } while (game.getGrid().getTile(newCoords) instanceof Wall); // If Wall, try again
 
         // Check if newCoords is Treasure
         if (game.getGrid().getTile(newCoords) instanceof Treasure) {
             reachTreasure();
         }
-        
+
         return newCoords;
     }
 
@@ -92,12 +97,12 @@ public abstract class Hero {
     /* --- GameObserver methods --- */
 
     public void addObserver(GameObserver observer) {
-        if(!gameObservers.contains(observer))
+        if (!gameObservers.contains(observer))
             gameObservers.add(observer);
     }
 
     protected void notifyObservers(GameEvent event) {
-        for(GameObserver observer : gameObservers){
+        for (GameObserver observer : gameObservers) {
             observer.update(event);
         }
     }

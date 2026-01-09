@@ -6,13 +6,14 @@ import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.Game;
 
 public class ExecuteGame {
-public static void execute_game(Game game, int size, Coords dep_hero, ScoreManager score, String legendString, int strategy_AI) {
+    public static void execute_game(Game game, int size, Coords dep_hero, ScoreManager score, String legendString,
+            int strategy_AI) {
         int end = 0;
         int round = 1;
         GameEngine.getInstance().startSimulation(game.getId());
         GameEngine.getInstance().changeAI(game.getId(), getTypeAI(strategy_AI));
-        while (end == 0){
-            if(GameEngine.getInstance().isGameTerminated(game.getId())){
+        while (end == 0) {
+            if (GameEngine.getInstance().isGameTerminated(game.getId())) {
                 end = 1;
                 System.out.println("\n");
                 System.out.println("This is the end !");
@@ -26,9 +27,10 @@ public static void execute_game(Game game, int size, Coords dep_hero, ScoreManag
             }
             System.out.println("Your score : " + score.getScore());
             sleepHalfSecond();
-            round ++;
+            round++;
         }
     }
+
     public static void sleepHalfSecond() {
         try {
             Thread.sleep(500);
@@ -37,7 +39,7 @@ public static void execute_game(Game game, int size, Coords dep_hero, ScoreManag
         }
     }
 
-    public static String getTypeAI(int strategy_AI){
+    public static String getTypeAI(int strategy_AI) {
         switch (strategy_AI) {
             case 1:
                 return "BFS";
