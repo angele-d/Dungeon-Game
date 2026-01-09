@@ -9,7 +9,7 @@ public class AreaDamageVisitor implements HeroVisitor {
     private int areaRadius; //0 = center, 1 = adjacent, etc.
     private final int DAMAGE_DIMINUTION_PERCENTAGE = 20;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public AreaDamageVisitor(Coords epicenter, int damage, int areaRadius) {
         this.epicenter = epicenter;
@@ -23,8 +23,12 @@ public class AreaDamageVisitor implements HeroVisitor {
         this.areaRadius = 1;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Visit a hero and apply area damage
+     * @param hero
+     */
     @Override
     public void visit(Hero hero) {
         Coords heroCoords = hero.getCoords();

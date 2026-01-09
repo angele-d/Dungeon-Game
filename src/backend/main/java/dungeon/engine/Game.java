@@ -12,7 +12,7 @@ import java.util.Random;
 public class Game {
 
     public static final int POISON_DAMAGE_PER_TURN = 5;
-    private int id; // TODO: implement unique ID generation
+    private int id;
     private Grid grid;
     private Grid blueprint;
     private HeroSquad heroSquad;

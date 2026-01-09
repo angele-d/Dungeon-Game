@@ -6,18 +6,30 @@ public class ScoreManager implements DeathObserver, DamageObserver, TreasureReac
 
     private int score;
 
-    /* Getters and Setters */
+/* Getters and Setters */
 
+    /** 
+     * Get the current score
+     * @return int
+     */
     public int getScore() {
         return score;
     }
 
+    /** 
+     * Set the current score
+     * @param score
+     */
     public void setScore(int score) {
         this.score = score;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Update the score based on the game event
+     * @param event
+     */
     @Override
     public void update(GameEvent event) {
         switch (event.getType()) {
