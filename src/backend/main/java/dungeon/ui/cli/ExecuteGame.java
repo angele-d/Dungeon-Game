@@ -3,11 +3,13 @@ package dungeon.ui.cli;
 import dungeon.engine.GameEngine;
 import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.Game;
+import java.util.Scanner;
 
 public class ExecuteGame {
     public static void execute_game(Game game, int size, ScoreManager score, String legendString,
-            int strategy_AI) {
+            int strategy_AI, Scanner scanner) { // TODO: wave and game(treasure taken)
         int end = 0;
+        //String action = scanner.next().trim();
         int round = 1;
         GameEngine.getInstance().changeAI(game.getId(), getTypeAI(strategy_AI));
         GameEngine.getInstance().startSimulation(game.getId());

@@ -240,7 +240,7 @@ public class TerminalLauncher {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
                 ExecuteGame.execute_game(game, size_grid, scoreManager, legendString,
-                        strategy_AI);
+                        strategy_AI, scanner);
 
                 int lead_option = 0;
                 while (lead_option == 0) {
