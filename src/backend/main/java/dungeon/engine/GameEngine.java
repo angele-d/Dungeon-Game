@@ -313,6 +313,19 @@ public class GameEngine {
         return false;
     }
 
+    /**
+     * Returns if game is being simulated
+     * @return bool
+     */
+    public boolean isSimulationRunning(int gameId) {
+        if (games.containsKey(gameId)) {
+            Game game = games.get(gameId);
+            return game.isSimulationRunning();
+        } else {
+            return false;
+        }
+    }
+
     /** 
      * Checks if the wave is terminated.
      * @param gameId
