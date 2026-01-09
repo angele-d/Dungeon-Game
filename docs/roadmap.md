@@ -18,6 +18,7 @@
 | WEB      | Frontend Web     |
 | CLI      | Interface Terminal (CLI) |
 | CORR     | Corrections        |
+| CLEAN    | Nettoyage de code  |
 
 ## Historique des Tâches Terminées
 
@@ -105,6 +106,13 @@
 
 | ID | Catégorie | Description de la Tâche | Assigné à | Priorité |
 | :--- | :--- | :--- | :--- | :---: |
+| **TECH-14** | Tech | Implémentation des vagues | P. Musial | Moyenne |
+| **TECH-15** | Tech | Génération automatique de la grille | P. Musial | Moyenne |
 | **DOC-05** | Doc | Rédaction de la ROADMAP | A. Denys | Moyenne |
 | **DOC-06** | Doc | Création des diagrammes de séquence | A. Denys | **Haute** |
+| **WEB-09** | Web | Affichage du leaderboard | K. Bui | Moyenne |
+| **WEB-10** | Web | Affichage du score | K. Bui | Moyenne |
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
+| **CORR-03** | Correctif | Correction affichage des héros dans le WEB | K. Bui | **Critique** |
+| **CORR-04** | Correctif | Correction Hero non affiché | P. Musial | Moyenne |
+| **CLEAN-01** | Nettoyage | Nettoyage du code | Toute l'équipe | Moyenne |
