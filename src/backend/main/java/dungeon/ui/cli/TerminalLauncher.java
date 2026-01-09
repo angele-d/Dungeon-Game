@@ -3,7 +3,6 @@ package dungeon.ui.cli;
 import dungeon.engine.Coords;
 import dungeon.engine.SaveManager;
 import dungeon.engine.GameEngine;
-import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.traps.Mine;
 import dungeon.engine.tiles.traps.PoisonTrap;
 import dungeon.engine.tiles.traps.WallTrap;
@@ -61,9 +60,7 @@ public class TerminalLauncher {
         System.out.print("Thank you !");
         System.out.println("\n");
 
-        ScoreManager scoreManager = new ScoreManager();
         String legendString = legendString();
-        scoreManager.setScore(0);
 
         int size_grid = game.getGrid().getSize();
         List<String> legend = List.of("#", "@", "W", "M", "P");
@@ -110,6 +107,7 @@ public class TerminalLauncher {
                     while (choice == 0) {
                         System.out.print("What do you want to place ? ");
                         action_object = scanner.next();
+                        System.out.println("\n");
                         if (legend.contains(action_object)) {
                             choice = 1;
                         }
@@ -121,8 +119,10 @@ public class TerminalLauncher {
                         String pos_object_y = "";
                         while (choice_coord == 0) {
                             System.out.print("Where do you want to place ? ");
+                            
                             pos_object_x = scanner.next();
                             pos_object_y = scanner.next();
+                            System.out.println("\n");
                             if (name_cases.contains(pos_object_x) && name_cases.contains(pos_object_y)) {
                                 choice_coord = 1;
                             } else {
@@ -200,6 +200,7 @@ public class TerminalLauncher {
                         game = GameEngine.getInstance().getGame(optionLead);
                         System.out.println("Your game is ready ! ");
                         System.out.println("\n");
+                        PrintGrid.make_action(game, size_grid, legendString);
                     }
                     break;
                 case 5:
@@ -239,8 +240,8 @@ public class TerminalLauncher {
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                ExecuteGame.execute_game(game, size_grid, scoreManager, legendString,
-                        strategy_AI);
+                ExecuteGame.execute_game(game, size_grid, legendString,
+                        strategy_AI, scanner);
 
                 int lead_option = 0;
                 while (lead_option == 0) {
