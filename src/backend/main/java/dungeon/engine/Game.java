@@ -303,8 +303,6 @@ public class Game {
         this.turn = 0;
         this.grid = this.blueprint.clone();
         this.heroSquad = generateNewSquad();
-        System.out.println("Wave " + wave);
-        System.out.println("heros" + heroSquad.serialized());
     }
 
     /** 

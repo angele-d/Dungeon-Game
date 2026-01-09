@@ -348,7 +348,7 @@ public class TerminalLauncher {
      * @return String
      */
     public static String legendString() {
-        String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - "
+        String legend = "Legend : S = Starting Point, T = Treasure, t = Tank, m = Muggle, h = Healer, d = Dragon, . = Empty tile, # = Stone Wall - "
                 + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - "
                 + (new WoodWall(null)).getPlacementCost() + ", W = Wall Trap - "
                 + (new WallTrap(null)).getPlacementCost() + ", M = Mine - " + (new Mine(null)).getPlacementCost()

@@ -59,8 +59,9 @@ public class PrintGrid {
         String line_completed = new String();
         for (int decr = 0; decr < size; decr++) {
             Tile tile = game.getGrid().getTile(new Coords(line, decr));
-            if (edit == 0 && heroIsHere(game, line, decr)) {
-                line_completed += " E";
+            String hero = heroIsHere(game, line, decr);
+            if (edit == 0 && !hero.equals("")) {
+                    line_completed += hero;           
             } else {
                 if (tile instanceof dungeon.engine.tiles.Empty) {
                     line_completed += " .";
@@ -79,6 +80,7 @@ public class PrintGrid {
                 } else if (tile instanceof dungeon.engine.tiles.traps.PoisonTrap) {
                     line_completed += " P";
                 } else {
+                    
                     line_completed += "  ";
                 }
             }
@@ -93,14 +95,24 @@ public class PrintGrid {
      * @param row
      * @return boolean
      */
-    public static boolean heroIsHere(Game game, int line, int row) {
+    public static String heroIsHere(Game game, int line, int row) {
         HeroSquad heroS = game.getHeroSquad();
         for (Hero hero : heroS.getHeroes()) {
             if (hero.getCoords().equals(new Coords(line, row))) {
-                return true;
+                if (hero instanceof dungeon.engine.Tank) {
+                    return " t";
+                } else if (hero instanceof dungeon.engine.Muggle) {
+                    return " m";
+                } else if (hero instanceof dungeon.engine.Healer) {
+                    return " h";
+                } else if (hero instanceof dungeon.engine.Dragon) {
+                    return " d";
+                } else {
+                    return " e";
+                } 
             }
         }
-        return false;
+        return "";
     }
 
     /** 
