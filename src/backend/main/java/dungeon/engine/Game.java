@@ -2,6 +2,7 @@ package dungeon.engine;
 
 import dungeon.engine.AI.BFS;
 import dungeon.engine.Observers.ScoreManager;
+import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.tiles.Trap;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Game {
     private ScoreManager scoreManager;
     private int wave;
     private int seed;
+    private Strategy strategy;
     /* --- Constructor --- */
 
     public Game(int id, int seed) {
@@ -86,6 +88,15 @@ public class Game {
 
     public int getWave() {
         return wave;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        strategy = strategy;
+        heroSquad.setStrategy(strategy);
     }
 
     public void setId(int id) {
@@ -178,6 +189,7 @@ public class Game {
         }
 
         this.heroSquad = builder.build();
+        heroSquad.setStrategy(strategy);
         Tile startingPoint = getStartingPoint();
         this.scoreManager = new ScoreManager();
         for (Hero hero : heroSquad.getHeroes()) {

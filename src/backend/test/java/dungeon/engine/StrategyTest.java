@@ -12,22 +12,23 @@ import dungeon.engine.tiles.Treasure;
 public class StrategyTest {
     
     private Grid grid;
-    
+    private HeroSquad heroSquad;
+
     @BeforeEach
     void setUp() {
         grid = new Grid();
-    }
-    
-    @Test
-    void testBFSFindsDirectPath() {
         Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
+    }
+
+    @Test
+    void testBFSFindsDirectPath() {
         grid.setTile(new Treasure(new Coords(0, 3)));
         BFS bfs = new BFS(grid);
-        
-        Coords next = bfs.search(new Coords(0, 0), heroSquad);
+
+        Coords next = bfs.search(new Coords(0, 0), this.heroSquad);
         assertEquals(new Coords(0, 1), next);
         
         next = bfs.search(new Coords(0, 1), heroSquad);
@@ -93,11 +94,12 @@ public class StrategyTest {
 
         assertEquals(GameEngine.getInstance().isSimulationReady(game.getId()).get("result"), "true");
 
+
         GameEngine.getInstance().startSimulation(game.getId());
         GameEngine.getInstance().changeAI(game.getId(), "Astar");
 
-        for (Hero hero: GameEngine.getInstance().getGame(game.getId()).getHeroSquad().getHeroes()) {
-            assertInstanceOf(AstarStrategy.class, hero.strategy);
+        for (Hero hero : GameEngine.getInstance().getGame(game.getId()).getHeroSquad().getHeroes()) {
+            assertTrue(hero.strategy instanceof AstarStrategy);
         }
     }
 }

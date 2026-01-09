@@ -22,7 +22,7 @@ public class LeaderBoard {
         System.out.println("==================== Leaderboard ====================");
         while (run) {
             System.out.print(
-                    "Games " + page * DISPLAY_SIZE + " to " + (page + 1) * DISPLAY_SIZE + "     (Score  ID  Coin)");
+                    "Games " + page * DISPLAY_SIZE + " to " + (page + 1) * DISPLAY_SIZE + "\n     (Score  ID  Coin)");
             System.out.print("\n");
             System.out.print("\n");
             String result_leader = generateLeaderboard(leaderboard, page, DISPLAY_SIZE);

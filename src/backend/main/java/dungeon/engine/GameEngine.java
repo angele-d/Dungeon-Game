@@ -13,8 +13,6 @@ import java.util.Objects;
 public class GameEngine {
     private static GameEngine gameEngine;
     private final LeaderBoard leaderboard = new LeaderBoard();
-    private Strategy strategy = new BFSStrategy();
-
     public Map<Integer, Game> games;
 
     /* --- Constructor --- */
@@ -128,7 +126,8 @@ public class GameEngine {
     }
 
     public Map<String, String> changeAI(Integer gameId, String type) {
-        games.get(gameId);
+        Game game = games.get(gameId);
+        Strategy strategy;
         switch (type) {
             case "BFS":
                 strategy = new BFSStrategy();
@@ -140,8 +139,15 @@ public class GameEngine {
                 strategy = new BFSStrategy();
                 break;
         }
-
-        return Map.of("result", "true");
+        game.getHeroSquad().setStrategy(strategy);
+        String result = "true";
+        for (Hero hero: game.getHeroSquad().getHeroes()) {
+            if (!hero.getStrategy().equals(strategy)) {
+                result = "false";
+                break;
+            }
+        }
+        return Map.of("result", result);
     }
 
     public Map<String, String> isSimulationReady(Integer gameId) {
@@ -156,7 +162,6 @@ public class GameEngine {
         Game game = games.get(gameId);
         if (game != null) {
             game.startSimulation();
-            game.getHeroSquad().setStrategy(strategy);
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
