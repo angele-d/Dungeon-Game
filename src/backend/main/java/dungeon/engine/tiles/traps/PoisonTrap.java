@@ -9,8 +9,8 @@ import dungeon.engine.Visitors.PoisonVisitor;
 
 public class PoisonTrap extends Trap {
 
-    private static final int PLACEMENT_COST = 100;
-    private static final int ASTAR_VALUE = 7;
+    private static final int PLACEMENT_COST = 700;
+    private static final int ASTAR_VALUE = 5;
 
 /* --- Constructor --- */
 
