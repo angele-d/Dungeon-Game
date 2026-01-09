@@ -228,20 +228,12 @@ public class TerminalLauncher {
                     }
                     break;
                 case 5:
-                    if (startingPointPassage > 0 && treasurePointPassage > 0) {
-                        if (game.isSimulationReady()) {
+                    if (game.isSimulationReady()) {
                             end_action = 1;
-
-                        } else {
-                            System.out.println("At least one accessible path is needed...");
-                            System.out.println("\n");
-                        }
-
                     } else {
-                        System.out.print("You must have a starting point and a treasure...");
+                        System.out.println("At least one accessible path is needed...");
                         System.out.println("\n");
                     }
-
                     break;
                 case 6:
                     System.out.print("Would you save your game ? (yes/no) ");
