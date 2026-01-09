@@ -91,14 +91,10 @@ public class Grid {
         return null;
     }
 
-    public boolean setTile(Tile tile) {
-        if (grid.get(tile.getCoords()) instanceof Treasure || grid.get(tile.getCoords()) instanceof StartingPoint) {
-            return false;
-        }
-        this.grid.put(tile.getCoords(), tile);
-        return true;
-    }
-
+    /**
+     * Add a tile
+     * @param tile
+     */
     public void putTile(Tile tile) {
         this.grid.put(tile.getCoords(), tile);
     }

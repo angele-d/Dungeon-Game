@@ -22,6 +22,7 @@ public class ExecuteGame {
         GameEngine.getInstance().changeAI(game.getId(), getTypeAI(strategy_AI));
         GameEngine.getInstance().startSimulation(game.getId());
         System.out.println("======================== Wave " + wave + " ! ========================");
+        PrintGrid.print_grid(game, size, legendString, 0);
         while (end == 0) {
             if (GameEngine.getInstance().isGameTerminated(game.getId())){
                 
@@ -31,6 +32,8 @@ public class ExecuteGame {
                     round = 0;
                     if(menuWave(scanner)) {
                         System.out.println("======================== Wave " + wave + " ========================");
+                        game = GameEngine.getInstance().getGame(game.getId());
+                        PrintGrid.print_grid(game, size, legendString, 0);
                     } else {
                         end = 1;
                     }
