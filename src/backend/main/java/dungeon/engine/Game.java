@@ -79,6 +79,10 @@ public class Game {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public HeroSquad getHeroSquad() {
         return heroSquad;
     }
@@ -148,7 +152,6 @@ public class Game {
             hero.setCoords(startingPoint.getCoords());
         }
         this.scoreManager = new ScoreManager();
-        this.money = 500;
         this.turn = 0;
     }
 

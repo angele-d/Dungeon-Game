@@ -282,13 +282,15 @@ function updateHeroes(heroesData) {
             </div>`;
     infoPanel.appendChild(heroDiv);
 
-    // Update on the grid
-    const targetCell =
-      document.querySelectorAll(".grid-cell")[
-        parseInt(hero[1]) * size + parseInt(hero[2])
-      ];
-    targetCell.classList.add("relative");
-    targetCell.innerHTML = heroPawns[hero[0]];
+    if (hero[1] && hero[2]) {
+      // Update on the grid
+      const targetCell =
+        document.querySelectorAll(".grid-cell")[
+          parseInt(hero[1]) * size + parseInt(hero[2])
+        ];
+      targetCell.classList.add("relative");
+      targetCell.innerHTML = heroPawns[hero[0]];
+    }
   });
 }
 

@@ -13,6 +13,7 @@ import java.util.Objects;
 public class GameEngine {
     private static GameEngine gameEngine;
     private final LeaderBoard leaderboard = new LeaderBoard();
+    private Strategy strategy = new BFSStrategy();
 
     public Map<Integer, Game> games;
 
@@ -131,7 +132,6 @@ public class GameEngine {
                 break;
         }
 
-        game.getHeroSquad().setStrategy(strategy);
         return Map.of("result", "true");
     }
 
@@ -147,6 +147,7 @@ public class GameEngine {
         Game game = games.get(gameId);
         if (game != null) {
             game.startSimulation();
+            game.getHeroSquad().setStrategy(strategy);
         }
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
@@ -184,13 +185,21 @@ public class GameEngine {
          }
     }
 
+    public void loadGame(int gameId, int loadId) {
+        Game game = games.get(gameId);
+        System.out.println("Loading game " + gameId);
+        try {
+            SaveManager.load(game, "save" + String.valueOf(loadId) + ".json");
+        } catch(IOException e) {
+            System.err.println("Error loading game" +  String.valueOf(loadId) + ".json");
+        }
+        game.setId(gameId);
+    }
+
     public Map<String, String> endGame(int gameId) {
         Map<String, String> result;
         Game game = games.get(gameId);
         result = getGameStats(gameId);
-        GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
-        leaderboard.addResults(gameResult);
-        updateLeaderboard();
         game.endSimulation();
         return result;
     }
@@ -198,7 +207,18 @@ public class GameEngine {
     public boolean isGameTerminated(int gameId) {
         Game game = games.get(gameId);
         if (game != null) {
-            return game.isTerminated();
+            boolean terminated = game.isTerminated();
+            if(terminated) {
+                try {
+                    SaveManager.save(game);
+                } catch (IOException e) {
+                    System.out.println("Failed to save game" + String.valueOf(gameId));
+                }
+            }
+            GameResult gameResult = new GameResult(game.getScore(), game.getId(), game.getMoney());
+            leaderboard.addResults(gameResult);
+            updateLeaderboard();
+            return terminated;
         }
         // Game not found
         return false;
