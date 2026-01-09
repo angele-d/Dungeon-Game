@@ -1,8 +1,10 @@
 package dungeon.engine;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import dungeon.engine.tiles.StartingPoint;
+import dungeon.engine.tiles.Treasure;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GridTest {
     
@@ -49,5 +51,53 @@ public class GridTest {
     void testGetGridSize() {
         Grid grid = new Grid();
         assertEquals(100, grid.getGrid().size()); // 10x10 grid
+    }
+
+    @Test
+    void testGridGeneration() {
+        Grid grid = new Grid();
+        boolean treasureFound = false;
+        boolean startPositionFound = false;
+        for (Tile tile: grid.getGrid().values()) {
+            if (tile instanceof Treasure) {
+                treasureFound = true;
+            } else if (tile instanceof StartingPoint) {
+                startPositionFound = true;
+            }
+        }
+        assertTrue(startPositionFound);
+        assertTrue(treasureFound);
+    }
+
+    @Test
+    void testDifferentGridSameSeed() {
+        Grid oldGrid = new Grid(1);
+        Tile oldTreasure = oldGrid.getTreasure();
+        Tile oldStartingPoint = oldGrid.getStartingPoint();
+
+        Grid newGrid = new Grid(1);
+        Tile newTreasure = newGrid.getTreasure();
+        Tile newStartingPoint = newGrid.getStartingPoint();
+
+        assertEquals(oldTreasure.getCoords(), newTreasure.getCoords());
+        assertEquals(oldStartingPoint.getCoords(), newStartingPoint.getCoords());
+    }
+
+    @Test
+    void testMultipleGridGeneration() {
+        for (int i=0; i<10; i++) {
+            Grid grid = new Grid(i);
+            boolean treasureFound = false;
+            boolean startPositionFound = false;
+            for (Tile tile : grid.getGrid().values()) {
+                if (tile instanceof Treasure) {
+                    treasureFound = true;
+                } else if (tile instanceof StartingPoint) {
+                    startPositionFound = true;
+                }
+            }
+            assertTrue(startPositionFound);
+            assertTrue(treasureFound);
+        }
     }
 }

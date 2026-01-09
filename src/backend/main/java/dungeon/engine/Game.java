@@ -8,6 +8,7 @@ import dungeon.engine.tiles.Treasure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
@@ -21,11 +22,12 @@ public class Game {
     private ArrayList<HeroTurnListener> heroTurnListeners;
     private ArrayList<FireTurnListener> fireTurnListeners;
     private ScoreManager scoreManager;
-
+    private int wave;
+    private int seed;
     /* --- Constructor --- */
 
-    public Game(int id) {
-        this.grid = new Grid();
+    public Game(int id, int seed) {
+        this.grid = new Grid(getId());
         this.blueprint = grid.clone();
         this.id = id;
         this.heroSquad = new HeroSquad();
@@ -34,6 +36,20 @@ public class Game {
         this.heroTurnListeners = new ArrayList<HeroTurnListener>();
         this.fireTurnListeners = new ArrayList<FireTurnListener>();
         this.scoreManager = new ScoreManager();
+        this.seed = seed;
+    }
+
+    public Game(int id) {
+        this.id = id;
+        this.grid = new Grid(getId());
+        this.blueprint = grid.clone();
+        this.heroSquad = new HeroSquad();
+        this.money = 500;
+        this.turn = 0;
+        this.heroTurnListeners = new ArrayList<HeroTurnListener>();
+        this.fireTurnListeners = new ArrayList<FireTurnListener>();
+        this.scoreManager = new ScoreManager();
+        this.seed = id;
     }
 
     public Game() {
@@ -51,21 +67,11 @@ public class Game {
     /* --- Getters and Setters --- */
 
     private Tile getTreasure() {
-        for (Coords coords: grid.getGrid().keySet()) {
-            if (grid.getTile(coords) instanceof Treasure) {
-                return grid.getTile(coords);
-            }
-        }
-        return null;
+        return grid.getTreasure();
     }
 
     private Tile getStartingPoint() {
-        for (Coords coords: grid.getGrid().keySet()) {
-            if (grid.getTile(coords) instanceof StartingPoint) {
-                return grid.getTile(coords);
-            }
-        }
-        return null;
+        return grid.getStartingPoint();
     }
 
     public Grid getGrid() {
@@ -77,6 +83,10 @@ public class Game {
 
     public int getId() {
         return id;
+    }
+
+    public int getWave() {
+        return wave;
     }
 
     public void setId(int id) {
@@ -141,11 +151,27 @@ public class Game {
 
     public void startSimulation() {
         blueprint = grid.clone();
+        Random randomGenerator = new Random(this.seed*this.wave);
         HeroSquad.Builder builder = new HeroSquad.Builder();
-        builder.addHero(new Dragon())
-                .addHero(new Healer())
-                .addHero(new Tank())
-                .addHero(new Muggle());
+        for (int i = 0; i < wave+1; i++) {
+            Hero randomHero;
+            switch (randomGenerator.nextInt(3)) {
+                case 0:
+                    randomHero = new Tank();
+                    break;
+                case 1:
+                    randomHero = new Dragon();
+                    break;
+                case 2:
+                    randomHero = new Healer();
+                    break;
+                default:
+                    randomHero = new Muggle();
+                    break;
+            }
+            builder.addHero(randomHero);
+        }
+
         this.heroSquad = builder.build();
         Tile startingPoint = getStartingPoint();
         for (Hero hero : heroSquad.getHeroes()) {
@@ -153,6 +179,10 @@ public class Game {
         }
         this.scoreManager = new ScoreManager();
         this.turn = 0;
+    }
+
+    public void nextWave() {
+        wave += 1;
     }
 
     public void endSimulation(){

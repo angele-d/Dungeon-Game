@@ -20,6 +20,10 @@ public record GameResult (
         return money;
     }
 
+    public boolean isEqual(GameResult other) {
+        return this.score == other.getScore() && this.gameId == other.getGameId() && this.money == other.getMoney();
+    }
+
     @Override
     public String toString() {
         return String.valueOf(score)+" "+String.valueOf(gameId)+" "+String.valueOf(money);
