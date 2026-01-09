@@ -106,4 +106,5 @@
 | ID | Catégorie | Description de la Tâche | Assigné à | Priorité |
 | :--- | :--- | :--- | :--- | :---: |
 | **DOC-05** | Doc | Rédaction de la ROADMAP | A. Denys | Moyenne |
+| **DOC-06** | Doc | Création des diagrammes de séquence | A. Denys | **Haute** |
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
