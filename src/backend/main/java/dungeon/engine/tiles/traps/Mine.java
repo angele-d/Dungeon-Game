@@ -9,7 +9,7 @@ import dungeon.engine.Hero;
 
 public class Mine extends Trap {
 
-    private static final int PLACEMENT_COST = 100; // FIXME: Change placementCost value
+    private static final int PLACEMENT_COST = 100;
     private static final int ASTAR_VALUE = 5;
 
     /* --- Constructor --- */

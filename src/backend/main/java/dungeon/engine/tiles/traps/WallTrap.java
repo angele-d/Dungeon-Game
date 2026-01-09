@@ -6,7 +6,7 @@ import dungeon.engine.tiles.wall.StoneWall;
 
 public class WallTrap extends Trap implements HeroTurnListener {
 
-    private static final int PLACEMENT_COST = 150; // #FIXME: Change placementCost value
+    private static final int PLACEMENT_COST = 150;
     private static final int ASTAR_VALUE = 3;
 
     /* --- Constructor --- */
