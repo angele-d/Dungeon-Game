@@ -27,10 +27,10 @@ public class SaveManager {
         }
     }
 
-    private record DataToSave(int id, int size, Map<Coords, NamedTiles> grid, int score, int money) {
+    private record DataToSave(int id, int seed, int size, Map<Coords, NamedTiles> grid, int score, int money) {
     }
 
-    private record DataToGet(int id, int size, Map<String, NamedTiles> grid, int score, int money) {
+    private record DataToGet(int id, int seed, int size, Map<String, NamedTiles> grid, int score, int money) {
     }
 
     static public void save(Game game) throws IOException {
@@ -40,6 +40,7 @@ public class SaveManager {
         Map<Coords, NamedTiles> detailedGrid = new HashMap<>();
 
         int id = game.getId();
+        int seed = game.getSeed();
         int size = grid.SIZE;
 
         for (int i = 0; i < size; i++) {
@@ -50,7 +51,7 @@ public class SaveManager {
             }
         }
 
-        DataToSave save = new DataToSave(id, size, detailedGrid, game.getScore(), game.getMoney());
+        DataToSave save = new DataToSave(id, seed, size, detailedGrid, game.getScore(), game.getMoney());
 
         Gson gson = new Gson();
         String json = gson.toJson(save);
@@ -81,6 +82,7 @@ public class SaveManager {
         Map<String, NamedTiles> gridString = data.grid;
 
         int id = data.id;
+        int seed = data.seed;
         int SIZE = data.size;
         int score = data.score;
         int money = data.money;
@@ -107,6 +109,7 @@ public class SaveManager {
         game.setScore(score);
         game.setMoney(money);
         game.setId(id);
+        game.setSeed(seed);
 
     }
 

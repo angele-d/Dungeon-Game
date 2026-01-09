@@ -92,6 +92,14 @@ public class Game {
         this.id = id;
     }
 
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
+
     public HeroSquad getHeroSquad() {
         return heroSquad;
     }
