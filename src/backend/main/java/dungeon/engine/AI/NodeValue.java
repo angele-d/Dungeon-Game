@@ -6,7 +6,7 @@ public class NodeValue {
     private Node node;
     private int value; // f = g + h
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public NodeValue(NodeValue parent, Node node, int value) {
         this.parent = parent;
@@ -14,7 +14,7 @@ public class NodeValue {
         this.value = value;
     }
 
-    /* --- Getters --- */
+/* --- Getters --- */
 
     /** 
      * Get the value of the node

@@ -11,14 +11,14 @@ public class BFS {
 
     private Grid grid;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public BFS(Grid grid) {
         this.grid = grid;
 
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
     /** 
      * Check if a tile is occupied by a hero
@@ -103,7 +103,7 @@ public class BFS {
         return start;
     }
 
-    /* --- toString --- */
+/* --- toString --- */
 
     /** 
      * toString method

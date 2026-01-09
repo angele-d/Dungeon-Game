@@ -6,7 +6,7 @@ public class ScoreManager implements DeathObserver, DamageObserver, TreasureReac
 
     private int score;
 
-    /* Getters and Setters */
+/* Getters and Setters */
 
     /** 
      * Get the current score
@@ -24,7 +24,7 @@ public class ScoreManager implements DeathObserver, DamageObserver, TreasureReac
         this.score = score;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
     /** 
      * Update the score based on the game event

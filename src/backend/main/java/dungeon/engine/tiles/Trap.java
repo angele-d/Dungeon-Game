@@ -8,7 +8,7 @@ public abstract class Trap extends Tile {
     private int damage;
     private int areaRadius;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Trap(Coords coords, int damage, int areaRadius) {
         super(coords);
@@ -16,33 +16,39 @@ public abstract class Trap extends Tile {
         this.areaRadius = areaRadius;
     }
 
-    /* --- Getters and Setters --- */
+/* --- Getters and Setters --- */
 
+    /** 
+     * Get the damage of the trap
+     * @return int
+     */
     public int getDamage() {
         return damage;
     }
-
+    /** 
+     * Set the damage of the trap (for testing purposes)
+     * @param damage
+     */
     public void setDamage(int damage) {
         this.damage = damage;
     }
 
+    /** 
+     * Get the area radius of the trap
+     * @return int
+     */
     public int getAreaRadius() {
         return areaRadius;
     }
-
+    /** 
+     * Set the area radius of the trap (for testing purposes)
+     * @param areaRadius
+     */
     public void setAreaRadius(int areaRadius) {
         this.areaRadius = areaRadius;
     }
 
-    public Coords getTrapCoords() {
-        return this.getCoords();
-    }
-
-    public void setTrapCoords(Coords coords) {
-        this.setCoords(coords);
-    }
-
-    /* --- Abstract functions --- */
+/* --- Abstract functions --- */
 
     public abstract int getAstarValue();
 
@@ -50,8 +56,12 @@ public abstract class Trap extends Tile {
 
     public abstract int getPlacementCost();
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the trap
+     * @return String
+     */
     @Override
     public String toString() {
         return "trap";

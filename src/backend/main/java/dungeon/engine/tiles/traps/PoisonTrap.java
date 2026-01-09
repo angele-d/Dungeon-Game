@@ -12,7 +12,7 @@ public class PoisonTrap extends Trap {
     private static final int PLACEMENT_COST = 100;
     private static final int ASTAR_VALUE = 7;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public PoisonTrap(Coords coords, int damage, int areaRadius) {
         super(coords, damage, areaRadius);
@@ -22,18 +22,30 @@ public class PoisonTrap extends Trap {
         super(coords, 0, 0);
     }
 
-    /* --- Getters and Setters --- */
+/* --- Getters and Setters --- */
 
+    /** 
+     * Get the A* value of the poison trap
+     * @return int
+     */
     public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
+    /** 
+     * Get the placement cost of the poison trap
+     * @return int
+     */
     public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Activate the poison trap
+     * @param game
+     */
     @Override
     public void activateTrap(Game game) {
         // Implementation for poison effect can be added here
@@ -52,8 +64,12 @@ public class PoisonTrap extends Trap {
         game.getGrid().setTile(emptyTile);
     }
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the poison trap
+     * @return String
+     */
     @Override
     public String toString() {
         return "poisontrap";

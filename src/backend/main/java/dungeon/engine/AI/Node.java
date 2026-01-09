@@ -9,7 +9,7 @@ public class Node {
     private Coords coords;
     private Node parent;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Node(Coords coords, Node parent) {
         this.coords = coords;
@@ -17,7 +17,7 @@ public class Node {
         this.parent = parent;
     }
 
-    /* --- Getters --- */
+/* --- Getters --- */
 
     /** 
      * Get the list of child nodes

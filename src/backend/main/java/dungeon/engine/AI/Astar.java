@@ -14,14 +14,14 @@ public class Astar {
 
     private Grid grid;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Astar(Grid grid) {
         this.grid = grid;
 
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
     /** 
      * Check if a tile is occupied by a hero
@@ -135,7 +135,7 @@ public class Astar {
         return curr.getNode().getCoords();
     }
 
-    /* --- toString --- */
+/* --- toString --- */
 
     /** 
      * toString method
