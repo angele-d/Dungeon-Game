@@ -137,7 +137,7 @@ public class Game {
      * @return bool
      */
     public boolean isSimulationRunning() {
-        return isSimulationRunning();
+        return simulationRunning;
     }
 
     /** 
