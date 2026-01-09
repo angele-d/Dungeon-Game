@@ -1,12 +1,11 @@
 package dungeon.ui.cli;
 
-import dungeon.engine.Coords;
 import dungeon.engine.GameEngine;
 import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.Game;
 
 public class ExecuteGame {
-    public static void execute_game(Game game, int size, Coords dep_hero, ScoreManager score, String legendString,
+    public static void execute_game(Game game, int size, ScoreManager score, String legendString,
             int strategy_AI) {
         int end = 0;
         int round = 1;

@@ -216,7 +216,7 @@ public class Game {
         this.grid = blueprint.clone();
     }
 
-    public void placementOnGrid(Tile tile) {
+    public boolean placementOnGrid(Tile tile) {
         int tileCost = tile.getPlacementCost();
         Tile currentTile = this.grid.getTile(tile.getCoords());
         int currentTileCost = currentTile.getPlacementCost();
@@ -224,8 +224,9 @@ public class Game {
 
         if (this.money >= totalCost) {
             this.subMoney(totalCost);
-            this.grid.setTile(tile);
+            return this.grid.setTile(tile);
         }
+        return false;
     }
 
     public void doMovement(Hero hero, Coords newCoords) {
