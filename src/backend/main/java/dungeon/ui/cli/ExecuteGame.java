@@ -9,8 +9,8 @@ public class ExecuteGame {
             int strategy_AI) {
         int end = 0;
         int round = 1;
-        GameEngine.getInstance().startSimulation(game.getId());
         GameEngine.getInstance().changeAI(game.getId(), getTypeAI(strategy_AI));
+        GameEngine.getInstance().startSimulation(game.getId());
         while (end == 0) {
             if (GameEngine.getInstance().isGameTerminated(game.getId())) {
                 end = 1;
