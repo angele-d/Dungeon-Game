@@ -2,6 +2,7 @@ package dungeon.engine;
 
 import dungeon.engine.AI.BFS;
 import dungeon.engine.Observers.ScoreManager;
+import dungeon.engine.Strategies.Strategy;
 import dungeon.engine.tiles.Trap;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Game {
     private ScoreManager scoreManager;
     private int wave;
     private int seed;
+    private Strategy strategy;
     /* --- Constructor --- */
 
     public Game(int id, int seed) {
@@ -88,8 +90,25 @@ public class Game {
         return wave;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+        heroSquad.setStrategy(strategy);
+    }
+
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 
     public HeroSquad getHeroSquad() {
@@ -178,6 +197,8 @@ public class Game {
         }
 
         this.heroSquad = builder.build();
+        System.out.println(strategy.toString());
+        heroSquad.setStrategy(strategy);
         Tile startingPoint = getStartingPoint();
         this.scoreManager = new ScoreManager();
         for (Hero hero : heroSquad.getHeroes()) {
@@ -195,7 +216,7 @@ public class Game {
         this.grid = blueprint.clone();
     }
 
-    public void placementOnGrid(Tile tile) {
+    public boolean placementOnGrid(Tile tile) {
         int tileCost = tile.getPlacementCost();
         Tile currentTile = this.grid.getTile(tile.getCoords());
         int currentTileCost = currentTile.getPlacementCost();
@@ -203,8 +224,9 @@ public class Game {
 
         if (this.money >= totalCost) {
             this.subMoney(totalCost);
-            this.grid.setTile(tile);
+            return this.grid.setTile(tile);
         }
+        return false;
     }
 
     public void doMovement(Hero hero, Coords newCoords) {
@@ -271,7 +293,7 @@ public class Game {
         Tile startingPoint = getStartingPoint();
         if (treasure != null && startingPoint != null) {
             BFS bfs = new BFS(getGrid());
-            return bfs.search(startingPoint.getCoords(), null) != null;
+            return bfs.search(startingPoint.getCoords(), null) != startingPoint.getCoords();
         }
         return false;
     }

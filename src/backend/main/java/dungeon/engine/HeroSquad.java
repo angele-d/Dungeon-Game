@@ -70,7 +70,7 @@ public class HeroSquad {
                 hero_serialized.add(null);
                 hero_serialized.add(null);
             }
-            hero_serialized.add(Integer.toString(hero.getHealth() / hero.getMaxHealth()));
+            hero_serialized.add(Float.toString(((float) hero.getHealth()) / ((float) hero.getMaxHealth())));
             result.add(hero_serialized);
         }
         return result;
