@@ -47,3 +47,7 @@
 .leaderboard-entry td.filename a {
   text-decoration: underline;
 }
+
+.side {
+  width: 15vw;
+}
