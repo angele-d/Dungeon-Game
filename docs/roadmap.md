@@ -119,4 +119,6 @@
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
 | **CORR-03** | Correctif | Correction affichage des héros dans le WEB | K. Bui | **Critique** |
 | **CORR-04** | Correctif | Correction Hero non affiché | P. Musial | Moyenne |
+| **CORR-05** | Correctif | Correction score dans Terminal | E. Girres | Moyenne |
+| **CORR-06** | Correctif | Leaderboard dans terminal | P. Musial & E. Girres | Moyenne |
 | **CLEAN-01** | Nettoyage | Nettoyage du code | Toute l'équipe | Moyenne |
