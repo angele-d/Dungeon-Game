@@ -72,7 +72,7 @@ public class PrintGrid {
                 } else if (tile instanceof dungeon.engine.tiles.traps.Mine) {
                     line_completed += " M";
                 } else if (tile instanceof dungeon.engine.tiles.traps.WallTrap) {
-                    line_completed += " T";
+                    line_completed += " W";
                 } else if (tile instanceof dungeon.engine.tiles.wall.StoneWall) {
                     line_completed += " #";
                 } else if (tile instanceof dungeon.engine.tiles.wall.WoodWall) {
