@@ -11,7 +11,7 @@ public class Healer extends Hero {
     private static final int PERSONAL_HEAL_PERCENTAGE = 20;
     private static final int MAX_HEALTH = 150;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Healer() {
         super();
@@ -19,30 +19,52 @@ public class Healer extends Hero {
         // Healer-specific initialization
     }
 
-    /* --- Getters and Setters --- */
+/* --- Getters and Setters --- */
 
+    /** 
+     * Gets the current health of the Healer.
+     * @return int
+     */
     public int getHealth() {
         return health;
     }
-
+    /** 
+     * Sets the current health of the Healer.
+     * @param health
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
+    /** 
+     * Gets the maximum health of the Healer.
+     * @return int
+     */
     public int getMaxHealth() {
         return MAX_HEALTH;
     }
 
+    /** 
+     * Gets whether the Healer has an action available.
+     * @return boolean
+     */
     public boolean getActionAvailable() {
         return false;
     }
-
+    /** 
+     * Sets the availability of the Healer's action.
+     * @param status
+     */
     public void setActionAvailable(boolean status) {
         // Do nothing
     }
+    
+/* --- Functions --- */
 
-    /* --- Functions --- */
-
+    /** 
+     * Applies damage to the Healer.
+     * @param damage
+     */
     @Override
     public void applyDamage(int damage) {
         health -= damage;
@@ -53,15 +75,27 @@ public class Healer extends Hero {
         }
     }
 
+    /** 
+     * Resets the Healer's action.
+     */
     @Override
     public void resetAction() {
         // No action to reset
     }
 
+    /** 
+     * Accepts a visitor.
+     * @param visitor
+     */
     public void accept(HeroVisitor visitor) {
         visitor.visit(this);
     }
 
+    /** 
+     * Moves the Healer according to its strategy.
+     * @param game
+     * @return Coords
+     */
     @Override
     public Coords move(Game game) {
         // Healer-specific movement logic
@@ -81,8 +115,12 @@ public class Healer extends Hero {
         return newCoords;
     }
 
-    /* --- toString --- */
+/* --- toString --- */
 
+    /** 
+     * String representation of the Healer.
+     * @return String
+     */
     @Override
     public String toString() {
         return "Healer";

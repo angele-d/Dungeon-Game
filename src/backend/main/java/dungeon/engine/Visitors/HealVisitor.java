@@ -6,6 +6,10 @@ import dungeon.engine.Hero;
 public class HealVisitor implements HeroVisitor {
     private static final int ZONE_HEAL_PERCENTAGE = 10; // Percentage of health to heal for allies
 
+    /** 
+     * Visit a hero and apply healing
+     * @param hero
+     */
     @Override
     public void visit(Hero hero) {
         // Heal allies except Healer

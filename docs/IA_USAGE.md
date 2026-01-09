@@ -560,3 +560,47 @@ Les deux diagrammes générés correspondaient bien aux attentes et au code exis
 ### Remarques
 
 Les diagrammes ont été très utiles pour clarifier certains aspects du code et de son fonctionnement.
+
+
+
+---
+
+## Interaction 6
+
+### Contexte
+
+Création de tests unitaires pour walltrap
+
+### Prompt
+Généré avec le prompt suivant: ```génère un prompt pour demander à gemini code assist de générer une batterie de tests pour l'implémentation d'un pattern listener, qui est utilisé lorsq'un Hero est sur une case walltrap et la quitte ? Le tout sans utiliser Mockito```
+```txt
+Contexte :
+J'implémente un jeu en Java utilisant le pattern Observer/Listener.
+- Hero : Une entité qui se déplace de case en case. Il agit comme le "Sujet" et notifie lors de ses déplacements.
+- WallTrap (Piège) : Une tuile spécifique qui implémente un MovementListener. Elle doit réagir uniquement quand le Hero QUITTE la case du piège.
+- EventManager : Gère l'abonnement et le désabonnement des listeners.
+
+Tâche :
+Génère une suite de tests complète avec JUnit 5 sans Mockito pour tester l'interaction entre le Hero et le WallTrap.
+
+Prérequis des tests :
+1. Enregistrement : Vérifier que le WallTrap s'abonne bien aux événements du Hero à l'initialisation.
+2. Logique de déclenchement (Sortie) : Vérifier que la logique du piège se déclenche UNIQUEMENT quand l'ancienne position du Hero correspond au piège et que la nouvelle est différente.
+3. Tests négatifs : S'assurer que le piège ne se déclenche PAS si le Hero arrive SUR le piège ou reste sur la même case.
+4. Désabonnement : Vérifier que le WallTrap se désabonne (unregister) lorsqu'il est détruit (pour éviter les fuites de mémoire).
+5. Listeners multiples : S'assurer que plusieurs pièges peuvent écouter sans conflit.
+
+Style :
+Utilise des noms de tests descriptifs et la structure de commentaires 'Given-When-Then'.
+```
+
+### Réponse IA
+
+Le fichier de test
+
+### Décision
+
+Correction de quelques mauvaises utilisations de méthodes
+
+### Remarques
+Le résultat était bien pertinent avec les bons contextes pour l'ordre d'appel.

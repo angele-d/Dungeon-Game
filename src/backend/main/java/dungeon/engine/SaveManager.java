@@ -33,6 +33,13 @@ public class SaveManager {
     private record DataToGet(int id, int seed, int size, Map<String, NamedTiles> grid, int score, int money) {
     }
 
+/* --- Functions --- */
+    
+    /** 
+     * Saves the current game state to a file.
+     * @param game
+     * @throws IOException
+     */
     static public void save(Game game) throws IOException {
 
         Grid grid = game.getGrid();
@@ -63,6 +70,12 @@ public class SaveManager {
         Files.writeString(path, json, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
+    /** 
+     * Loads a game state from a file.
+     * @param game
+     * @param filename
+     * @throws IOException
+     */
     static public void load(Game game, String filename) throws IOException {
         Path dir = Path.of("saves");
         if (!Files.exists(dir)) {
@@ -114,8 +127,10 @@ public class SaveManager {
 
     }
 
-    // List all files in the "saves" directory (file names only). Returns an empty
-    // list if the directory doesn't exist.
+    /** 
+     * Lists all save files in the "saves" directory. / Returns an empty list if the directory doesn't exist.
+     * @return List<String>
+     */
     public static java.util.List<String> listSaveFiles() {
         Path dir = Path.of("saves");
         if (!Files.exists(dir) || !Files.isDirectory(dir)) {

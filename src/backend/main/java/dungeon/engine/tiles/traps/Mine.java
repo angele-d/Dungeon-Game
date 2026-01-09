@@ -9,10 +9,10 @@ import dungeon.engine.Hero;
 
 public class Mine extends Trap {
 
-    private static final int PLACEMENT_COST = 100; // FIXME: Change placementCost value
+    private static final int PLACEMENT_COST = 100;
     private static final int ASTAR_VALUE = 5;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Mine(Coords coords) {
         super(coords, 500000000, 2);
@@ -22,18 +22,30 @@ public class Mine extends Trap {
         super(coords, damage, areaRadius);
     }
 
-    /* --- Getters and Setters --- */
+/* --- Getters and Setters --- */
 
+    /** 
+     * Get the A* value of the mine
+     * @return int
+     */
     public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
+    /** 
+     * Get the placement cost of the mine
+     * @return int
+     */
     public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 
     /* --- Functions --- */
 
+    /** 
+     * Activate the mine trap
+     * @param game
+     */
     @Override
     public void activateTrap(Game game) {
         AreaDamageVisitor areaDamageVisitor = new AreaDamageVisitor(this.getCoords(), this.getDamage(),
@@ -47,8 +59,12 @@ public class Mine extends Trap {
         game.getGrid().setTile(emptyTile);
     }
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the mine
+     * @return String
+     */
     @Override
     public String toString() {
         return "mine";

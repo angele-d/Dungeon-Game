@@ -6,10 +6,10 @@ import dungeon.engine.tiles.wall.StoneWall;
 
 public class WallTrap extends Trap implements HeroTurnListener {
 
-    private static final int PLACEMENT_COST = 150; // #FIXME: Change placementCost value
+    private static final int PLACEMENT_COST = 150;
     private static final int ASTAR_VALUE = 3;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public WallTrap(Coords coords) {
         super(coords, 10, 1);
@@ -19,18 +19,31 @@ public class WallTrap extends Trap implements HeroTurnListener {
         super(coords, damage, area);
     }
 
-    /* --- Getters and Setters --- */
 
+/* --- Getters and Setters --- */
+
+    /** 
+     * Get the placement cost of the wall trap
+     * @return int
+     */
     public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 
+    /** 
+     * Get the A* value of the wall trap
+     * @return int
+     */
     public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Activate the wall trap
+     * @param game
+     */
     @Override
     public void activateTrap(Game game) {
         game.addHeroTurnListener(this);
@@ -38,6 +51,10 @@ public class WallTrap extends Trap implements HeroTurnListener {
         // WallTrap already changed into StoneWall on onNewTurn
     }
 
+    /** 
+     * Handle new turn event
+     * @param game
+     */
     @Override
     public void onNewTurn(Game game) {
         boolean available = true;
@@ -54,8 +71,12 @@ public class WallTrap extends Trap implements HeroTurnListener {
         }
     }
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the wall trap
+     * @return String
+     */
     public String toString() {
         return "walltrap";
     }

@@ -13,12 +13,14 @@ public class Grid {
     int SIZE = 10;
     private Map<Coords, Tile> grid;
 
+/* --- Constructors --- */
+
     public Grid() {
         this(1);
     }
 
     public Grid(Grid grid) {
-        this.grid = new HashMap<>(grid.getGrid());
+        this.grid = new HashMap<Coords, Tile>(grid.getGrid());
     }
 
     public Grid(int seed) {
@@ -40,15 +42,33 @@ public class Grid {
         }
     }
 
-    // @Override
-    // public String toString() {
-    // return "";
-    // }
+/* --- Getters and Setters --- */
 
+    /**
+     * Gets the tile at the specified coordinates.
+     * @param coords
+     * @return Tile
+     */
     public Tile getTile(Coords coords) {
         return this.grid.get(coords);
     }
+    /**
+     * Sets the tile at the specified coordinates.
+     * @param tile
+     * @return boolean
+     */
+    public boolean setTile(Tile tile) {
+        if (grid.get(tile.getCoords()) instanceof Treasure || grid.get(tile.getCoords()) instanceof StartingPoint) {
+            return false;
+        }
+        this.grid.put(tile.getCoords(), tile);
+        return true;
+    }
 
+    /**
+     * Gets the treasure tile in the grid.
+     * @return Tile
+     */
     public Tile getTreasure() {
         for (Coords coords : grid.keySet()) {
             if (getTile(coords) instanceof Treasure) {
@@ -58,6 +78,10 @@ public class Grid {
         return null;
     }
 
+    /**
+     * Gets the starting point tile in the grid.
+     * @return Tile
+     */
     public Tile getStartingPoint() {
         for (Coords coords : getGrid().keySet()) {
             if (getTile(coords) instanceof StartingPoint) {
@@ -79,14 +103,27 @@ public class Grid {
         this.grid.put(tile.getCoords(), tile);
     }
 
+    /**
+     * Gets the size of the grid.
+     * @return int
+     */
     public int getSize() {
         return SIZE;
     }
 
+    /**
+     * Gets the entire grid as a map of coordinates to tiles.
+     * @return Map<Coords, Tile>
+     */
     public Map<Coords, Tile> getGrid() {
         return this.grid;
     }
 
+    /**
+     * Gets the coordinates of neighboring tiles.
+     * @param coords
+     * @return ArrayList<Coords>
+     */
     public ArrayList<Coords> getNeighborsCoords(Coords coords) {
         ArrayList<Coords> neighbors = new ArrayList<>();
         if (coords.x() > 0) {
@@ -104,11 +141,21 @@ public class Grid {
         return neighbors;
     }
 
+/* --- Functions --- */
+
+    /**
+     * Clones the grid.
+     * @return Grid
+     */
     public Grid clone() {
         Grid newGrid = new Grid(this);
         return newGrid;
     }
 
+    /**
+     * Serializes the grid to a 2D array representation.
+     * @return ArrayList<ArrayList<String>>
+     */
     public ArrayList<ArrayList<String>> serialized() {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (int col = 0; col < SIZE; col++) {
