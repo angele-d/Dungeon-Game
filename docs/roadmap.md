@@ -103,3 +103,7 @@
 ## Sprint 5 : Finalisations (09 Janvier)
 *Finalisation des fonctionnalités restantes, tests et documentation. Création de la vidéo de rendu*
 
+| ID | Catégorie | Description de la Tâche | Assigné à | Priorité |
+| :--- | :--- | :--- | :--- | :---: |
+| **DOC-05** | Doc | Rédaction de la ROADMAP | A. Denys | Moyenne |
+| **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |

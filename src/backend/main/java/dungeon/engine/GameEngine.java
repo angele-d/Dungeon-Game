@@ -162,6 +162,7 @@ public class GameEngine {
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heroes", game.getHeroSquad().serialized().toString());
         result.put("money", String.valueOf(game.getMoney()));
+        result.put("score", String.valueOf(game.getScore()));
         return result;
     }
 
