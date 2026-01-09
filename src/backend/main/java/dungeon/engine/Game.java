@@ -208,6 +208,7 @@ public class Game {
             }
             builder.addHero(randomHero);
         }
+        heroSquad = builder.build();
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(startingPoint.getCoords());
         }
