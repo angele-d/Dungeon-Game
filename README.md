@@ -76,6 +76,9 @@ Le serveur démarrera sur `http://localhost:8080`
 ### Accès à l'Interface Web
 
 Par défaut, le serveur écoute les requêtes sur le port `5500`. Pour une configuration locale, lancer le serveur http à l'adresse suivante:
+``` 
+127.0.0.1:5500
+```
 
 Le chemin vers la page d'accueil est :
 ```
