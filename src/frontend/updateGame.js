@@ -282,7 +282,13 @@ function updateHeroes(heroesData) {
             </div>`;
     infoPanel.appendChild(heroDiv);
 
-    if (hero[1] && hero[2]) {
+    if (
+      hero[1] != null &&
+      hero[2] != null &&
+      !isNaN(hero[1]) &&
+      !isNaN(hero[2]) &&
+      hero[3] > 0
+    ) {
       // Update on the grid
       const targetCell =
         document.querySelectorAll(".grid-cell")[
