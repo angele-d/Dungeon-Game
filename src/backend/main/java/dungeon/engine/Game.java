@@ -12,6 +12,7 @@ import java.util.Random;
 public class Game {
 
     public static final int POISON_DAMAGE_PER_TURN = 5;
+    public static final int INITIAL_MONEY = 5000;
     private int id;
     private Grid grid;
     private Grid blueprint;
@@ -32,7 +33,7 @@ public class Game {
         this.blueprint = grid.clone();
         this.id = id;
         this.heroSquad = new HeroSquad();
-        this.money = 500;
+        this.money = INITIAL_MONEY;
         this.turn = 0;
         this.heroTurnListeners = new ArrayList<HeroTurnListener>();
         this.fireTurnListeners = new ArrayList<FireTurnListener>();
@@ -45,7 +46,7 @@ public class Game {
         this.grid = new Grid(getId());
         this.blueprint = grid.clone();
         this.heroSquad = new HeroSquad();
-        this.money = 500;
+        this.money = INITIAL_MONEY;
         this.turn = 0;
         this.heroTurnListeners = new ArrayList<HeroTurnListener>();
         this.fireTurnListeners = new ArrayList<FireTurnListener>();
@@ -58,7 +59,7 @@ public class Game {
         this.blueprint = grid.clone();
         this.id = 1;
         this.heroSquad = new HeroSquad();
-        this.money = 500;
+        this.money = INITIAL_MONEY;
         this.turn = 0;
         this.scoreManager = new ScoreManager();
         this.heroTurnListeners = new ArrayList<HeroTurnListener>();
