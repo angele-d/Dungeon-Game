@@ -6,40 +6,62 @@ import dungeon.engine.tiles.wall.StoneWall;
 
 public class WallTrap extends Trap implements HeroTurnListener {
 
-    private static final int PLACEMENT_COST = 150; // #FIXME: Change placementCost value
+    private static final int PLACEMENT_COST = 500;
+    private static final int DEFAULT_DAMAGE = 50;
+    private static final int DEFAULT_AREA = 1;
     private static final int ASTAR_VALUE = 3;
 
-    /* --- Constructor --- */
+
+/* --- Constructor --- */
 
     public WallTrap(Coords coords) {
-        super(coords,10, 1);
+        super(coords, DEFAULT_DAMAGE, DEFAULT_AREA);
     }
 
-    public WallTrap(Coords coords,int damage,int area) {
-        super(coords,damage, area);
+    public WallTrap(Coords coords, int damage, int area) {
+        super(coords, damage, area);
     }
 
-    /* --- Getters and Setters --- */
 
-    public int getPlacementCost(){
+/* --- Getters and Setters --- */
+
+    /** 
+     * Get the placement cost of the wall trap
+     * @return int
+     */
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
-    
-    public int getAstarValue(){
+
+    /** 
+     * Get the A* value of the wall trap
+     * @return int
+     */
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Activate the wall trap
+     * @param game
+     */
     @Override
-    public void activateTrap(Game game){
+    public void activateTrap(Game game) {
         game.addHeroTurnListener(this);
+
+        // WallTrap already changed into StoneWall on onNewTurn
     }
 
+    /** 
+     * Handle new turn event
+     * @param game
+     */
     @Override
     public void onNewTurn(Game game) {
         boolean available = true;
-        for (Hero hero: game.getHeroSquad().getHeroes()) {
+        for (Hero hero : game.getHeroSquad().getHeroes()) {
             if (hero.getCoords().equals(getCoords())) {
                 available = false;
                 break;
@@ -52,8 +74,12 @@ public class WallTrap extends Trap implements HeroTurnListener {
         }
     }
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the wall trap
+     * @return String
+     */
     public String toString() {
         return "walltrap";
     }

@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LeaderBoard {
-    /*
-    * Handles LeaderBoard integration in CLI
-    */
+
+    /** 
+     * Displays the leaderboard menu and handles user interaction.
+     * @param scanner
+     * @param DISPLAY_SIZE
+     * @return int
+     */
     public static int showLeaderBoard(Scanner scanner, int DISPLAY_SIZE) {
         /*
          * Shows the leaderboard menu
@@ -21,7 +25,8 @@ public class LeaderBoard {
         int result = -1;
         System.out.println("==================== Leaderboard ====================");
         while (run) {
-            System.out.print("Games "+page*DISPLAY_SIZE+" to "+(page+1)*DISPLAY_SIZE + "     (Score  ID  Coin)");
+            System.out.print(
+                    "Games " + page * DISPLAY_SIZE + " to " + (page + 1) * DISPLAY_SIZE + "\n     (Score  ID  Coin)");
             System.out.print("\n");
             System.out.print("\n");
             String result_leader = generateLeaderboard(leaderboard, page, DISPLAY_SIZE);
@@ -31,7 +36,7 @@ public class LeaderBoard {
             System.out.print("Choose an action:\n(p)revious (n)ext (c)lose\nOr write a game id");
             System.out.print("\n");
             System.out.print("\n");
-            String action = scanner.next();
+            String action = scanner.next().trim();
             System.out.print("\n");
             switch (action) {
                 case "p":
@@ -40,7 +45,7 @@ public class LeaderBoard {
                     }
                     break;
                 case "n":
-                    if ((page+1)*DISPLAY_SIZE < leaderboard.size()) {
+                    if ((page + 1) * DISPLAY_SIZE < leaderboard.size()) {
                         page++;
                     }
                     break;
@@ -64,13 +69,20 @@ public class LeaderBoard {
         return result;
     }
 
+    /** 
+     * Generates the formatted leaderboard string for a given page.
+     * @param leaderboard
+     * @param page
+     * @param DISPLAY_SIZE
+     * @return String
+     */
     private static String generateLeaderboard(List<GameResult> leaderboard, int page, int DISPLAY_SIZE) {
         /*
-        Returns the formatted string for
+         * Returns the formatted string for
          */
 
-        String result="";
-        for (int i = page*DISPLAY_SIZE; i < Math.min((page+1)*DISPLAY_SIZE, leaderboard.size()); i++) {
+        String result = "";
+        for (int i = page * DISPLAY_SIZE; i < Math.min((page + 1) * DISPLAY_SIZE, leaderboard.size()); i++) {
             result += leaderboard.get(i).toString() + "\n";
         }
         return result;

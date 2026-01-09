@@ -13,11 +13,13 @@ class WallTest {
         public TestWall(Coords coords) {
             super(coords);
         }
+
         public int getAstarValue() {
-            return 0; //fake value for testing
+            return 0; // fake value for testing
         }
+
         public int getPlacementCost() {
-            return 0; //fake value for testing
+            return 0; // fake value for testing
         }
     }
 

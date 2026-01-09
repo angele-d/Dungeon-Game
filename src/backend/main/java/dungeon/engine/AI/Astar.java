@@ -6,6 +6,7 @@ import dungeon.engine.Hero;
 import dungeon.engine.HeroSquad;
 import dungeon.engine.tiles.StartingPoint;
 import dungeon.engine.tiles.Treasure;
+import dungeon.engine.tiles.Wall;
 
 import java.util.*;
 
@@ -13,27 +14,34 @@ public class Astar {
 
     private Grid grid;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Astar(Grid grid) {
         this.grid = grid;
 
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
-    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
-        if(heroSquad == null) return false;
+    /** 
+     * Check if a tile is occupied by a hero
+     * @param neighbor
+     * @param heroSquad
+     * @return boolean
+     */
+    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad) {
+        if (heroSquad == null)
+            return false;
 
         // Heroes can be more than one in Treasure and StartingPoint tiles
-        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+        if (grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint) {
             return false;
         }
 
-        for(Hero hero : heroSquad.getHeroes()){
-            if(hero.getCoords().equals(neighbor)){
+        for (Hero hero : heroSquad.getHeroes()) {
+            if (hero.getCoords().equals(neighbor)) {
                 // Check if the hero is alive
-                if(hero.getHealth() > 0)
+                if (hero.getHealth() > 0)
                     return true;
             }
         }
@@ -41,58 +49,101 @@ public class Astar {
         return false;
     }
 
+    /** 
+     * Check if a tile is walkable
+     * @param neighbor
+     * @param heroSquad
+     * @return boolean
+     */
+    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad) {
+        // Check if a wall is there
+        if (grid.getTile(neighbor) instanceof Wall) {
+            return false;
+        }
+        // Check if an other hero is there
+        if (isOccupied(neighbor, heroSquad)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /** 
+     * Search for the best path to the treasure
+     * @param start
+     * @param heroSquad
+     * @return Coords
+     */
     public Coords search(Coords start, HeroSquad heroSquad) {
-        PriorityQueue<NodeValue> value = new PriorityQueue<>(
-            Comparator.comparingInt(NodeValue::getValue)
-        );
+
+        PriorityQueue<NodeValue> openList = new PriorityQueue<>(
+                Comparator.comparingInt(NodeValue::getValue));
+
         Map<Coords, Integer> bestCost = new HashMap<>();
-        bestCost.put(start, 0);
+
         Node startNode = new Node(start, null);
         NodeValue startValue = new NodeValue(null, startNode, 0);
-        value.add(startValue);
 
-        while (!value.isEmpty()) {
-            NodeValue currValue = value.poll();
-            Node currNode = currValue.getNode();
+        openList.add(startValue);
+        bestCost.put(start, 0);
 
-            // Treasure found
-            if (grid.getTile(currNode.getCoords()) instanceof Treasure) {
-                return treasureFound(currValue);
+        while (!openList.isEmpty()) {
+
+            NodeValue currentValue = openList.poll();
+            Node currentNode = currentValue.getNode();
+            Coords currentCoords = currentNode.getCoords();
+
+            if (grid.getTile(currentCoords) instanceof Treasure) {
+                return treasureFound(currentValue);
             }
 
-            // Explore neighbors
-            for (Coords neighbor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
+            for (Coords neighbor : grid.getNeighborsCoords(currentCoords)) {
 
-                    int newCost;
-                    if(isOccupied(neighbor, heroSquad)){
-                        newCost = 200000;
-                    }
-                    else{
-                        newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
-                    }
-                    Node neighborNode = new Node(neighbor, currNode);
-                    
-                    if (!bestCost.containsKey(neighbor) || newCost < bestCost.get(neighbor)) {
-                        bestCost.put(neighbor, newCost);
-                        value.add(new NodeValue(currValue, neighborNode, newCost));
-                    }
+                if (!isWalkable(neighbor, heroSquad)) {
+                    continue;
+                }
+
+                int newCost = currentValue.getValue()
+                        + grid.getTile(neighbor).getAstarValue();
+
+                if (bestCost.containsKey(neighbor)
+                        && newCost >= bestCost.get(neighbor)) {
+                    continue;
+                }
+
+                bestCost.put(neighbor, newCost);
+
+                Node neighborNode = new Node(neighbor, currentNode);
+                NodeValue neighborValue = new NodeValue(currentValue, neighborNode, newCost);
+
+                openList.add(neighborValue);
             }
         }
+
         return start;
     }
 
-    public Coords treasureFound(NodeValue curr){
+    /** 
+     * Find the coordinates of the first step towards the treasure
+     * @param curr
+     * @return Coords
+     */
+    public Coords treasureFound(NodeValue curr) {
         while (curr.getParent() != null && curr.getParent().getParent() != null) {
             curr = curr.getParent();
         }
         return curr.getNode().getCoords();
     }
 
-    /* --- toString --- */
+/* --- toString --- */
 
+    /** 
+     * toString method
+     * @return String
+     */
     @Override
     public String toString() {
         return "Astar";
-    }        
-       
+    }
+
 }

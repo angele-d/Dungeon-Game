@@ -1,0 +1,35 @@
+@startuml
+actor User
+participant GameEngine
+participant Game
+participant HeroSquad
+participant "Hero (observer: ScoreManager)" as Hero
+participant "Trap (Mine)" as Trap
+participant AreaDamageVisitor as DamageVisitor
+participant ScoreManager
+participant LeaderBoard
+participant SaveManager
+
+' Assumption: damage comes from a Mine triggered during Game.nextTurn
+User -> GameEngine: nextTurn(gameId)
+GameEngine -> Game: nextTurn()
+loop per hero
+  Game -> Hero: move()
+  Hero -> Game: newCoords
+  Game -> Trap: activateTrap(game)
+  Trap -> DamageVisitor: visit(hero*)
+  DamageVisitor -> Hero: applyDamage(damage)
+  Hero -> ScoreManager: update(GameEvent DAMAGE_TAKEN)
+  ScoreManager -> ScoreManager: adjust score
+  alt hero health <= 0
+    Hero -> ScoreManager: update(GameEvent HERO_DEATH)
+  end
+end
+GameEngine -> Game: isTerminated()
+alt terminated
+  GameEngine -> SaveManager: save(game)
+  GameEngine -> LeaderBoard: addResults(new GameResult(score, id, money))
+else ongoing
+  GameEngine <-- Game: false
+end
+@enduml

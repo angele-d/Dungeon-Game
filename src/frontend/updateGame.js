@@ -253,7 +253,7 @@ function updateHeroes(heroesData) {
 
   let colors = ["green", "blue", "red", "purple", "yellow"];
   heroesData.forEach((hero, index) => {
-    hero[3] = parseInt(hero[3]) * 100; // Convert to percentage
+    hero[3] = parseFloat(hero[3]) * 100; // Convert to percentage
 
     const color = colors[index % colors.length];
     const heroDiv = document.createElement("div");
@@ -282,14 +282,26 @@ function updateHeroes(heroesData) {
             </div>`;
     infoPanel.appendChild(heroDiv);
 
-    // Update on the grid
-    const targetCell =
-      document.querySelectorAll(".grid-cell")[
-        parseInt(hero[1]) * size + parseInt(hero[2])
-      ];
-    targetCell.classList.add("relative");
-    targetCell.innerHTML = heroPawns[hero[0]];
+    if (
+      hero[1] != null &&
+      hero[2] != null &&
+      !isNaN(hero[1]) &&
+      !isNaN(hero[2]) &&
+      hero[3] > 0
+    ) {
+      // Update on the grid
+      const targetCell =
+        document.querySelectorAll(".grid-cell")[
+          parseInt(hero[1]) * size + parseInt(hero[2])
+        ];
+      targetCell.classList.add("relative");
+      targetCell.innerHTML = heroPawns[hero[0]];
+    }
   });
 }
 
-export { updateGrid, updateHeroes };
+function updateScore(score) {
+  document.querySelector("#score-display").textContent = score;
+}
+
+export { updateGrid, updateHeroes, updateScore };

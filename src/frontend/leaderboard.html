@@ -31,7 +31,7 @@
     <header
       class="flex items-center justify-between whitespace-nowrap border-b border-solid border-surface-border bg-background-dark px-6 py-3 shrink-0 z-20"
     >
-      <div class="flex items-center gap-4 text-white">
+      <div class="flex items-center gap-4 text-white side">
         <div
           class="size-8 flex items-center justify-center bg-primary/20 rounded-lg text-primary"
         >
@@ -49,12 +49,10 @@
           >
         </div>
       </div>
-      <div class="flex items-center gap-3">
-        <button
-          class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-surface-dark hover:bg-surface-border text-white transition-colors border border-surface-border"
-        >
-          <span class="material-symbols-outlined">settings</span>
-        </button>
+      <div class="flex items-center gap-3 side">
+        <div class="flex items-center gap-3 side">
+          <a href="game.html">New game</a>
+        </div>
       </div>
     </header>
     <!-- Main Layout -->
@@ -72,13 +70,13 @@
           <div id="leaderboard-content">
             <div class="leaderboard-header">
               <h2 class="leaderboard-title">Leaderboard</h2>
-              <p class="leaderboard-subtitle">Top Players</p>
+              <p class="leaderboard-subtitle">Top Games</p>
             </div>
             <table class="leaderboard-table">
               <thead>
                 <tr>
                   <th>Rank</th>
-                  <th>Player</th>
+                  <th>Game</th>
                   <th>Score</th>
                   <th>Remaining</th>
                 </tr>

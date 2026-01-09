@@ -11,7 +11,7 @@ import dungeon.engine.Creators.TankCreator;
 import dungeon.engine.Creators.MuggleCreator;
 
 public class HeroCreatorTest {
-    
+
     @Test
     public void testHealerCreator() {
         HeroCreator creator = new HealerCreator();
@@ -41,7 +41,7 @@ public class HeroCreatorTest {
     }
 
     @Test
-    public void testDifferentCreators(){
+    public void testDifferentCreators() {
         HeroCreator healerCreator = new HealerCreator();
         HeroCreator dragonCreator = new DragonCreator();
         HeroCreator tankCreator = new TankCreator();
@@ -60,7 +60,7 @@ public class HeroCreatorTest {
     }
 
     @Test
-    public void testMultipleHeroCreation(){
+    public void testMultipleHeroCreation() {
         HeroCreator tankCreator = new TankCreator();
         Hero tank1 = tankCreator.createHero();
         Hero tank2 = tankCreator.createHero();

@@ -5,27 +5,39 @@ import dungeon.engine.tiles.Wall;
 
 public class StoneWall extends Wall {
 
-    private static final int PLACEMENT_COST = 75;
+    private static final int PLACEMENT_COST = 300;
     private static final int ASTAR_VALUE = 200000;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public StoneWall(Coords coords) {
         super(coords);
     }
 
-    /* --- Getters and Setters --- */
+/* --- Getters and Setters --- */
 
-    public int getAstarValue(){
+    /** 
+     * Get the A* value of the stone wall
+     * @return int
+     */
+    public int getAstarValue() {
         return ASTAR_VALUE;
     }
 
-    public int getPlacementCost(){
+    /** 
+     * Get the placement cost of the stone wall
+     * @return int
+     */
+    public int getPlacementCost() {
         return PLACEMENT_COST;
     }
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the stone wall
+     * @return String
+     */
     @Override
     public String toString() {
         return "stonewall";

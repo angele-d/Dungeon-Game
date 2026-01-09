@@ -13,6 +13,12 @@
   background: #325567;
 }
 
+#score-display {
+  display: inline-block;
+  min-width: 10vw;
+  text-align: center;
+}
+
 .grid-cell {
   background-color: #192b33;
   transition: all 0.2s ease;
@@ -131,6 +137,11 @@ body.dark {
   color: rgb(19 164 236 / var(--tw-text-opacity, 1));
 }
 
+#treasure,
+#startingpoint {
+  pointer-events: none;
+}
+
 .cell span,
 .grid-cell span {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -140,4 +151,8 @@ body.dark {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+.side {
+  width: 15vw;
 }

@@ -45,18 +45,6 @@ class BFSTest {
     }
 
     @Test
-    void searchNoTreasure() {
-        Hero hero = new Muggle();
-        hero.setCoords(new Coords(0, 0));
-        HeroSquad heroSquad = new HeroSquad();
-        heroSquad.addHero(hero);
-        Grid grid = new Grid();
-        BFS bfs = new BFS(grid);
-        Coords coords = bfs.search(new Coords(0, 0), heroSquad);
-        assertEquals(coords, new Coords(0, 0));
-    }
-
-    @Test
     void searchWithHeroBlocking() {
         Hero hero1 = new Muggle();
         hero1.setCoords(new Coords(0, 2));

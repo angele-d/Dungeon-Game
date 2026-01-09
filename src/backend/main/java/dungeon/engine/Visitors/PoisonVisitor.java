@@ -8,7 +8,7 @@ public class PoisonVisitor implements HeroVisitor {
     private Coords epicenter;
     private int areaRadius;
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public PoisonVisitor(Coords epicenter, int areaRadius) {
         this.epicenter = epicenter;
@@ -20,8 +20,12 @@ public class PoisonVisitor implements HeroVisitor {
         this.areaRadius = 0;
     }
 
-    /* --- Functions --- */
+/* --- Functions --- */
 
+    /** 
+     * Visit a hero and apply poison effect
+     * @param hero
+     */
     @Override
     public void visit(Hero hero) {
         Coords heroCoords = hero.getCoords();

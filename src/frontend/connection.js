@@ -1,5 +1,5 @@
 import { updateMoneyDisplay } from "./moneyManager.js";
-import { updateGrid, updateHeroes } from "./updateGame.js";
+import { updateGrid, updateHeroes, updateScore } from "./updateGame.js";
 
 let LENGTH = 15;
 
@@ -27,11 +27,15 @@ function onConnect(stompClient, frame) {
   console.log("Connected: " + frame);
 
   let id = new URLSearchParams(window.location.search).get("id");
-  if (!id) {
+  let loadId = new URLSearchParams(window.location.search).get("load");
+  if (!id && !loadId) {
     sendCreateGame(stompClient);
+  } else if (!id) {
+    sendCopyGame(stompClient, loadId);
   } else {
     window.id = id;
     sendGetGameStats(stompClient);
+    sendIsSimulationRunning(stompClient);
     stompClient.subscribe(`/topic/tile_placed/${id}`, function (message) {
       let payload = JSON.parse(message.body);
       let grid = payload["grid"];
@@ -58,7 +62,12 @@ function onConnect(stompClient, frame) {
       window.money = parseInt(payload["money"]);
       updateMoneyDisplay(payload["money"]);
       let heroes = payload["heroes"];
-      let heroesData = JSON.parse(heroes);
+      let heroesData;
+      if (heroes) {
+        heroesData = JSON.parse(heroes);
+      } else {
+        heroesData = [];
+      }
       updateHeroes(heroesData);
       document.querySelector("#next-button").textContent = "Next Turn";
       window.gameLaunched = true;
@@ -74,6 +83,8 @@ function onConnect(stompClient, frame) {
       let heroes = payload["heroes"];
       let heroesData = JSON.parse(heroes);
       updateHeroes(heroesData);
+      let score = parseInt(payload["score"]);
+      updateScore(score);
     });
   }
 }
@@ -107,13 +118,21 @@ function sendCreateGame(stompClient) {
   window.gameLaunched = false;
   let tmpId = randomString(LENGTH);
   let subscription = stompClient.subscribe(
-    `/topic/get-id/${tmpId}`,
+    `/topic/get_id/${tmpId}`,
     function (message) {
       let payload = JSON.parse(message.body);
       let id = payload["id"];
 
       window.id = id;
 
+      stompClient.subscribe(`/topic/ai_changed/${id}`, function (message) {
+        let payload = JSON.parse(message.body);
+        if (payload["result"] == "false") {
+          alert("AI change failed on server.");
+        } else {
+          document.querySelector("#ai-menu").value = window.ai;
+        }
+      });
       sendChangeAI(stompClient, "BFS"); // Default AI
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -128,6 +147,41 @@ function sendCreateGame(stompClient) {
   stompClient.send("/app/new_game", {}, JSON.stringify(message));
 }
 
+function sendCopyGame(stompClient, loadId) {
+  window.gameLaunched = false;
+  let tmpId = randomString(LENGTH);
+  let subscription = stompClient.subscribe(
+    `/topic/get_id/${tmpId}`,
+    function (message) {
+      let payload = JSON.parse(message.body);
+      let id = payload["id"];
+
+      window.id = id;
+
+      stompClient.subscribe(`/topic/ai_changed/${id}`, function (message) {
+        let payload = JSON.parse(message.body);
+        if (payload["result"] == "false") {
+          alert("AI change failed on server.");
+        } else {
+          document.querySelector("#ai-menu").value = window.ai;
+        }
+      });
+      sendChangeAI(stompClient, "BFS"); // Default AI
+
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.delete("load");
+      urlParams.set("id", id);
+      window.location.search = urlParams;
+      subscription.unsubscribe();
+    }
+  );
+  let message = {
+    id: tmpId,
+    copy_id: loadId,
+  };
+  stompClient.send("/app/copy_game", {}, JSON.stringify(message));
+}
+
 function sendGetGameStats(stompClient) {
   let message = {
     id: window.id,
@@ -138,6 +192,7 @@ function sendGetGameStats(stompClient) {
     `/topic/send_game_stats/${window.id}`,
     function (message) {
       let payload = JSON.parse(message.body);
+      console.log("Received game stats:", payload);
       let grid = payload["grid"];
       let gridData = JSON.parse(grid);
       updateGrid(gridData);
@@ -146,9 +201,33 @@ function sendGetGameStats(stompClient) {
       let heroes = payload["heroes"];
       let heroesData = JSON.parse(heroes);
       updateHeroes(heroesData);
+      let score = parseInt(payload["score"]);
+      updateScore(score);
       subscription.unsubscribe();
     }
   );
+}
+
+function sendIsSimulationRunning(stompClient) {
+  let message = {
+    id: window.id,
+  };
+
+  let subscription = stompClient.subscribe(
+    `/topic/is_simulation_running/${window.id}`,
+    function (message) {
+      let payload = JSON.parse(message.body);
+      if (payload["result"] == "true") {
+        window.gameLaunched = true;
+        document.querySelector("#next-button").textContent = "Next Turn";
+        document.querySelector("#editor-panel").classList.add("gray-out");
+        document.querySelector("#editor-panel").scrollTop = 0;
+      }
+      subscription.unsubscribe();
+    }
+  );
+
+  stompClient.send("/app/is_simulation_running", {}, JSON.stringify(message));
 }
 
 function sendAddElement(stompClient, elementType, x, y) {
@@ -180,39 +259,53 @@ function sendNextStepIfPossible(stompClient) {
   let message = {
     id: window.id,
   };
-  stompClient.send("/app/is_game_terminated", {}, JSON.stringify(message));
 
   let subscription = stompClient.subscribe(
-    `/topic/game_terminated/${window.id}`,
+    `/topic/wave_terminated/${window.id}`,
     function (message) {
       let payload = JSON.parse(message.body);
       if (payload["result"] == "false") {
-        sendNextStep(stompClient);
+        let subscription2 = stompClient.subscribe(
+          `/topic/game_terminated/${window.id}`,
+          function (message) {
+            let payload = JSON.parse(message.body);
+            if (payload["result"] == "false") {
+              // If game is not terminated
+              sendNextStep(stompClient);
+            } else {
+              // If the game is terminated => go to leaderboard
+              const url = new URL(window.location.href);
+
+              url.pathname = url.pathname.replace(
+                "game.html",
+                "leaderboard.html"
+              );
+
+              url.searchParams.set("id", window.id);
+
+              window.location.href = url.toString();
+            }
+            subscription2.unsubscribe();
+          }
+        );
+        message = {
+          id: window.id,
+        };
+        stompClient.send(
+          "/app/is_game_terminated",
+          {},
+          JSON.stringify(message)
+        );
       } else {
-        // let url = window.location.pathname;
-        // url = url.replace("/game.html", "/leaderboard.html");
-        // window.location.pathname = url;
-
-        // const urlParams = new URLSearchParams(window.location.search);
-        // urlParams.set("id", window.id);
-        // window.location.search = urlParams;
-
-        //window.location.replace("/leaderboard.html");
-
-        const url = new URL(window.location.href);
-
-        // Replace filename
-        url.pathname = url.pathname.replace("game.html", "leaderboard.html");
-
-        // Add query param
-        url.searchParams.set("id", window.id);
-
-        // Navigate
-        window.location.href = url.toString();
+        message = {
+          id: window.id,
+        };
+        stompClient.send("/app/next_step", {}, JSON.stringify(message));
       }
       subscription.unsubscribe();
     }
   );
+  stompClient.send("/app/is_wave_terminated", {}, JSON.stringify(message));
 }
 
 function sendNextStep(stompClient) {

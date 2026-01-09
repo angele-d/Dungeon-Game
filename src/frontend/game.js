@@ -59,7 +59,6 @@ function selectionPossible(elt) {
    * Returns: None
    */
   if (!elt) return;
-  console.log(window.gameLaunched);
   if (window.gameLaunched) {
     elt.classList.add("not-allowed-cell");
     return;
@@ -68,7 +67,9 @@ function selectionPossible(elt) {
   if (
     (Array.from(elt.classList).indexOf("empty") == -1 &&
       selectedElement != "eraser") ||
-    (Array.from(elt.classList).indexOf("empty") != -1 &&
+    ((Array.from(elt.classList).indexOf("empty") != -1 ||
+      Array.from(elt.classList).indexOf("startingpoint") != -1 ||
+      Array.from(elt.classList).indexOf("treasure") != -1) &&
       selectedElement == "eraser") ||
     !canAfford(config[selectedElement]) ||
     (selectedElement == "treasure" && window.treasurePlaced) ||

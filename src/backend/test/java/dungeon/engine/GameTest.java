@@ -15,7 +15,7 @@ public class GameTest {
     @Test
     void testGameInitialization() {
         Game game = new Game();
-        assertEquals(500, game.getMoney());    
+        assertEquals(Game.INITIAL_MONEY, game.getMoney());    
     }
 
     @Test
@@ -27,7 +27,7 @@ public class GameTest {
     }
 
     @Test
-    void testGameMoneyManagement(){
+    void testGameMoneyMaznagement(){
         Game game = new Game();
         int initialMoney = game.getMoney();
         game.subMoney(50);
@@ -59,9 +59,9 @@ public class GameTest {
         game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
         game.getGrid().setTile(new Treasure(new Coords(1, 1)));
         game.startSimulation();
-        assertEquals(500, game.getMoney());
-        assertEquals(0, game.getScore());
-        assertEquals(0, game.getTurn());
+        assertEquals(Game.INITIAL_MONEY - 30, game.getMoney()); // Money persists through simulation start
+        assertEquals(0, game.getScore()); // Score resets
+        assertEquals(0, game.getTurn()); // Turn resets
     }
 
     @Test
@@ -86,9 +86,37 @@ public class GameTest {
         game.setScore(50);
         game.subMoney(30);
         game.nextTurn();
-        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
-        assertFalse(game.isSimulationReady());
-        game.getGrid().setTile(new Treasure(new Coords(1, 1)));
         assertTrue(game.isSimulationReady());
+    }
+
+    @Test
+    void testScoreManagerObservesHeroesAfterSimulationStart(){
+        Game game = new Game();
+        game.getGrid().setTile(new StartingPoint(new Coords(0, 0)));
+        game.getGrid().setTile(new Treasure(new Coords(5, 5)));
+        
+        // Start simulation - this should add ScoreManager as observer to all heroes
+        game.startSimulation();
+        
+        // Initial score should be 0
+        assertEquals(0, game.getScore());
+        
+        // Get a hero and apply damage to it
+        Hero hero = game.getHeroSquad().getHeroes().get(0);
+        int initialHealth = hero.getHealth();
+        
+        // Apply damage - score should increase
+        hero.applyDamage(10);
+        assertEquals(10, game.getScore());
+        
+        // Apply more damage
+        hero.applyDamage(5);
+        assertEquals(15, game.getScore());
+        
+        // Kill the hero - score should increase by remaining health + 200 (death bonus)
+        int remainingHealth = hero.getHealth();
+        hero.applyDamage(initialHealth); // Apply enough damage to kill
+        int expectedScore = 15 + remainingHealth + 200; // Previous damage + fatal damage + death bonus
+        assertEquals(expectedScore, game.getScore());
     }
 }

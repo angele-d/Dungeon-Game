@@ -10,16 +10,20 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:5500", "http://127.0.0.1:5500"})
+@CrossOrigin(origins = { "http://localhost:5500", "http://127.0.0.1:5500" })
 @Controller
 public class GameController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
+    /**
+     * Respond to test message
+     * @param payload
+     * @return Map<String, String>
+     */
     @MessageMapping("/test")
     @SendTo("/topic/messages")
     public Map<String, String> hello(Map<String, String> payload) {
@@ -27,6 +31,10 @@ public class GameController {
         return Map.of("message", "Hello World!");
     }
 
+    /**
+     * Creates a new game
+     * @param payload
+     */
     @MessageMapping("/new_game")
     public void newGame(Map<String, String> payload) {
         String tmpId = payload.get("id");
@@ -34,10 +42,32 @@ public class GameController {
         Map<String, String> result = GameEngine.getInstance().getGameStats(new_game.getId());
         result.put("id", String.valueOf(new_game.getId()));
 
-        String destination = "/topic/get-id/" + tmpId;
+        String destination = "/topic/get_id/" + tmpId;
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Copies an existing game to a new game
+     * @param payload
+     */
+    @MessageMapping("/copy_game")
+    public void copyGame(Map<String, String> payload) {
+        String tmpId = payload.get("id");
+        String loadId = payload.get("copy_id");
+        Game new_game = GameEngine.getInstance().newGame();
+        int id = new_game.getId();
+        GameEngine.getInstance().loadGame(id, Integer.parseInt(loadId));
+        Map<String, String> result = GameEngine.getInstance().getGameStats(id);
+        result.put("id", String.valueOf(new_game.getId()));
+
+        String destination = "/topic/get_id/" + tmpId;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    /**
+     * Changes the AI strategy for all heroes in the game.
+     * @param payload
+     */
     @MessageMapping("/change_ai")
     public void changeAi(Map<String, String> payload) {
         String id = payload.get("id");
@@ -48,18 +78,27 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Place a tile in the game grid
+     * @param payload
+     */
     @MessageMapping("/place_tile")
     public void placeTile(Map<String, String> payload) {
         String id = payload.get("id");
         String type = payload.get("tile_type");
         String col = payload.get("col");
         String row = payload.get("row");
-        Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id), new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
+        Map<String, String> result = GameEngine.getInstance().placeTile(Integer.parseInt(id),
+                new Coords(Integer.parseInt(col), Integer.parseInt(row)), type);
 
         String destination = "/topic/tile_placed/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Checks if the simulation is ready to start.
+     * @param payload
+     */
     @MessageMapping("/is_simulation_ready")
     public void isSimulationReady(Map<String, String> payload) {
         String id = payload.get("id");
@@ -69,6 +108,10 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Launch the game simulation
+     * @param payload
+     */
     @MessageMapping("/launch_game")
     public void launchGame(Map<String, String> payload) {
         String id = payload.get("id");
@@ -78,6 +121,10 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Gets the statistics of a game.
+     * @param payload
+     */
     @MessageMapping("/get_game_stats")
     public void getGameStats(Map<String, String> payload) {
         String id = payload.get("id");
@@ -86,6 +133,10 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Advance to the next step in the game simulation.
+     * @param payload
+     */
     @MessageMapping("/next_step")
     public void nextStep(Map<String, String> payload) {
         String id = payload.get("id");
@@ -95,31 +146,71 @@ public class GameController {
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Checks if the current wave is terminated.
+     * @param payload
+     */
+    @MessageMapping("/is_wave_terminated")
+    public void isWaveTerminated(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isWaveTerminated(Integer.parseInt(id))));
+
+        String destination = "/topic/wave_terminated/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    /**
+     * Checks if the game is terminated.
+     * @param payload
+     */
     @MessageMapping("/is_game_terminated")
     public void isGameTerminated(Map<String, String> payload) {
         String id = payload.get("id");
-        Map<String, String> result = Map.of("result", String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
 
         String destination = "/topic/game_terminated/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 
-    @MessageMapping("/end_game")
-    public void endGame(Map<String, String> payload) {
+    /**
+     * Checks if the simulation is currently running.
+     * @param payload
+     */
+    @MessageMapping("/is_simulation_running")
+    public void isSimulationRunning(Map<String, String> payload) {
         String id = payload.get("id");
-        Map<String, String> result = GameEngine.getInstance().getGameStats(Integer.parseInt(id));
-        GameEngine.getInstance().endGame(Integer.parseInt(id));
-
-        String destination = "/topic/game_ended/" + id;
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isSimulationRunning(Integer.parseInt(id))));
+        String destination = "/topic/is_simulation_running/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 
+    /**
+     * Get the leaderboard
+     * @param payload
+     */
     @MessageMapping("/get_leaderboard")
     public void getLeaderBoard(Map<String, String> payload) {
         String id = payload.get("id");
         Map<String, String> result = GameEngine.getInstance().getLeaderBoardString();
 
         String destination = "/topic/leaderboard/" + id;
+        messagingTemplate.convertAndSend(destination, result);
+    }
+
+    /**
+     * Advance to the next wave in the game simulation.
+     * @param payload
+     */
+    @MessageMapping("next_wave")
+    public void nextWave(Map<String, String> payload) {
+        String id = payload.get("id");
+        Map<String, String> result = Map.of("result",
+                String.valueOf(GameEngine.getInstance().isGameTerminated(Integer.parseInt(id))));
+
+        String destination = "/topic/game_terminated/" + id;
         messagingTemplate.convertAndSend(destination, result);
     }
 }

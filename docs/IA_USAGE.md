@@ -1,5 +1,5 @@
 
-## Interaction #1
+## Interaction 1
 
 ### Contexte
 
@@ -113,7 +113,7 @@ L'IA n'avait pas compris que le rôle "Meme Maker" est une fonctionnalité MVP, 
 
 
 ---
-## Interaction #2
+## Interaction 2
 
 ### Contexte
 
@@ -191,12 +191,12 @@ Voir dans `Archives/mockups/proposition_1` pour:
 - Deuxième prompt envoyé à Stitch (voir [Interaction #3](#interaction-3))
 - Mix des 2 propositions et retraitement pour dynamiser la page
 
-### Remarques
+### Remarques
 
 L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Un mix avec un deuxième prompt a permis d'avoir un résultat plus satisfaisant.
 
 ---
-## Interaction #3
+## Interaction 3
 
 ### Contexte
 
@@ -228,9 +228,409 @@ Voir dans `Archives/mockups/proposition_2` pour:
 - Premier prompt envoyé à Stitch (voir [Interaction #2](#interaction-2))
 - Mix des 2 propositions et retraitement pour dynamiser la page
 
-### Remarques
+### Remarques
 
 L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Un mix avec un premier prompt a permis d'avoir un résultat plus satisfaisant.
 
 
 ---
+## Interaction 4
+
+### Contexte
+
+Correction de l'IA Astar
+
+### Prompt
+
+```txt
+Il y a des cases où un hero ne peut pas aller avec la fonction iswalkable, je veux que mon Astar prenne ça en compte et abandonne les chemins qui ne mènent pas au trésor.
+
+
+Utilise le code que je te fournis et réécrit entièrement la fonction search.
+
+
+Code :
+
+package dungeon.engine.AI;
+
+import dungeon.engine.Coords;
+import dungeon.engine.Grid;
+import dungeon.engine.Hero;
+import dungeon.engine.HeroSquad;
+import dungeon.engine.tiles.StartingPoint;
+import dungeon.engine.tiles.Treasure;
+import dungeon.engine.tiles.Wall;
+
+import java.util.*;
+
+public class Astar {
+
+    private Grid grid;
+
+    /* --- Constructor --- */
+
+    public Astar(Grid grid) {
+        this.grid = grid;
+
+    }
+
+    /* --- Functions --- */
+
+    public boolean isOccupied(Coords neighbor, HeroSquad heroSquad){
+        if(heroSquad == null) return false;
+
+        // Heroes can be more than one in Treasure and StartingPoint tiles
+        if(grid.getTile(neighbor) instanceof Treasure || grid.getTile(neighbor) instanceof StartingPoint){
+            return false;
+        }
+
+        for(Hero hero : heroSquad.getHeroes()){
+            if(hero.getCoords().equals(neighbor)){
+                // Check if the hero is alive
+                if(hero.getHealth() > 0)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isWalkable(Coords neighbor, HeroSquad heroSquad){
+        // Check if a wall is there
+        if (grid.getTile(neighbor) instanceof Wall){
+            return false;
+        }
+        // Check if an other hero is there
+        if(isOccupied(neighbor, heroSquad)){
+            return false;
+        }
+        
+        return true;
+    }
+
+    public Coords search(Coords start, HeroSquad heroSquad) {
+        PriorityQueue<NodeValue> value = new PriorityQueue<>(
+            Comparator.comparingInt(NodeValue::getValue)
+        );
+        Map<Coords, Integer> bestCost = new HashMap<>();
+        bestCost.put(start, 0);
+        Node startNode = new Node(start, null);
+        NodeValue startValue = new NodeValue(null, startNode, 0);
+        value.add(startValue);
+
+        while (!value.isEmpty()) {
+            NodeValue currValue = value.poll();
+            Node currNode = currValue.getNode();
+
+            // Treasure found
+            if (grid.getTile(currNode.getCoords()) instanceof Treasure) {
+                return treasureFound(currValue);
+            }
+
+            // Explore neighbors
+            for (Coords neighbor: grid.getNeighborsCoords(currValue.getNode().getCoords())) {
+
+                    int newCost;
+                    if(isOccupied(neighbor, heroSquad)){
+                        newCost = 200000;
+                    }
+                    else{
+                        newCost = currValue.getValue() + grid.getTile(neighbor).getAstarValue();
+                    }
+                    Node neighborNode = new Node(neighbor, currNode);
+                    
+                    if (!bestCost.containsKey(neighbor) || newCost < bestCost.get(neighbor)) {
+                        bestCost.put(neighbor, newCost);
+                        value.add(new NodeValue(currValue, neighborNode, newCost));
+                    }
+            }
+        }
+        return start;
+    }
+
+    public Coords treasureFound(NodeValue curr){
+        while (curr.getParent() != null && curr.getParent().getParent() != null) {
+            curr = curr.getParent();
+        }
+        return curr.getNode().getCoords();
+    }
+
+    /* --- toString --- */
+
+    @Override
+    public String toString() {
+        return "Astar";
+    }        
+       
+}
+```
+
+### Réponse IA
+
+```
+Parfait 👍
+Je te **réécris entièrement `search`** en utilisant **ton `isWalkable`**, et en faisant en sorte que :
+
+* les cases **non franchissables sont ignorées**
+* les chemins bloqués sont **abandonnés**
+* l’A* **ne part que sur des chemins menant potentiellement au trésor**
+
+Je **ne touche pas** à tes autres méthodes.
+
+---
+
+##### ✅ Nouvelle version de `search` (complète)
+
+
+public Coords search(Coords start, HeroSquad heroSquad) {
+
+    PriorityQueue<NodeValue> openList = new PriorityQueue<>(
+        Comparator.comparingInt(NodeValue::getValue)
+    );
+
+    Map<Coords, Integer> bestCost = new HashMap<>();
+
+    Node startNode = new Node(start, null);
+    NodeValue startValue = new NodeValue(null, startNode, 0);
+
+    openList.add(startValue);
+    bestCost.put(start, 0);
+
+    while (!openList.isEmpty()) {
+
+        NodeValue currentValue = openList.poll();
+        Node currentNode = currentValue.getNode();
+        Coords currentCoords = currentNode.getCoords();
+
+        // 🎯 Trésor trouvé
+        if (grid.getTile(currentCoords) instanceof Treasure) {
+            return treasureFound(currentValue);
+        }
+
+        // 🔍 Exploration des voisins
+        for (Coords neighbor : grid.getNeighborsCoords(currentCoords)) {
+
+            // ❌ Case non franchissable → on abandonne ce chemin
+            if (!isWalkable(neighbor, heroSquad)) {
+                continue;
+            }
+
+            int newCost = currentValue.getValue()
+                        + grid.getTile(neighbor).getAstarValue();
+
+            // Si on a déjà trouvé un meilleur chemin vers cette case
+            if (bestCost.containsKey(neighbor)
+                && newCost >= bestCost.get(neighbor)) {
+                continue;
+            }
+
+            bestCost.put(neighbor, newCost);
+
+            Node neighborNode = new Node(neighbor, currentNode);
+            NodeValue neighborValue = new NodeValue(currentValue, neighborNode, newCost);
+
+            openList.add(neighborValue);
+        }
+    }
+
+    // 🚫 Aucun chemin vers un trésor
+    return start; // ou null si tu préfères
+}
+
+---
+
+##### 🔥 Ce qui a changé (important)
+
+###### ❌ AVANT
+
+if (isOccupied(neighbor, heroSquad)) {
+    newCost = 200000;
+}
+
+➡️ Le chemin continuait quand même
+
+---
+
+###### ✅ MAINTENANT
+
+if (!isWalkable(neighbor, heroSquad)) {
+    continue;
+}
+
+➡️ **Le chemin est abandonné immédiatement**
+
+---
+
+##### 🧠 Pourquoi ton A* fonctionne maintenant correctement
+
+✔️ Pas de murs
+✔️ Pas de cases occupées
+✔️ Pas de coûts artificiels
+✔️ Les chemins sans issue meurent naturellement
+✔️ Le premier pas retourné mène **forcément vers un trésor atteignable**
+
+---
+
+##### ✨ Amélioration possible (optionnelle)
+
+Si tu veux être encore plus propre :
+
+* retourner `null` si aucun trésor n’est atteignable
+* ajouter une heuristique (Manhattan) pour accélérer
+* éviter de revisiter une case déjà traitée (closed set)
+
+Si tu veux, dis-moi et je t’améliore ça sans changer ton API 👌
+```
+
+### Décision
+
+Vérification et utilisation de cette version.
+Essaie avec des tests.
+
+### Remarques
+
+L'IA a bien adapté l'algorithme souhaité. Le code est utilisable.
+
+
+---
+
+## Interaction 5
+
+### Contexte
+
+Création de deux diagrammes de séquence UML pour le projet.
+
+### Prompt
+
+```txt
+Tu es un expert UML et Java.
+
+Analyse l’intégralité du projet Java ouvert dans ce workspace (code source + tests si utiles).
+
+OBJECTIF :
+Générer automatiquement des diagrammes UML à partir du code existant.
+
+LIVRABLES ATTENDUS (OBLIGATOIRES) :
+Deux diagrammes de séquence distincts
+
+FORMAT :
+- Les diagrammes doivent être écrits en PlantUML
+- Chaque diagramme doit être généré dans un fichier séparé
+- Noms de fichiers attendus :
+  - Sequence_score_update.puml
+  - Sequence_game_flow.puml
+
+CONTENU DÉTAILLÉ :
+
+Diagramme de séquence : gestion du score
+- Scénario :
+  - Un héros subit des dégâts
+  - Le score est mis à jour
+  - Le score est enregistré ou consulté via le ScoreManager / LeaderBoard
+- Montrer clairement l’ordre des appels de méthodes
+- Inclure les objets impliqués
+
+Diagramme de séquence : déroulement d’une partie
+- Scénario :
+  - Démarrage d’une Game
+  - Interaction principale (héros, pièges, mort du héros)
+  - Fin de la partie
+- Mettre en évidence les responsabilités de chaque classe
+
+CONTRAINTES :
+- Le diagramme doit refléter strictement le code existant
+- Si une information est ambiguë, fais une hypothèse raisonnable et indique-la en commentaire PlantUML
+- Ne pas produire de texte explicatif hors des fichiers .puml
+
+ACTION :
+Crée directement les deux fichiers PlantUML dans le projet.
+```
+
+### Réponse IA
+
+Deux fichiers PlantUML ont été générés dans le projet:
+- `Sequence_score_update.puml`
+- `Sequence_game_flow.puml`
+
+### Décision
+
+**Gardé:**  
+Les deux diagrammes générés correspondaient bien aux attentes et au code existant.
+
+### Remarques
+
+Les diagrammes ont été très utiles pour clarifier certains aspects du code et de son fonctionnement.
+
+
+
+---
+
+## Interaction 6
+
+### Contexte
+
+Création de tests unitaires pour walltrap
+
+### Prompt
+Généré avec le prompt suivant: ```génère un prompt pour demander à gemini code assist de générer une batterie de tests pour l'implémentation d'un pattern listener, qui est utilisé lorsq'un Hero est sur une case walltrap et la quitte ? Le tout sans utiliser Mockito```
+```txt
+Contexte :
+J'implémente un jeu en Java utilisant le pattern Observer/Listener.
+- Hero : Une entité qui se déplace de case en case. Il agit comme le "Sujet" et notifie lors de ses déplacements.
+- WallTrap (Piège) : Une tuile spécifique qui implémente un MovementListener. Elle doit réagir uniquement quand le Hero QUITTE la case du piège.
+- EventManager : Gère l'abonnement et le désabonnement des listeners.
+
+Tâche :
+Génère une suite de tests complète avec JUnit 5 sans Mockito pour tester l'interaction entre le Hero et le WallTrap.
+
+Prérequis des tests :
+1. Enregistrement : Vérifier que le WallTrap s'abonne bien aux événements du Hero à l'initialisation.
+2. Logique de déclenchement (Sortie) : Vérifier que la logique du piège se déclenche UNIQUEMENT quand l'ancienne position du Hero correspond au piège et que la nouvelle est différente.
+3. Tests négatifs : S'assurer que le piège ne se déclenche PAS si le Hero arrive SUR le piège ou reste sur la même case.
+4. Désabonnement : Vérifier que le WallTrap se désabonne (unregister) lorsqu'il est détruit (pour éviter les fuites de mémoire).
+5. Listeners multiples : S'assurer que plusieurs pièges peuvent écouter sans conflit.
+
+Style :
+Utilise des noms de tests descriptifs et la structure de commentaires 'Given-When-Then'.
+```
+
+### Réponse IA
+
+Le fichier de test
+
+### Décision
+
+Correction de quelques mauvaises utilisations de méthodes
+
+### Remarques
+Le résultat était bien pertinent avec les bons contextes pour l'ordre d'appel.
+
+---
+
+## Interaction 7
+
+### Contexte
+
+Ajout d'une page d'accueil pour le site web
+
+### Prompt
+
+```txt
+Peux tu me créer une page d'accueil me permettant d'accéder à la partie ou au leaderboard, avec la même DA que ce code source que je te fournis
+```
+
+### Réponse IA
+
+Le code source HTML/CSS/JS généré en 1 fichier:
+Voir dans `src/frontend/landing_page.html`
+
+### Décision
+
+**Modifié:**
+- Retirer le footer
+- Modifier la partie droite du header pour y décrire les noms des collaborateurs au lieu de la navigation
+- Retirer une div inutile
+
+### Remarques
+
+L'IA a fourni une maquette statique intéressante, manquant de certaines fonctionnalités. Quelques modifications ont permis d'avoir un résultat plus satisfaisant, notamment au sujet des boutons à implémenter.

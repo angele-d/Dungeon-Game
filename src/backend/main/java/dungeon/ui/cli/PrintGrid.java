@@ -6,9 +6,15 @@ import dungeon.engine.Hero;
 import dungeon.engine.Game;
 import dungeon.engine.Tile;
 
-
 public class PrintGrid {
-public static void make_action (Game game, int size, String legendString){
+
+    /** 
+     * Displays the action menu for the game.
+     * @param game
+     * @param size
+     * @param legendString
+     */
+    public static void make_action(Game game, int size, String legendString) {
         print_grid(game, size, legendString, 1);
         System.out.println("\n");
         System.out.println("Actions :");
@@ -21,25 +27,41 @@ public static void make_action (Game game, int size, String legendString){
         System.out.println("\n");
     }
 
+    /** 
+     * Prints the game grid to the console.
+     * @param game
+     * @param size
+     * @param legendString
+     * @param edit
+     */
     public static void print_grid(Game game, int size, String legendString, int edit) {
         System.out.println(legendString);
         System.out.println("\n");
         System.out.println("Your game ID : " + game.getId());
         System.out.println("\n");
         System.out.println("   0 1 2 3 4 5 6 7 8 9");
-        String[] cases = new String[] {"0","1","2","3","4","5","6","7","8","9"};
+        String[] cases = new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         for (int i = 0; i < size; i++) {
-            System.out.println(cases[i] + " " + print_grid_line(game, i, size,edit));
+            System.out.println(cases[i] + " " + print_grid_line(game, i, size, edit));
         }
         System.out.println("\n");
     }
 
-    public static String print_grid_line(Game game, int line, int size,int edit){
+    /** 
+     * Prints a single line of the game grid.
+     * @param game
+     * @param line
+     * @param size
+     * @param edit
+     * @return String
+     */
+    public static String print_grid_line(Game game, int line, int size, int edit) {
         String line_completed = new String();
-        for (int decr = 0; decr < size ; decr++ ){
-            Tile tile = game.getGrid().getTile(new Coords(line,decr));
-            if(edit == 0 && heroIsHere(game,line, decr)){
-                line_completed += " E";
+        for (int decr = 0; decr < size; decr++) {
+            Tile tile = game.getGrid().getTile(new Coords(line, decr));
+            String hero = heroIsHere(game, line, decr);
+            if (edit == 0 && !hero.equals("")) {
+                    line_completed += hero;           
             } else {
                 if (tile instanceof dungeon.engine.tiles.Empty) {
                     line_completed += " .";
@@ -50,7 +72,7 @@ public static void make_action (Game game, int size, String legendString){
                 } else if (tile instanceof dungeon.engine.tiles.traps.Mine) {
                     line_completed += " M";
                 } else if (tile instanceof dungeon.engine.tiles.traps.WallTrap) {
-                    line_completed += " T";
+                    line_completed += " W";
                 } else if (tile instanceof dungeon.engine.tiles.wall.StoneWall) {
                     line_completed += " #";
                 } else if (tile instanceof dungeon.engine.tiles.wall.WoodWall) {
@@ -58,6 +80,7 @@ public static void make_action (Game game, int size, String legendString){
                 } else if (tile instanceof dungeon.engine.tiles.traps.PoisonTrap) {
                     line_completed += " P";
                 } else {
+                    
                     line_completed += "  ";
                 }
             }
@@ -65,17 +88,37 @@ public static void make_action (Game game, int size, String legendString){
         return line_completed;
     }
 
-    public static boolean heroIsHere(Game game, int line, int row){
+    /** 
+     * Checks if a hero is present at the specified coordinates.
+     * @param game
+     * @param line
+     * @param row
+     * @return boolean
+     */
+    public static String heroIsHere(Game game, int line, int row) {
         HeroSquad heroS = game.getHeroSquad();
-        for (Hero hero : heroS.getHeroes()){
-            if(hero.getCoords().equals(new Coords(line,row))){
-                return true;
+        for (Hero hero : heroS.getHeroes()) {
+            if (hero.getCoords().equals(new Coords(line, row))) {
+                if (hero instanceof dungeon.engine.Tank) {
+                    return " t";
+                } else if (hero instanceof dungeon.engine.Muggle) {
+                    return " m";
+                } else if (hero instanceof dungeon.engine.Healer) {
+                    return " h";
+                } else if (hero instanceof dungeon.engine.Dragon) {
+                    return " d";
+                } else {
+                    return " e";
+                } 
             }
         }
-        return false;
+        return "";
     }
 
-    public static void manage_end_game (){
+    /** 
+     * Displays the end game management menu.
+     */
+    public static void manage_end_game() {
         System.out.println("\n");
         System.out.println("What would you want to do ? ");
         System.out.println("   [1] New game");

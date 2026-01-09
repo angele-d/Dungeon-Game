@@ -1,0 +1,250 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam classAttributeIconSize 0
+
+' --- STYLES GÉNÉRAUX ---
+skinparam package {
+    BackgroundColor White
+    BorderColor #444444
+    FontColor #333333
+    FontSize 13
+}
+
+skinparam class {
+    BackgroundColor White
+    BorderColor #2C3E50
+    ArrowColor #555555
+    HeaderBackgroundColor #F9F9F9
+}
+
+' --- CODE COULEUR SPÉCIFIQUE ---
+' Utilisation de skinparam specifique par stéréotype pour éviter les erreurs de syntaxe inline
+
+skinparam class {
+    BackgroundColor<<Core>> #E3F2FD
+    BackgroundColor<<Service>> #E8F5E9
+    BackgroundColor<<Pattern>> #F3E5F5
+    BackgroundColor<<Entity>> #FFF3E0
+    BackgroundColor<<Util>> #F5F5F5
+    BackgroundColor<<Singleton>> #E3F2FD
+}
+
+' --- LÉGENDE ---
+legend top left
+    <size:14><b>Architecture & Design Patterns</b></size>
+    |= Couleur |= Signification |
+    | <back:#E3F2FD>   </back> | <b>Core Game</b> (Moteur, Etat) |
+    | <back:#E8F5E9>   </back> | <b>Services / Managers</b> |
+    | <back:#F3E5F5>   </back> | <b>Design Patterns</b> |
+    | <back:#FFF3E0>   </back> | <b>Entités Métier</b> |
+    | <back:#F5F5F5>   </back> | <b>Infrastructure / Util</b> |
+end legend
+
+' --- BLOC 1: CORE ENGINE ---
+package "Core Engine & Game State" {
+    
+    class GameEngine <<Singleton>> {
+        + instance: GameEngine
+        + newGame(): Game
+        + nextTurn(Integer): Map<String, String>
+        + loadGame(int, int): void
+        + placeTile(int, Coords, String): Map<String, String>
+    }
+    note left of GameEngine: <b>Singleton & Facade</b>\nPoint d'entrée unique
+    
+    class Game <<Core>> {
+        + startSimulation(): void
+        + nextTurn(): void
+        + doMovement(Hero, Coords): void
+        - grid: Grid
+        - scoreManager: ScoreManager
+    }
+
+    class Grid <<Core>> {
+        + getNeighborsCoords(Coords): ArrayList<Coords>
+        + getTile(Coords): Tile
+        - grid: Map<Coords, Tile>
+    }
+
+    class SaveManager <<Util>> {
+        + save(Game): void
+        + load(Game, String): void
+    }
+
+    class LeaderBoard <<Util>> {
+        + addResults(GameResult): void
+    }
+    
+    class GameResult <<Util>> {
+        + score(): int
+        + gameId(): int
+    }
+    
+    class Coords <<Util>> {
+        + x(): int
+        + y(): int
+    }
+}
+
+' --- BLOC 2: FACTORY ---
+package "Pattern Factory (Creation)" {
+    
+    interface HeroCreator <<Pattern>> {
+        + createHero(): Hero
+    }
+    
+    class DragonCreator <<Pattern>> {
+        + createHero(): Hero
+    }
+    class HealerCreator <<Pattern>> {
+        + createHero(): Hero
+    }
+    class MuggleCreator <<Pattern>> {
+        + createHero(): Hero
+    }
+    class TankCreator <<Pattern>> {
+        + createHero(): Hero
+    }
+    
+    abstract class Hero <<Entity>> {
+        + move(Game): Coords
+        + accept(HeroVisitor): void
+        + addObserver(GameObserver): void
+        # notifyObservers(GameEvent): void
+    }
+    
+    class Dragon <<Entity>>
+    class Healer <<Entity>>
+    class Muggle <<Entity>>
+    class Tank <<Entity>>
+    
+    class HeroSquad <<Entity>> {
+        + addHero(Hero): void
+        + removeHero(Hero): void
+        - strategy: Strategy
+    }
+    
+    HeroCreator <|.. DragonCreator
+    HeroCreator <|.. HealerCreator
+    HeroCreator <|.. MuggleCreator
+    HeroCreator <|.. TankCreator
+    
+    Hero <|-- Dragon
+    Hero <|-- Healer
+    Hero <|-- Muggle
+    Hero <|-- Tank
+    
+    note right of HeroCreator: <b>Factory Method</b>\nEncapsule la création des héros
+}
+
+' --- BLOC 3: STRATEGY ---
+package "Pattern Strategy (AI)" {
+    
+    abstract class Strategy <<Pattern>> {
+        + move(Game, Hero): Coords
+    }
+    
+    class AstarStrategy <<Pattern>> {
+        + move(Game, Hero): Coords
+    }
+    
+    class BFSStrategy <<Pattern>> {
+        + move(Game, Hero): Coords
+    }
+    
+    class Astar <<Util>> {
+        + search(Coords, HeroSquad): Coords
+    }
+    
+    class BFS <<Util>> {
+        + search(Coords, HeroSquad): Coords
+    }
+    
+    class Node <<Util>>
+    class NodeValue <<Util>>
+    
+    Strategy <|-- AstarStrategy
+    Strategy <|-- BFSStrategy
+    
+    note right of Strategy: <b>Strategy</b>\nAlgorithmes de mouvement interchangeables
+}
+
+' --- BLOC 4: ENVIRONNEMENT ---
+package "Environment (Tiles & Traps)" {
+    class Tile <<Entity>> {
+        + placementCost: int
+        + astarValue: int
+    }
+    
+    class Wall <<Entity>>
+    class StoneWall <<Entity>>
+    class WoodWall <<Entity>>
+    
+    class Empty <<Entity>>
+    class StartingPoint <<Entity>>
+    class Treasure <<Entity>>
+    
+    class Trap <<Entity>> {
+        + activateTrap(Game): void
+        + damage: int
+    }
+    
+    class Mine <<Entity>>
+    class PoisonTrap <<Entity>>
+    class WallTrap <<Entity>>
+
+    Tile <|-- Wall
+    Tile <|-- Empty
+    Tile <|-- StartingPoint
+    Tile <|-- Treasure
+    Tile <|-- Trap
+    
+    Wall <|-- StoneWall
+    Wall <|-- WoodWall
+    
+    Trap <|-- Mine
+    Trap <|-- PoisonTrap
+    Trap <|-- WallTrap
+}
+
+' --- BLOC 5: OBSERVER ---
+package "Pattern Observer (Events)" {
+    
+    interface GameObserver <<Pattern>> {
+        + update(GameEvent): void
+    }
+    
+    interface DamageObserver <<Pattern>>
+    interface DeathObserver <<Pattern>>
+    interface TreasureReachedObserver <<Pattern>>
+    
+    interface HeroTurnListener <<Pattern>> {
+        + onNewTurn(Game): void
+    }
+    
+    interface FireTurnListener <<Pattern>> {
+        + onNewTurn(Game): void
+    }
+    
+    class ScoreManager <<Service>> {
+        + update(GameEvent): void
+        + score: int
+    }
+    
+    class GameEvent <<Util>> {
+        + type: GameEventType
+        + damageAmount: int
+        + hero: Hero
+    }
+    
+    enum GameEventType <<Util>>
+    
+    GameObserver <|-- DamageObserver
+    GameObserver <|-- DeathObserver
+    GameObserver <|-- TreasureReachedObserver
+@enduml

@@ -9,18 +9,34 @@ import dungeon.engine.Grid;
 
 public class BFSStrategy extends Strategy {
 
-    // New: allow subclasses/tests to override how BFS is created
+    /** 
+     * Create BFS instance (for testing purposes)
+     * @param grid
+     * @return BFS
+     */
     protected BFS createBFS(Grid grid) {
         return new BFS(grid);
     }
 
+    /** 
+     * Move the hero using BFS pathfinding
+     * @param game
+     * @param hero
+     * @return Coords
+     */
     @Override
     public Coords move(Game game, Hero hero) {
         BFS bfs = createBFS(game.getGrid());
         return bfs.search(hero.getCoords(), game.getHeroSquad());
     }
 
-    // New: helper method for tests to call BFS directly without needing Game/Grid
+    /** 
+     * Move the hero using BFS pathfinding (for testing purposes)
+     * @param bfs
+     * @param heroSquad
+     * @param hero
+     * @return Coords
+     */
     public Coords moveWithBFS(BFS bfs, HeroSquad heroSquad, Hero hero) {
         return bfs.search(hero.getCoords(), heroSquad);
     }

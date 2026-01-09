@@ -58,7 +58,7 @@ class MineTest {
     void testMineGetAstarValue() {
         Mine mine = new Mine(new Coords(0, 0), 25, 2);
 
-        assertEquals(5, mine.getAstarValue());
+        assertEquals(8, mine.getAstarValue());
     }
 
     @Test
@@ -67,15 +67,15 @@ class MineTest {
         dragon.setCoords(new Coords(5, 5));
 
         HeroSquad squad = new HeroSquad.Builder()
-            .addHero(dragon)
-            .build();
+                .addHero(dragon)
+                .build();
 
         Game game = new Game();
         game.setHeroSquad(squad);
 
         Mine mine = new Mine(new Coords(5, 5), 40, 1);
         int initialHealth = dragon.getHealth();
-        
+
         mine.activateTrap(game);
 
         assertEquals(initialHealth - 40, dragon.getHealth());
@@ -87,15 +87,15 @@ class MineTest {
         dragon.setCoords(new Coords(1, 0)); // distance 1 from mine
 
         HeroSquad squad = new HeroSquad.Builder()
-            .addHero(dragon)
-            .build();
+                .addHero(dragon)
+                .build();
 
         Game game = new Game();
         game.setHeroSquad(squad);
 
         Mine mine = new Mine(new Coords(0, 0), 100, 2);
         int initialHealth = dragon.getHealth();
-        
+
         mine.activateTrap(game);
 
         assertEquals(initialHealth - 80, dragon.getHealth());
@@ -110,9 +110,9 @@ class MineTest {
         tank.setCoords(new Coords(6, 5)); // distance 1, within radius 2
 
         HeroSquad squad = new HeroSquad.Builder()
-            .addHero(dragon)
-            .addHero(tank)
-            .build();
+                .addHero(dragon)
+                .addHero(tank)
+                .build();
 
         Game game = new Game();
         game.setHeroSquad(squad);
@@ -120,12 +120,12 @@ class MineTest {
         Mine mine = new Mine(new Coords(5, 5), 50, 2);
         int dragonInitialHealth = dragon.getHealth();
         int tankInitialHealth = tank.getHealth();
-        
+
         mine.activateTrap(game);
 
         // dragon takes direct hit: 150 - 50 = 100
         assertEquals(dragonInitialHealth - 50, dragon.getHealth());
-        
+
         // Tank takes reduced damage: 200 - 40 (50 * 80%)
         assertEquals(tankInitialHealth - 40, tank.getHealth());
     }

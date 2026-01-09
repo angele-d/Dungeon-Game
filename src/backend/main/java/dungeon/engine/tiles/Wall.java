@@ -5,22 +5,26 @@ import dungeon.engine.Tile;
 
 public abstract class Wall extends Tile {
 
-    /* --- Constructor --- */
+/* --- Constructor --- */
 
     public Wall(Coords coords) {
         super(coords);
     }
 
-    /* --- Abstract functions --- */
+/* --- Abstract functions --- */
 
     public abstract int getAstarValue();
 
     public abstract int getPlacementCost();
 
-    /* --- ToString --- */
+/* --- ToString --- */
 
+    /** 
+     * String representation of the wall
+     * @return String
+     */
     @Override
     public String toString() {
-        return "wall"; 
+        return "wall";
     }
 }
