@@ -175,8 +175,22 @@ public class Game {
 
     public void startSimulation() {
         blueprint = grid.clone();
+        this.heroSquad = generateNewSquad();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.addObserver(scoreManager);
+        }
+        heroSquad.setStrategy(strategy);
+        this.scoreManager = new ScoreManager();
+        for (Hero hero : heroSquad.getHeroes()) {
+            hero.addObserver(scoreManager);
+        }
+        this.turn = 0;
+    }
+
+    private HeroSquad generateNewSquad() {
         Random randomGenerator = new Random(this.seed * this.wave);
         HeroSquad.Builder builder = new HeroSquad.Builder();
+        Tile startingPoint = getStartingPoint();
         for (int i = 0; i < wave + 1; i++) {
             Hero randomHero;
             switch (randomGenerator.nextInt(3)) {
@@ -195,21 +209,16 @@ public class Game {
             }
             builder.addHero(randomHero);
         }
-
-        this.heroSquad = builder.build();
-        System.out.println(strategy.toString());
-        heroSquad.setStrategy(strategy);
-        Tile startingPoint = getStartingPoint();
-        this.scoreManager = new ScoreManager();
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(startingPoint.getCoords());
-            hero.addObserver(scoreManager);
         }
-        this.turn = 0;
+        return heroSquad;
     }
 
     public void nextWave() {
         wave += 1;
+        this.turn = 0;
+        this.heroSquad = generateNewSquad();
     }
 
     public void endSimulation() {
