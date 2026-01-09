@@ -109,9 +109,13 @@
 | **TECH-15** | Tech | Génération automatique de la grille | P. Musial | Moyenne |
 | **DOC-05** | Doc | Rédaction de la ROADMAP | A. Denys | Moyenne |
 | **DOC-06** | Doc | Création des diagrammes de séquence | A. Denys | **Haute** |
-| **DOC-07** | Doc | Rédaction du README | A. Denys | **Critique** |
+| **DOC-07** | Doc | Création du diagramme de classe | P. Musial & A. Denys | **Critique** |
+| **DOC-08** | Doc | Rédaction du README | A. Denys | **Critique** |
+| **DOC-09** | Doc | USAGE_IA.md | Toute l'équipe | **Haute** |
 | **WEB-09** | Web | Affichage du leaderboard | K. Bui | Moyenne |
 | **WEB-10** | Web | Affichage du score | K. Bui | Moyenne |
+| **WEB-11** | Web | Empêcher de modifier la position du trésor et du point de départ | K. Bui | Faible |
+| **CLI-07** | CLI | Gestion des vagues | E. Girres | Moyenne |
 | **CORR-02** | Correctif | Correction du score | A. Denys | **Critique** |
 | **CORR-03** | Correctif | Correction affichage des héros dans le WEB | K. Bui | **Critique** |
 | **CORR-04** | Correctif | Correction Hero non affiché | P. Musial | Moyenne |
