@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LeaderBoard {
-    /*
-     * Handles LeaderBoard integration in CLI
+
+    /** 
+     * Displays the leaderboard menu and handles user interaction.
+     * @param scanner
+     * @param DISPLAY_SIZE
+     * @return int
      */
     public static int showLeaderBoard(Scanner scanner, int DISPLAY_SIZE) {
         /*
@@ -65,6 +69,13 @@ public class LeaderBoard {
         return result;
     }
 
+    /** 
+     * Generates the formatted leaderboard string for a given page.
+     * @param leaderboard
+     * @param page
+     * @param DISPLAY_SIZE
+     * @return String
+     */
     private static String generateLeaderboard(List<GameResult> leaderboard, int page, int DISPLAY_SIZE) {
         /*
          * Returns the formatted string for
