@@ -242,6 +242,7 @@ public class GameEngine {
         Map<String, String> result = new HashMap<String, String>();
         result.put("grid", game.getGrid().serialized().toString());
         result.put("heroes", game.getHeroSquad().serialized().toString());
+        result.put("score", String.valueOf(game.getScore()));
         return result;
     }
 
