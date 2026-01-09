@@ -11,15 +11,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
-
+ 
     @Test
     void testGameInitialization() {
         Game game = new Game();
-        assertEquals(500, game.getMoney());
+        assertEquals(500, game.getMoney());    
     }
 
     @Test
-    void testGameTurn() {
+    void testGameTurn(){
         Game game = new Game();
         int initialTurn = game.getTurn();
         game.nextTurn();
@@ -27,7 +27,7 @@ public class GameTest {
     }
 
     @Test
-    void testGameMoneyManagement() {
+    void testGameMoneyMaznagement(){
         Game game = new Game();
         int initialMoney = game.getMoney();
         game.subMoney(50);
@@ -35,14 +35,14 @@ public class GameTest {
     }
 
     @Test
-    void testGameHeroSquad() {
+    void testGameHeroSquad(){
         Game game = new Game();
         HeroSquad squad = game.getHeroSquad();
         assertEquals(0, squad.getSquadSize());
-    }
+    }    
 
     @Test
-    void testGameScoreManagement() {
+    void testGameScoreManagement(){
         Game game = new Game();
         int initialScore = game.getScore();
         assertEquals(0, initialScore);
@@ -51,7 +51,7 @@ public class GameTest {
     }
 
     @Test
-    void testReinitializeGame() {
+    void testReinitializeGame(){
         Game game = new Game();
         game.setScore(50);
         game.subMoney(30);
@@ -65,7 +65,7 @@ public class GameTest {
     }
 
     @Test
-    void testPlacementOnGrid() {
+    void testPlacementOnGrid(){
         Game game = new Game();
         Grid grid = game.getGrid();
         Coords coords = new Coords(1, 1);
@@ -77,7 +77,7 @@ public class GameTest {
     }
 
     @Test
-    void testIsSimulationReady() {
+    void testIsSimulationReady(){
         Game game = new Game();
         Hero hero = new Muggle();
         hero.setCoords(new Coords(0, 0));
