@@ -253,7 +253,7 @@ function updateHeroes(heroesData) {
 
   let colors = ["green", "blue", "red", "purple", "yellow"];
   heroesData.forEach((hero, index) => {
-    hero[3] = parseInt(hero[3]) * 100; // Convert to percentage
+    hero[3] = parseFloat(hero[3]) * 100; // Convert to percentage
 
     const color = colors[index % colors.length];
     const heroDiv = document.createElement("div");

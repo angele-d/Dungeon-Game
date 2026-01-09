@@ -189,6 +189,7 @@ function sendGetGameStats(stompClient) {
     `/topic/send_game_stats/${window.id}`,
     function (message) {
       let payload = JSON.parse(message.body);
+      console.log("Received game stats:", payload);
       let grid = payload["grid"];
       let gridData = JSON.parse(grid);
       updateGrid(gridData);
