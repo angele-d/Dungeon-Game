@@ -197,7 +197,6 @@ public class GameEngine {
     }
 
     public Map<String, String> endGame(int gameId) {
-        System.out.println("Ending game " + String.valueOf(gameId));
         Map<String, String> result;
         Game game = games.get(gameId);
         result = getGameStats(gameId);
