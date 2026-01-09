@@ -148,10 +148,11 @@ public class Game {
                 .addHero(new Muggle());
         this.heroSquad = builder.build();
         Tile startingPoint = getStartingPoint();
+        this.scoreManager = new ScoreManager();
         for (Hero hero : heroSquad.getHeroes()) {
             hero.setCoords(startingPoint.getCoords());
+            hero.addObserver(scoreManager);
         }
-        this.scoreManager = new ScoreManager();
         this.turn = 0;
     }
 
