@@ -5,6 +5,15 @@ import dungeon.engine.Game;
 import java.util.Scanner;
 
 public class ExecuteGame {
+
+    /** 
+     * Executes the game loop.
+     * @param game
+     * @param size
+     * @param legendString
+     * @param strategy_AI
+     * @param scanner
+     */
     public static void execute_game(Game game, int size, String legendString,
             int strategy_AI, Scanner scanner) {
         int end = 0;
@@ -44,6 +53,9 @@ public class ExecuteGame {
         }
     }
 
+    /** 
+     * Sleeps for half a second.
+     */
     public static void sleepHalfSecond() {
         try {
             Thread.sleep(500);
@@ -52,6 +64,11 @@ public class ExecuteGame {
         }
     }
 
+    /** 
+     * Gets the AI type based on the strategy integer.
+     * @param strategy_AI
+     * @return String
+     */
     public static String getTypeAI(int strategy_AI) {
         switch (strategy_AI) {
             case 1:
@@ -63,6 +80,11 @@ public class ExecuteGame {
         }
     }
 
+    /** 
+     * Displays the menu for the next wave.
+     * @param scanner
+     * @return boolean
+     */
     public static boolean menuWave(Scanner scanner){
         System.out.print("Would you have the next wave ? (yes/no)");
         System.out.print("\n");

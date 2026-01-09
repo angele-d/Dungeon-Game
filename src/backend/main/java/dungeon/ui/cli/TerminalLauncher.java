@@ -14,10 +14,20 @@ import java.io.IOException;
 import java.util.List;
 
 public class TerminalLauncher {
+
+    /** 
+     * Main method to launch the terminal-based dungeon game.
+     * @param args
+     */
     public static void main(String[] args) {
         gameGenerator(0, 0);
     }
 
+    /** 
+     * Generates and manages the game based on user input.
+     * @param edit
+     * @param game_id_load
+     */
     public static void gameGenerator(int edit, int game_id_load) {
         int DISPLAY_SIZE = 10;
         Scanner scanner = new Scanner(System.in);
@@ -311,6 +321,11 @@ public class TerminalLauncher {
         scanner.close();
     }
 
+    /** 
+     * Gets the object type based on the action string.
+     * @param action_object
+     * @return String
+     */
     public static String getTypeObject(String action_object) {
         switch (action_object) {
             case "#":
@@ -328,6 +343,10 @@ public class TerminalLauncher {
         }
     }
 
+    /** 
+     * Generates the legend string for the game.
+     * @return String
+     */
     public static String legendString() {
         String legend = "Legend : S = Starting Point, T = Treasure, E = Hero, . = Empty tile, # = Stone Wall - "
                 + (new StoneWall(null)).getPlacementCost() + ", @ = Wood Wall - "
