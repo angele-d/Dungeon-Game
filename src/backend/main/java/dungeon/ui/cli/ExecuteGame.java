@@ -1,12 +1,11 @@
 package dungeon.ui.cli;
 
 import dungeon.engine.GameEngine;
-import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.Game;
 import java.util.Scanner;
 
 public class ExecuteGame {
-    public static void execute_game(Game game, int size, ScoreManager score, String legendString,
+    public static void execute_game(Game game, int size, String legendString,
             int strategy_AI, Scanner scanner) { // TODO: wave and game(treasure taken)
         int end = 0;
         //String action = scanner.next().trim();
@@ -26,7 +25,7 @@ public class ExecuteGame {
                 game = GameEngine.getInstance().getGame(game.getId());
                 PrintGrid.print_grid(game, size, legendString, 0);
             }
-            System.out.println("Your score : " + score.getScore());
+            System.out.println("Your score : " + game.getScore());
             sleepHalfSecond();
             round++;
         }

@@ -3,7 +3,6 @@ package dungeon.ui.cli;
 import dungeon.engine.Coords;
 import dungeon.engine.SaveManager;
 import dungeon.engine.GameEngine;
-import dungeon.engine.Observers.ScoreManager;
 import dungeon.engine.tiles.traps.Mine;
 import dungeon.engine.tiles.traps.PoisonTrap;
 import dungeon.engine.tiles.traps.WallTrap;
@@ -61,9 +60,7 @@ public class TerminalLauncher {
         System.out.print("Thank you !");
         System.out.println("\n");
 
-        ScoreManager scoreManager = new ScoreManager();
         String legendString = legendString();
-        scoreManager.setScore(0);
 
         int size_grid = game.getGrid().getSize();
         List<String> legend = List.of("#", "@", "W", "M", "P");
@@ -200,6 +197,7 @@ public class TerminalLauncher {
                         game = GameEngine.getInstance().getGame(optionLead);
                         System.out.println("Your game is ready ! ");
                         System.out.println("\n");
+                        PrintGrid.make_action(game, size_grid, legendString);
                     }
                     break;
                 case 5:
@@ -239,7 +237,7 @@ public class TerminalLauncher {
         switch (action_player) {
             case 5:
                 System.out.println("================= Heroes are here ! =================");
-                ExecuteGame.execute_game(game, size_grid, scoreManager, legendString,
+                ExecuteGame.execute_game(game, size_grid, legendString,
                         strategy_AI, scanner);
 
                 int lead_option = 0;
