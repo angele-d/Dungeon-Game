@@ -33,8 +33,8 @@ public class Game {
         this.heroSquad = new HeroSquad();
         this.money = 500;
         this.turn = 0;
-        // TODO
-        this.turnListeners = new ArrayList<TurnListener>();
+        this.heroTurnListeners = new ArrayList<HeroTurnListener>();
+        this.fireTurnListeners = new ArrayList<FireTurnListener>();
         this.scoreManager = new ScoreManager();
         this.seed = seed;
     }
@@ -155,19 +155,18 @@ public class Game {
         HeroSquad.Builder builder = new HeroSquad.Builder();
         for (int i = 0; i < wave+1; i++) {
             Hero randomHero;
-            //TODO à compléter
             switch (randomGenerator.nextInt(3)) {
                 case 0:
                     randomHero = new Tank();
                     break;
                 case 1:
-                    randomHero = new Tank();
+                    randomHero = new Dragon();
                     break;
                 case 2:
-                    randomHero = new Tank();
+                    randomHero = new Healer();
                     break;
                 default:
-                    randomHero = new Tank();
+                    randomHero = new Muggle();
                     break;
             }
             builder.addHero(randomHero);
