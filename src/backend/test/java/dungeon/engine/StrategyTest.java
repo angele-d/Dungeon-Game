@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import dungeon.engine.Strategies.AstarStrategy;
 import dungeon.engine.Strategies.BFSStrategy;
+import dungeon.engine.tiles.wall.StoneWall;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -46,7 +47,13 @@ public class StrategyTest {
         HeroSquad heroSquad = new HeroSquad();
         heroSquad.addHero(hero);
         BFS bfs = new BFS(grid);
-        
+        int treasureX = grid.getTreasure().getCoords().x();
+        int treasureY = grid.getTreasure().getCoords().y();
+        grid.setTile(new StoneWall(new Coords(treasureX-1, treasureY)));
+        grid.setTile(new StoneWall(new Coords(treasureX+1, treasureY)));
+        grid.setTile(new StoneWall(new Coords(treasureX, treasureY-1)));
+        grid.setTile(new StoneWall(new Coords(treasureX, treasureY+1)));
+
         Coords next = bfs.search(new Coords(0, 0), heroSquad);
         assertEquals(next, new Coords(0, 0));
     }

@@ -270,7 +270,7 @@ public class Game {
         this.money -= amount;
     }
 
-    public boolean isTerminated() {
+    public boolean isGameTerminated() {
         Tile treasure = getTreasure();
 
         boolean isOneAlive = false;
@@ -286,6 +286,19 @@ public class Game {
         }
 
         return !isOneAlive;
+    }
+
+    public boolean isWaveTerminated() {
+        Tile treasure = getTreasure();
+
+        // We need to verify if everyone is dead
+        for (Hero hero : heroSquad.getHeroes()) {
+            if (hero.getHealth() > 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public boolean isSimulationReady() {
