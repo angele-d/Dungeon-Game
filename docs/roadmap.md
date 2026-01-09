@@ -19,6 +19,7 @@
 | CLI      | Interface Terminal (CLI) |
 | CORR     | Corrections        |
 | CLEAN    | Nettoyage de code  |
+| VIDEO    | Vidéo de présentation |
 
 ## Historique des Tâches Terminées
 
@@ -126,3 +127,4 @@
 | **CORR-06** | Correctif | Leaderboard dans terminal | P. Musial & E. Girres | Moyenne |
 | **CORR-07** | Correctif | Modifie les dégâts, money.. | A. Denys | Moyenne |
 | **CLEAN-01** | Nettoyage | Nettoyage du code | Toute l'équipe | Moyenne |
+| **VIDEO-01** | Vidéo | Enregistrement des parties | Toute l'équipe | **Haute** |
