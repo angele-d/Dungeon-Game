@@ -9,14 +9,15 @@ import dungeon.engine.Hero;
 
 public class Mine extends Trap {
 
-    private static final int PLACEMENT_COST = 100;
-    private static final int DEFAULT_DAMAGE = 500000000;
-    private static final int ASTAR_VALUE = 5;
+    private static final int PLACEMENT_COST = 1200;
+    private static final int DEFAULT_DAMAGE = 150;
+    private static final int DEFAULT_AREA = 2;
+    private static final int ASTAR_VALUE = 8;
 
 /* --- Constructor --- */
 
     public Mine(Coords coords) {
-        super(coords, DEFAULT_DAMAGE, 2);
+        super(coords, DEFAULT_DAMAGE, DEFAULT_AREA);
     }
 
     public Mine(Coords coords, int damage, int areaRadius) {

@@ -6,13 +6,16 @@ import dungeon.engine.tiles.wall.StoneWall;
 
 public class WallTrap extends Trap implements HeroTurnListener {
 
-    private static final int PLACEMENT_COST = 150;
+    private static final int PLACEMENT_COST = 500;
+    private static final int DEFAULT_DAMAGE = 50;
+    private static final int DEFAULT_AREA = 1;
     private static final int ASTAR_VALUE = 3;
+
 
 /* --- Constructor --- */
 
     public WallTrap(Coords coords) {
-        super(coords, 10, 1);
+        super(coords, DEFAULT_DAMAGE, DEFAULT_AREA);
     }
 
     public WallTrap(Coords coords, int damage, int area) {
