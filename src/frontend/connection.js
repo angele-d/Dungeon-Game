@@ -1,5 +1,5 @@
 import { updateMoneyDisplay } from "./moneyManager.js";
-import { updateGrid, updateHeroes } from "./updateGame.js";
+import { updateGrid, updateHeroes, updateScore } from "./updateGame.js";
 
 let LENGTH = 15;
 
@@ -82,6 +82,8 @@ function onConnect(stompClient, frame) {
       let heroes = payload["heroes"];
       let heroesData = JSON.parse(heroes);
       updateHeroes(heroesData);
+      let score = parseInt(payload["score"]);
+      updateScore(score);
     });
   }
 }
@@ -189,6 +191,7 @@ function sendGetGameStats(stompClient) {
     `/topic/send_game_stats/${window.id}`,
     function (message) {
       let payload = JSON.parse(message.body);
+      console.log("Received game stats:", payload);
       let grid = payload["grid"];
       let gridData = JSON.parse(grid);
       updateGrid(gridData);
@@ -197,6 +200,8 @@ function sendGetGameStats(stompClient) {
       let heroes = payload["heroes"];
       let heroesData = JSON.parse(heroes);
       updateHeroes(heroesData);
+      let score = parseInt(payload["score"]);
+      updateScore(score);
       subscription.unsubscribe();
     }
   );
@@ -240,25 +245,12 @@ function sendNextStepIfPossible(stompClient) {
       if (payload["result"] == "false") {
         sendNextStep(stompClient);
       } else {
-        // let url = window.location.pathname;
-        // url = url.replace("/game.html", "/leaderboard.html");
-        // window.location.pathname = url;
-
-        // const urlParams = new URLSearchParams(window.location.search);
-        // urlParams.set("id", window.id);
-        // window.location.search = urlParams;
-
-        //window.location.replace("/leaderboard.html");
-
         const url = new URL(window.location.href);
 
-        // Replace filename
         url.pathname = url.pathname.replace("game.html", "leaderboard.html");
 
-        // Add query param
         url.searchParams.set("id", window.id);
 
-        // Navigate
         window.location.href = url.toString();
       }
       subscription.unsubscribe();
