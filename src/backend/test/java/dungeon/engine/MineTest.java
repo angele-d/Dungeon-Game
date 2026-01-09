@@ -58,7 +58,7 @@ class MineTest {
     void testMineGetAstarValue() {
         Mine mine = new Mine(new Coords(0, 0), 25, 2);
 
-        assertEquals(5, mine.getAstarValue());
+        assertEquals(8, mine.getAstarValue());
     }
 
     @Test

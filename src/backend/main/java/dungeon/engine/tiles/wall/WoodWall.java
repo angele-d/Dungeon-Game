@@ -9,7 +9,7 @@ import dungeon.engine.tiles.Wall;
 
 public class WoodWall extends Wall implements FireTurnListener {
 
-    private static final int PLACEMENT_COST = 50;
+    private static final int PLACEMENT_COST = 150;
     private static final int ASTAR_VALUE = 150000;
     private int turnBeforeFlames = 2;
 
