@@ -67,8 +67,10 @@ public class Healer extends Hero {
      */
     @Override
     public void applyDamage(int damage) {
-        health -= damage;
-        notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
+        if (getHealth() > 0) {
+            health -= damage;
+            notifyObservers(new GameEvent(GameEventType.DAMAGE_TAKEN, this, damage));
+        }
         if (health <= 0) {
             health = 0;
             notifyObservers(new GameEvent(GameEventType.HERO_DEATH, this, 0));

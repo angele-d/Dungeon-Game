@@ -125,7 +125,11 @@ public abstract class Hero {
      * @return Coords
      */
     public Coords move(Game game) {
-        return basicMove(game);
+        if (getHealth() > 0) {
+            return basicMove(game);
+        } else {
+            return getCoords();
+        }
     }
     
 /* --- GameObserver methods --- */

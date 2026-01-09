@@ -106,22 +106,26 @@ public class Dragon extends Hero {
      */
     @Override
     public Coords move(Game game) {
-        // Dragon-specific movement logic
+        if (getHealth() > 0) {
+            // Dragon-specific movement logic
 
-        // Basic movement
-        Coords newCoords = basicMove(game);
+            // Basic movement
+            Coords newCoords = basicMove(game);
 
-        // Fire neighbor wood walls if action available
-        ArrayList<Coords> neighbors = game.getGrid().getNeighborsCoords(newCoords);
-        for (Coords coord : neighbors) {
-            Tile tile = game.getGrid().getTile(coord);
-            if (tile instanceof WoodWall && getActionAvailable()) {
-                game.addFireTurnListener((FireTurnListener) tile);
-                setActionAvailable(false); // increase uses
+            // Fire neighbor wood walls if action available
+            ArrayList<Coords> neighbors = game.getGrid().getNeighborsCoords(newCoords);
+            for (Coords coord : neighbors) {
+                Tile tile = game.getGrid().getTile(coord);
+                if (tile instanceof WoodWall && getActionAvailable()) {
+                    game.addFireTurnListener((FireTurnListener) tile);
+                    setActionAvailable(false); // increase uses
+                }
             }
-        }
 
-        return newCoords;
+            return newCoords;
+        } else {
+            return getCoords();
+        }
     }
 
 /* --- toString --- */
