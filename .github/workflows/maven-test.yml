@@ -1,0 +1,40 @@
+name: Maven Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  maven-tests:
+    runs-on: ubuntu-latest
+
+    # Mettre le cache Maven
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run Maven tests
+        run: mvn clean test
+
+      - name: Upload JUnit test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: target/surefire-reports/*.xml
